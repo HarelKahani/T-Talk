@@ -13,7 +13,10 @@ fish_y = height/2
 moveSprite(fish, fish_x, fish_y)
 moved = False
 balls = []
-for i in range(10):
+
+stam = "stam"
+
+for i in range(12):
     ball = {}
     ball["sprite"] = makeSprite("game_imgs/football-ball.png")
     ball["sprite"].addImage("game_imgs/soccer-ball.png")
