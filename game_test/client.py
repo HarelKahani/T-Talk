@@ -37,7 +37,7 @@ class Player:
         self.down = False
 
     def draw_object(self, win):
-        fish = pygame.image.load("sea.png")
+        fish = pygame.image.load("game_imgs/sea.png")
         win.blit(fish, (self.x, self.y))
         # pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
         # pygame.draw.circle(win, self.color2, (self.x, self.y), self.radius // 2)
