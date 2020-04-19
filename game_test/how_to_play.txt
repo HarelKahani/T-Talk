@@ -1,0 +1,5 @@
+
+The Goal is: the fish must "eat" the green cubes by touching them
+Move the fish aroun the screen using arrow keys.
+After the fish eats 8 cubes you win the game and the screen turns black for 5 seconds and closes automaticly
+You can quit at any time by clicking the X in the top left of the screen
