@@ -10,8 +10,6 @@ window = pygame.display.set_mode(size=(width, height))
 pygame.display.set_caption("My Game")
 
 
-
-
 class Apple:
     def __init__(self, x, y):
         self.x = x
@@ -38,7 +36,6 @@ class Player:
         self.up = False
         self.down = False
 
-
     def draw_object(self, win):
         fish = pygame.image.load("sea.png")
         win.blit(fish, (self.x, self.y))
@@ -52,19 +49,19 @@ class Player:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             change = self.x - self.move_val
-            if 0 < change < height-128 or 0 < change < width-128:
+            if 0 < change < height - 128 or 0 < change < width - 128:
                 self.x = change
         if keys[pygame.K_RIGHT]:
             change = self.x + self.move_val
-            if 0 < change < height-128 or 0 < change < width-128:
+            if 0 < change < height - 128 or 0 < change < width - 128:
                 self.x = change
         if keys[pygame.K_UP]:
             change = self.y - self.move_val
-            if 0 < change < height-128 or 0 < change < width-128:
+            if 0 < change < height - 128 or 0 < change < width - 128:
                 self.y = change
         if keys[pygame.K_DOWN]:
             change = self.y + self.move_val
-            if 0 < change < height-128 or 0 < change < width-128:
+            if 0 < change < height - 128 or 0 < change < width - 128:
                 self.y = change
 
 
