@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="card.css" />
+</head>
+
+<body>
+
+    <img id="myImg" src="assets/Card_back-Random.png" alt="Snow" style="width:100%;max-width:300px">
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="task" src="assets\1.jpg">
+        <div id="caption"></div>
+    </div>
+
+    <script>
+        // Get the modal
+     
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var counter = 1;
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("task");
+        var captionText = document.getElementById("caption");
+        img.onclick = function () {
+            modal.style.display = "block";
+            captionText.innerHTML = this.alt;
+
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+            counter+=1;
+            $('#task').attr('src', `assets/${counter}.jpg`);
+        }
+    </script>
+
+</body>
+
+</html>
