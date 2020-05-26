@@ -33,11 +33,11 @@ body {
   transform-style: preserve-3d;
   width: 6rem;
 }
-.even-roll {
+/* .even-roll {
   transition: transform 1.5s ease-out;
-}
+} */
 .odd-roll {
-  transition: transform 1.25s ease-out;
+  transition: transform 0.2s ease-out;
 }
 .die-item {
   background-color: #fefefe;

@@ -1,10 +1,15 @@
 function rollDice() {
-  const dice = [...document.querySelectorAll(".die-list")];
-  dice.forEach(die => {
-    toggleClasses(die);
-    die.dataset.roll = getRandomNumber(1, 6);
-  });
-}
+  const die = document.querySelector(".odd-roll")
+  die.dataset.roll = getRandomNumber(1,6)
+
+
+
+  // const dice = [...document.querySelectorAll(".odd-roll")];
+  // dice.forEach(die => {
+  //   // toggleClasses(die);
+  //   die.dataset.roll = getRandomNumber(1, 6);
+  // });
+};
 
 function toggleClasses(die) {
   die.classList.toggle("odd-roll");
