@@ -1,9 +1,6 @@
 function rollDice() {
   const die = document.querySelector(".odd-roll")
   die.dataset.roll = getRandomNumber(1,6)
-
-
-
   // const dice = [...document.querySelectorAll(".odd-roll")];
   // dice.forEach(die => {
   //   // toggleClasses(die);
