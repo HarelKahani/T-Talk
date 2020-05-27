@@ -12,6 +12,7 @@ import HomePage from './../src/pages/HomePage'
 import NotFoundPage from './pages/404'
 import TherapistMenu from './pages/TherapistMenu'
 import ChooseTopic from './pages/ChooseTopic'
+import ManageTopic from './pages/ManageTopic';
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
           <div className="admin-panel-container">
             <TherapistMenu />
             <Route path="/ChooseTopic" component={ChooseTopic} />
+            <Route path="/ManageTopic" component={ManageTopic} />
           </div>
           <Route path="/404" component={NotFoundPage} />
           <Redirect to="/404" />

@@ -15,7 +15,10 @@ tbody{
   text-align: center;
 }
 
-
+#existing_cards,#add_remove_btm,#remove_subject{
+  margin: auto;
+  width: 20%;
+}
 
 #start_game{
   display: block;
