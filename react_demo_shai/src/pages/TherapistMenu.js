@@ -18,7 +18,7 @@ class TherapistMenu extends Component {
                 <Navbar.Brand href="/">T-Talk</Navbar.Brand>
                 <Nav className="mr-auto">
                     <Nav.Link href="/ChooseTopic">בחירת נושא</Nav.Link>
-                    <Nav.Link href="">ניהול נושאים</Nav.Link>
+                    <Nav.Link href="/ManageTopic">ניהול נושאים</Nav.Link>
                     <Nav.Link href="">ניהול כרטיסי הפתעה</Nav.Link>
                 </Nav>
             </Navbar>
