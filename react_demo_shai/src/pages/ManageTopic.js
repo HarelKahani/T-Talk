@@ -20,6 +20,7 @@ class ManageTopic extends Component {
                         <th >#</th>
                         <th>שם הנושא</th>
                         <th>ניהול נושא</th>
+                        <th>הוספת תמונה</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,9 +36,11 @@ class ManageTopic extends Component {
                                 />
                             </ButtonToolbar>
                         </td>
-                        {/* <td>
-                            <Upload />
-                        </td> */}
+                        <td>
+                            {/* <ButtonToolbar> */}
+                                <Upload/>
+                            {/* </ButtonToolbar> */}
+                        </td>
                     </tr>
                     <tr>
                         <td>2</td>

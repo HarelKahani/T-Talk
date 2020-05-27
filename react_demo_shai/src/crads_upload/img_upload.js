@@ -1,52 +1,90 @@
 import React, {Component} from 'react';
-import './img_upload.css'
+// import './img_upload.css'
+import {Button} from 'react-bootstrap';
 import axios from 'axios'
  
 export class Upload extends Component {
-    state = {
-        selectedFile: null,
-        imgName: null
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            inputValue: '',
+            selectedFile: null,
+            imgName: null,
+            uploadState: null
+        };
+    }
 
     getName = event =>{
-        //TODO: findout how to get name
-        let name = "nnn"
+        let name = event.target.value
+        console.log(name)
+        let fileName = `${name}.JPG`
         this.setState({
-            imgName: name
+            imgName: fileName 
         });
     }
 
-    imgSelectHandler = event =>{
-        console.log(event)
-        this.setState({
-            selectedFile: event.targaet.files[0]
-        });
-        
-        // console.log(event.persist() || event);
+    imgSelectHandler = evt =>{
+        // let vfile = val.target.files[0]
+        // console.log(vfile)
+        // this.setState({
+        //     selectedFile: vfile
+        // });
+
+        // event.persist()
+        console.log(evt)
+        let file = evt.target.files[0]
+        this.setState(prevState => ({
+            selectedFile: file
+        }));
+        console.log(file)
+        console.log(this.state)
     }
 
-    imgUploadHAndler = event => {
+    imgUploadHAndler = () => {
+        if(this.state.selectedFile == null){
+            console.log("No image was uploaded");
+            alert("לא נבחרה תמונה");
+            return;
+        }
         const fd = new FormData();
         fd.append('image', this.state.selectedFile, this.state.imgName);
+        console.log(fd);
         axios.post('https://us-central1-t-talk-game.cloudfunctions.net/uploadFile', fd)
-        .then(res =>
-            console.log(res))
+        .then(res =>{
+                console.log(res);
+                this.setState({
+                uploadState: res.status
+                });
+            }
+        )
+    }
+
+    displayDiv = () =>{
+        if (this.state.uploadState === 200){
+            return "none";
+        }
+        else{
+            return 'inline';
+        }
     }
 
     render() {
         return (
-            <div id="img-upload">
-                <input type="text" onChange={this.getName}/>
+            <div style = {{display: this.displayDiv}}>
                 <input
-               
                 type="file"
-                onChange={this.imgUploadHandler}/>
-               
-                <button onClick={this.imgUploadHAndler}>Upload</button> 
+                style={{display: 'none'}}
+                value={this.state.inputValue}
+                ref={fileInput=> this.fileInput = fileInput}
+                onChange={evt => this.imgSelectHandler(evt)}/>
+                <Button onClick={() => this.fileInput.click()}>בחר תמונה</Button>
+                <input 
+                placeholder="רשום את שם התמונה כאן" 
+                type="text"
+                style = {{margin: '10px', width: '250px'}} 
+                onChange={this.getName}/>
+                <Button onClick={this.imgUploadHAndler}>הוסף</Button> 
             </div>
         );
     }
 }
-// style={{display: 'none'}} 
- // ref={fileInput=> this.fileInput = fileInput}/>
-                // <button onClick={() => this.fileInput()}>Choose Image</button>
