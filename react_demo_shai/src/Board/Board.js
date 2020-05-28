@@ -20,7 +20,7 @@ class Board extends React.Component {
                     <Button id="button24" style={{backgroundColor: 'pink'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <Button id="button23" style={{backgroundColor: 'cyan'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <br/>
-                    <Button id="button22" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button22" style={{backgroundColor: 'blue'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <br/>
                     <Button id="button11" style={{backgroundColor: 'cyan'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <Button id="button12" style={{backgroundColor: 'pink'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
@@ -35,16 +35,28 @@ class Board extends React.Component {
                     <Button id="button21" style={{backgroundColor: 'cyan'}}  onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <br/>
                     <Button id="button10" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
                     <br/>
-                    <Button id="button1" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button2" style={{backgroundColor: 'green'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button3" style={{backgroundColor: 'blue'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button4" style={{backgroundColor: 'pink'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button5" style={{backgroundColor: 'cyan'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button6" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button7" style={{backgroundColor: 'green'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
-                    <Button id="button8" style={{backgroundColor: 'blue'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
                     <Button id="button9" style={{backgroundColor: 'pink'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button8" style={{backgroundColor: 'blue'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button7" style={{backgroundColor: 'green'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button6" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button5" style={{backgroundColor: 'cyan'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button4" style={{backgroundColor: 'pink'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button3" style={{backgroundColor: 'blue'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button2" style={{backgroundColor: 'green'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button id="button1" style={{backgroundColor: 'yellow'}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} variant="secondary">Left</Button>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
+                    <Button style={{backgroundColor: 'white', height: '120px', width: '120px', border: 'none'}} disabled/>
                     <br/>
                     
                 </ButtonGroup>
