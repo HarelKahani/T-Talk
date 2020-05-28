@@ -35,4 +35,3 @@ class TherapistMenu extends Component {
 
 
 export default TherapistMenu
-
