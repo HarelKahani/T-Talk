@@ -70,6 +70,7 @@ export class Upload extends Component {
 
     render() {
         return (
+            <div class="upload_pic">
             <div style = {{display: this.displayDiv}}>
                 <input
                 type="file"
@@ -83,7 +84,8 @@ export class Upload extends Component {
                 type="text"
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>
-                <Button onClick={this.imgUploadHAndler}>הוסף</Button> 
+                <Button onClick={this.imgUploadHAndler}>הוסף +</Button> 
+            </div>
             </div>
         );
     }

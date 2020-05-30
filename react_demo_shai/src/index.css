@@ -20,6 +20,10 @@ tbody{
   width: 20%;
 }
 
+.upload_pic{
+  text-align: center;
+  margin: auto;
+}
 #start_game{
   display: block;
   position: fixed;

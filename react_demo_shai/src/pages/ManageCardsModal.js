@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-
+import {Upload} from './../crads_upload/img_upload'
 
 export class ManageCardsModal extends Component {
   constructor(props) {
@@ -22,7 +22,9 @@ export class ManageCardsModal extends Component {
         </Modal.Header>
         <Modal.Body>
           <div className="container">
-            too add form field to manage cards
+            {/* <ButtonToolbar> */}
+            <Upload/>
+            {/* </ButtonToolbar> */}
           </div>
         </Modal.Body>
         <Modal.Footer>
