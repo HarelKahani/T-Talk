@@ -15,10 +15,14 @@ tbody{
   text-align: center;
 }
 
-#existing_cards,#add_remove_btm,#remove_subject{
-  margin: auto;
-  width: 20%;
+
+#existing_cards,#delete_cards,#add_card{
+  width: 20%; /*can be in percentage also.*/
+  margin: 1% auto;
+  padding: 0.5%;
+  position: relative;
 }
+
 
 .upload_pic{
   text-align: center;

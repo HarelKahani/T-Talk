@@ -21,17 +21,17 @@ class ChooseTopic extends Component {
                     <tr>
                         <td>1</td>
                         <td > הגייה של האות צ</td>
-                        <td> <Button variant="outline-primary">בחר</Button></td>
+                        <td> <Button variant="outline-primary"style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                     <tr>
                         <td>2</td>
                         <td>הגייה של האות ש</td>
-                        <td> <Button variant="outline-primary">בחר</Button></td>
+                        <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                     <tr>
                         <td>3</td>
                         <td > הגייה של האות צ</td>
-                        <td> <Button variant="outline-primary">בחר</Button></td>
+                        <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                 </tbody>
 

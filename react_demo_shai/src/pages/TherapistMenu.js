@@ -16,10 +16,12 @@ class TherapistMenu extends Component {
             <div>
             <Navbar bg="primary" variant="dark">
                 <Navbar.Brand href="/">T-Talk</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="/ChooseTopic">בחירת נושא</Nav.Link>
-                    <Nav.Link href="/ManageTopic">ניהול נושאים</Nav.Link>
-                    <Nav.Link href="">ניהול כרטיסי הפתעה</Nav.Link>
+                <Nav className="justify-content-start" style={{ width: "100%" ,  paddingRight:"1%"}}>
+                    <Nav.Link href="/ChooseTopic" style={{color: 'white', textDecoration: 'none'}}>בחירת נושא</Nav.Link>
+                    <Nav.Link href="/ManageTopic" style={{color: 'white', textDecoration: 'none'}}>ניהול נושאים</Nav.Link>
+                    <Nav.Link href="" style={{color: 'white', textDecoration: 'none'}} >ניהול כרטיסי הפתעה</Nav.Link>
+                    <Nav.Link href="" style={{color: 'white', textDecoration: 'none'}} >התחל משחק</Nav.Link>
+                
                 </Nav>
             </Navbar>
         
