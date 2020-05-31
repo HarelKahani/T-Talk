@@ -44,7 +44,11 @@ class ManageTopic extends Component {
                                     show={this.state.addModalShowForExisting}
                                     onHide={addModalCloseExisting}
                                 />
-                                <Button variant="outline-primary" id="delete_cards" onClick={() => this.setState({ addModalShow: true })} >מחק נושא</Button>
+                                <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
+                                <DeleteDialog
+                                    show={this.state.addModalShowForDelete}
+                                    onHide={addModalCloseDelete}
+                                />
 
                             </ButtonToolbar>
                         </td>
@@ -70,7 +74,11 @@ class ManageTopic extends Component {
                                     show={this.state.addModalShowForExisting}
                                     onHide={addModalCloseExisting}
                                 />
-                                <Button variant="outline-primary" id="delete_cards" onClick={() => this.setState({ addModalShow: true })} >מחק נושא</Button>
+                                <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
+                                <DeleteDialog
+                                    show={this.state.addModalShowForDelete}
+                                    onHide={addModalCloseDelete}
+                                />
 
                             </ButtonToolbar>
 
@@ -91,13 +99,13 @@ class ManageTopic extends Component {
                                     show={this.state.addModalShowForExisting}
                                     onHide={addModalCloseExisting}
                                 />
-                                <Button variant="outline-primary" id="delete_cards" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
+                                <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
                                 <DeleteDialog
                                     show={this.state.addModalShowForDelete}
                                     onHide={addModalCloseDelete}
                                 />
-                                
-                               
+
+
 
                             </ButtonToolbar>
 

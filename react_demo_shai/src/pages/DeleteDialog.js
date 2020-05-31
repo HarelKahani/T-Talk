@@ -11,7 +11,7 @@ export class DeleteDialog extends Component {
     return (
       <Modal
          {...this.props}
-        size="xl"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -22,13 +22,10 @@ export class DeleteDialog extends Component {
         </Modal.Header>
         <Modal.Body>
             <h5 style={{ textAlign: "center"}}>מחיקת נושא הינה פעולה בלתי הפיכה-הנושא יימחק לצמיתות </h5>
-          <hr></hr>
-          <div className="container">
-           test
-          </div>
+        
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onHide} style={{ width: "20%", backgroundColor: "red"}}>מחק</Button>
+          <Button variant="danger" onClick={this.props.onHide} style={{ width: "20%"}}>מחק</Button>
           <Button onClick={this.props.onHide} style={{ width: "20%"}}>סגור מסך</Button>
         </Modal.Footer>
       </Modal>

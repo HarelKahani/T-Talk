@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import {CardsTable} from './CardsTable'
+import ModalDialog from 'react-bootstrap/ModalDialog'
 import {Upload} from '../crads_upload/img_upload';
 
 export class ExistingCardModal extends Component {
@@ -14,17 +16,18 @@ export class ExistingCardModal extends Component {
         size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        scrollable
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter exist">
                <b> קלפים קיימים</b>
         </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-            <h5 style={{ textAlign: "center"}}> כאן מופיעים כלל הכרטיסים הקיימים בנושא הנבחר. לחיצה על "מחק" תסיר את הכרטיס הנבחר מהנושא. </h5>
+        <Modal.Body >
+            <h5 style={{ textAlign: "center"}}> כאן מופיעים כלל הכרטיסים הקיימים בנושא הנבחר. לחיצה על "X" תסיר את הכרטיס הנבחר מהנושא. </h5>
           <hr></hr>
           <div className="container">
-           test
+           <CardsTable />
           </div>
         </Modal.Body>
         <Modal.Footer>

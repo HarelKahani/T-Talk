@@ -13,24 +13,25 @@ class ChooseTopic extends Component {
                 <thead>
                     <tr>
                         <th >#</th>
-                        <th>שם הנושא</th>
-                        <th>בחר נושא</th>
+                        <th> שם הכרטיס </th>
+                        <th> צבע על לוח המשחק </th>
+                        <th> מיקום על לוח המשחק </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td > הגייה של האות צ</td>
+                        <td > קוף מקלף בננה </td>
                         <td> <Button variant="outline-primary"style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>הגייה של האות ש</td>
+                        <td></td>
                         <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td > הגייה של האות ר</td>
+                        <td ></td>
                         <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
                     </tr>
                 </tbody>
