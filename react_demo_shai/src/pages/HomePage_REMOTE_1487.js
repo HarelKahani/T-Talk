@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import {
-   // BrowserRouter as Router,
-   // Switch,
-   // Route,
+    BrowserRouter as Router,
+    Switch,
+    Route,
     Link,
     Redirect
 } from "react-router-dom";
+import TherapistMenu from './TherapistMenu'
 import * as firebase from 'firebase';
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 // This site has 3 pages, all of which are rendered
@@ -59,12 +61,7 @@ class HomePage extends Component {
     }
 
     render() {
-<<<<<<< HEAD
-        console.log(auth);
-            if (auth !== false) {
-=======
             if (this.state.LoggedIn) {
->>>>>>> b443b1b5cdf2e4ee340dd21993030c89a86f6dc1
                 console.log("HERE")
                 console.log(this.state.LoggedIn);
                 return(<Redirect to="/TherapistMenu" />);
@@ -84,13 +81,6 @@ class HomePage extends Component {
             }
     }
 }
-export  default HomePage ;
 
-<<<<<<< HEAD
-export {
-    storage, firebase
-}
-=======
 export default HomePage
 export { storage, firebase }
->>>>>>> b443b1b5cdf2e4ee340dd21993030c89a86f6dc1
