@@ -14,7 +14,7 @@ import ChooseTopic from './pages/ChooseTopic'
 import ManageTopic from './pages/ManageTopic';
 import Board from './Board/Board';
 import ManageSupriseCard from './pages/ManageSupriseCard';
-
+import { Button } from 'react-bootstrap';
 
 
 class App extends Component {
@@ -29,9 +29,8 @@ class App extends Component {
             <TherapistMenu />
             <Route path="/ChooseTopic" component={ChooseTopic} />
             <Route path="/ManageTopic" component={ManageTopic} />
-            <Route path="/Board" component={Board} />
             <Route path="/ManageSupriseCard" component={ManageSupriseCard} />
-            
+            <Route path="/Board" component={Board} />
           </div>
           <Route path="/404" component={NotFoundPage} />
           <Redirect to="/404" />
