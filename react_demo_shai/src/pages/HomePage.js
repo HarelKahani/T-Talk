@@ -29,40 +29,42 @@ const firebaseConfig = {
     appId: "1:215575410414:web:ec69197d49f7cf2e7ce5ff"
   };
 firebase.initializeApp(firebaseConfig)
+const storage = firebase.storage();
 document.addEventListener("DOMContentLoaded", event => {
     const app = firebase.app()
     console.log(app)
 });
-let auth = false;
-function googleLogin() {
-    if (auth) {
-        return;
-    }
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider)
-        .then(result => {
-            const user = result.user
-            if (accepted_emails.includes(user.email)) {
-                console.log(user)
-                console.log("ACCEPTED")
-                auth = user
-             }
-            else {
-                console.log("DENIED");
-                console.log("TRY AGAIN")
-             }
-        })
-        .catch(console.log)
-}
-
 
 class HomePage extends Component {
+    constructor() {
+        super();
+        this.state = {LoggedIn: false}
+        this.googleLogin = this.googleLogin.bind(this)
+    }
+    googleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        return firebase.auth().signInWithPopup(provider)
+            .then(result => {
+                const user = result.user
+                if (accepted_emails.includes(user.email)) {
+                    console.log(user)
+                    console.log("ACCEPTED")
+                    this.setState({LoggedIn: user})
+                 }
+                else {
+                    console.log("DENIED");
+                    console.log("TRY AGAIN");
+                   
+                 }
+            })
+            .catch(console.log)
+    }
+
     render() {
-        console.log(auth);
-            if (auth != false) {
+            if (this.state.LoggedIn) {
                 console.log("HERE")
-                console.log(auth);
-                return(<Redirect push to="/TherapistMenu" />);
+                console.log(this.state.LoggedIn);
+                return(<Redirect to="/TherapistMenu" />);
             }
             else {
             return (
@@ -70,8 +72,8 @@ class HomePage extends Component {
                         <Link to="">
                             <Button variant="primary" size="lg" id="start_game"> התחל משחק </Button>
                         </Link>
-                        <Link to="">
-                            <Button variant="primary" size="lg" id="connect" onClick={googleLogin}> התחבר </Button>
+                        <Link to="/">
+                            <Button variant="primary" size="lg" id="connect" onClick={this.googleLogin} > התחבר </Button>
                         </Link>
                     </div>
             
@@ -81,3 +83,4 @@ class HomePage extends Component {
 }
 
 export default HomePage
+export { storage, firebase }

@@ -10,6 +10,7 @@
     "firebase": "^7.14.6",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-color": "^2.18.1",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
