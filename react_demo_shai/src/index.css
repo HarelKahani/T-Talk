@@ -15,9 +15,6 @@ tbody{
   text-align: center;
 }
 
-<<<<<<< HEAD
-#existing_cards,#add_remove_btm,#remove_subject{
-=======
 #add_subj{
   
   display: block;
@@ -44,7 +41,6 @@ tbody{
 
 .upload_pic{
   text-align: center;
->>>>>>> 5c1e8b37e3cf78aa0cdc1a4c945671307b826209
   margin: auto;
   width: 20%;
 }
