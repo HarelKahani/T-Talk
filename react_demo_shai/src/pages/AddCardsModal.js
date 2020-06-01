@@ -8,7 +8,8 @@ export class AddCardsModal extends Component {
   }
 
   render() {
-    return (
+
+    return (  
       <Modal
          {...this.props}
         size="xl"
@@ -18,16 +19,17 @@ export class AddCardsModal extends Component {
       >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter"> 
-          <b>הוספת תמונה</b>
+    <b>{this.props.title}</b>
         </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <h5 style={{ textAlign: "center"}}>להוספת תמונה יש ללחוץ על "בחר תמונה" ,לאחר מכן יש לצרף שם לתמונה. לחיצה על "הוסף" תוסיף את התמונה אל הנושא הנבחר. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות.
-            </h5>
+            <h5 style={{ textAlign: "center"}}> {this.props.describe} </h5>
           <hr></hr>
           <div className="container">
             {/* <ButtonToolbar> */}
-            <Upload/>
+            <Upload
+            name={"this is the name project"}
+            />
             {/* </ButtonToolbar> */}
           </div>
         </Modal.Body>

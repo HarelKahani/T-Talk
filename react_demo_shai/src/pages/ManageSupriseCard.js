@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
 
 
+
 class ChooseTopic extends Component {
 
     render() {
@@ -22,17 +23,20 @@ class ChooseTopic extends Component {
                     <tr>
                         <td>1</td>
                         <td > קוף מקלף בננה </td>
-                        <td> <Button variant="outline-primary"style={{ width: "20%"}}>בחר</Button></td>
+                        <td> </td>
+                        <td > קוף מקלף בננה </td>
                     </tr>
                     <tr>
                         <td>2</td>
                         <td></td>
                         <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
+                        <td > קוף מקלף בננה </td>
                     </tr>
                     <tr>
                         <td>3</td>
                         <td ></td>
                         <td> <Button variant="outline-primary" style={{ width: "20%"}}>בחר</Button></td>
+                        <td > קוף מקלף בננה </td>
                     </tr>
                 </tbody>
 

@@ -10,7 +10,8 @@ export class Upload extends Component {
             inputValue: '',
             selectedFile: null,
             imgName: null,
-            uploadState: null
+            uploadState: null,
+            topicName: this.props.name
         };
     }
 
@@ -80,7 +81,7 @@ export class Upload extends Component {
                 onChange={evt => this.imgSelectHandler(evt)}/>
                 <Button onClick={() => this.fileInput.click()}>בחר תמונה</Button>
                 <input 
-                placeholder="רשום את שם התמונה כאן" 
+                placeholder="רשום את השם הרצוי כאן" 
                 type="text"
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>

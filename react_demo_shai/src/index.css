@@ -15,6 +15,16 @@ tbody{
   text-align: center;
 }
 
+#add_subj{
+  
+  display: block;
+  position: sticky;
+  top: 90%;
+  left: 20%;
+  width: 45%;
+  margin: auto;
+  
+}
 
 #delete_card{
   text-align: center;

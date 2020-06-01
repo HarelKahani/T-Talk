@@ -46,10 +46,12 @@ function googleLogin() {
                 console.log(user)
                 console.log("ACCEPTED")
                 auth = user
+                this.render();
              }
             else {
                 console.log("DENIED");
-                console.log("TRY AGAIN")
+                console.log("TRY AGAIN");
+               
              }
         })
         .catch(console.log)
@@ -62,7 +64,7 @@ class HomePage extends Component {
             if (auth != false) {
                 console.log("HERE")
                 console.log(auth);
-                return(<Redirect push to="/TherapistMenu" />);
+                return(<Redirect to="/TherapistMenu" />);
             }
             else {
             return (
@@ -70,8 +72,8 @@ class HomePage extends Component {
                         <Link to="">
                             <Button variant="primary" size="lg" id="start_game"> התחל משחק </Button>
                         </Link>
-                        <Link to="">
-                            <Button variant="primary" size="lg" id="connect" onClick={googleLogin}> התחבר </Button>
+                        <Link to="/">
+                            <Button variant="primary" size="lg" id="connect" onClick={googleLogin} > התחבר </Button>
                         </Link>
                     </div>
             
