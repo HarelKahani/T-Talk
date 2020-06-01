@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import {storage} from '../pages/HomePage'
+import { database } from 'firebase';
+import {ListOfTopicImg} from './list_topic'
+import TableHandler from './table_handler'
 
 export class ImgHandler extends Component {
     constructor(props) {
@@ -10,7 +13,9 @@ export class ImgHandler extends Component {
             inputValue: '',
             image: null,
             url:'',
-            progress: 0
+            progress: 0,
+            imgName: '',
+            topicName: this.props.topicName
         };
         // this.imgSelectHandler = this.imgSelectHandler.bind(this);
         // this.imgUploadHAndler = this.imgSelectHandler.bind(this);
@@ -18,6 +23,13 @@ export class ImgHandler extends Component {
     getName = event =>{
         let name = event.target.value
         console.log(name)
+        storage.ref(this.state.topicName).listAll()
+        .then((event)=> {
+            console.log(event)
+            console.log(event.items)
+            return event.items
+        });
+        // console.log(item)
         let fileName = `${name}.JPG`
         this.setState({
             imgName: fileName 
@@ -48,7 +60,7 @@ export class ImgHandler extends Component {
             return;
         }
 
-        const uploadTask = storage.ref(`test_imgs/${image.name}`).put(image);
+        const uploadTask = storage.ref(`${this.state.topicName}/${this.state.imgName}`).put(image);
         uploadTask.on('state_changed',
         (snapshot) => {
             console.log("in progress")
@@ -61,7 +73,7 @@ export class ImgHandler extends Component {
             console.log(error);
         },
         () => {
-            storage.ref('test_imgs').child(`${image.name}`).getDownloadURL()
+            storage.ref(`${this.state.topicName}`).child(`${this.state.imgName}`).getDownloadURL()
             .then(url => {
                 console.log("ok")
                 console.log(url);
@@ -70,18 +82,10 @@ export class ImgHandler extends Component {
         });
     }
 
-    displayDiv = () =>{
-        if (this.state.uploadState === 200){
-            return "none";
-        }
-        else{
-            return 'inline';
-        }
-    }
-
     render() {
         return (
-            <div style = {{display: this.displayDiv}}>
+            <div>
+                <ListOfTopicImg/>
                 <input
                 type="file"
                 style={{display: 'none'}}
@@ -95,7 +99,7 @@ export class ImgHandler extends Component {
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>
                 <Button onClick={this.imgUploadHAndler}>הוסף</Button> 
-                <img src={this.state.url} alt="Uploaded images"/>
+                <img src={this.state.url} alt="Uploaded image" width='200' height='150'/>
             </div>
         );
     }

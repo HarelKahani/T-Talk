@@ -67,7 +67,7 @@ exports.uploadFile = functions.https.onRequest((req, res)=>{
     cors(req, res, () => {
         if(req.method !== "POST"){
             return res.status(500).json({
-                message: "message not allowed" 
+                message: "method not allowed" 
             });
         }
         const busboy = new Busboy({headers: req.headers});

@@ -7,6 +7,9 @@ import { Upload } from './../crads_upload/img_upload'
 // import TableHandler from '../table_handler/table_handler';
 import {ListOfTopicImg} from '../crads_upload/list_topic'
 
+
+
+
 export class CardsTable extends Component {
 
    

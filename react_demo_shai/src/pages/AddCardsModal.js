@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { Modal, Button} from 'react-bootstrap';
 import {Upload} from '../crads_upload/img_upload';
 import {ImgHandler} from '../crads_upload/image_handler'
 
-export class AddCardsModal extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+
+
+export class AddCardsModal extends Component {
+ 
   render() {
 
     return (  
