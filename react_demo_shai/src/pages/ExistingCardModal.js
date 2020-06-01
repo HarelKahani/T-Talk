@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { Modal, Button} from 'react-bootstrap';
 import {CardsTable} from './CardsTable'
-import ModalDialog from 'react-bootstrap/ModalDialog'
-import {Upload} from '../crads_upload/img_upload';
 
 export class ExistingCardModal extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+ 
   render() {
     return (
       <Modal

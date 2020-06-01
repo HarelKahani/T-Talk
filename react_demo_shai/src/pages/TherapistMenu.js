@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
-import ChooseTopic from './ChooseTopic';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-
+import { Navbar, Nav} from 'react-bootstrap';
 
 class TherapistMenu extends Component {
 

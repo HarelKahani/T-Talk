@@ -15,6 +15,7 @@ tbody{
   text-align: center;
 }
 
+<<<<<<< HEAD
 .subj_container{
   text-align: center;
   margin: auto;
@@ -26,6 +27,11 @@ tbody{
   width: 20%;
 }
 
+=======
+<<<<<<< HEAD
+#existing_cards,#add_remove_btm,#remove_subject{
+=======
+>>>>>>> b443b1b5cdf2e4ee340dd21993030c89a86f6dc1
 #add_subj{
   
   display: block;
@@ -52,8 +58,11 @@ tbody{
 
 .upload_pic{
   text-align: center;
+>>>>>>> 5c1e8b37e3cf78aa0cdc1a4c945671307b826209
   margin: auto;
+  width: 20%;
 }
+
 #start_game{
   display: block;
   position: fixed;

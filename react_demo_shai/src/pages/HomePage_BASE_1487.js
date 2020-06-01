@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import {
-   // BrowserRouter as Router,
-   // Switch,
-   // Route,
+    BrowserRouter as Router,
+    Switch,
+    Route,
     Link,
     Redirect
 } from "react-router-dom";
+import TherapistMenu from './TherapistMenu'
 import * as firebase from 'firebase';
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 // This site has 3 pages, all of which are rendered
@@ -32,36 +34,37 @@ document.addEventListener("DOMContentLoaded", event => {
     const app = firebase.app()
     console.log(app)
 });
+let auth = false;
+function googleLogin() {
+    if (auth) {
+        return;
+    }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider)
+        .then(result => {
+            const user = result.user
+            if (accepted_emails.includes(user.email)) {
+                console.log(user)
+                console.log("ACCEPTED")
+                auth = user
+                this.render();
+             }
+            else {
+                console.log("DENIED");
+                console.log("TRY AGAIN");
+               
+             }
+        })
+        .catch(console.log)
+}
+
 
 class HomePage extends Component {
-    constructor() {
-        super();
-        this.state = {LoggedIn: false}
-        this.googleLogin = this.googleLogin.bind(this)
-    }
-    googleLogin() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        return firebase.auth().signInWithPopup(provider)
-            .then(result => {
-                const user = result.user
-                if (accepted_emails.includes(user.email)) {
-                    console.log(user)
-                    console.log("ACCEPTED")
-                    this.setState({LoggedIn: user})
-                 }
-                else {
-                    console.log("DENIED");
-                    console.log("TRY AGAIN");
-                   
-                 }
-            })
-            .catch(console.log)
-    }
-
     render() {
-            if (this.state.LoggedIn) {
+        console.log(auth);
+            if (auth != false) {
                 console.log("HERE")
-                console.log(this.state.LoggedIn);
+                console.log(auth);
                 return(<Redirect to="/TherapistMenu" />);
             }
             else {
@@ -71,7 +74,7 @@ class HomePage extends Component {
                             <Button variant="primary" size="lg" id="start_game"> התחל משחק </Button>
                         </Link>
                         <Link to="/">
-                            <Button variant="primary" size="lg" id="connect" onClick={this.googleLogin} > התחבר </Button>
+                            <Button variant="primary" size="lg" id="connect" onClick={googleLogin} > התחבר </Button>
                         </Link>
                     </div>
             
@@ -79,8 +82,7 @@ class HomePage extends Component {
             }
     }
 }
-export  default HomePage ;
 
 export {
-    storage, firebase
+    HomePage, storage, firebase as default
 }

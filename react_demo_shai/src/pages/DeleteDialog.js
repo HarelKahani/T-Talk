@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import {Upload} from '../crads_upload/img_upload';
+import { Modal, Button} from 'react-bootstrap';
+
 
 export class DeleteDialog extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

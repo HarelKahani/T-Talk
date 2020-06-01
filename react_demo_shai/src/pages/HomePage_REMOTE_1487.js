@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import {
-   // BrowserRouter as Router,
-   // Switch,
-   // Route,
+    BrowserRouter as Router,
+    Switch,
+    Route,
     Link,
     Redirect
 } from "react-router-dom";
+import TherapistMenu from './TherapistMenu'
 import * as firebase from 'firebase';
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 // This site has 3 pages, all of which are rendered
@@ -79,8 +81,6 @@ class HomePage extends Component {
             }
     }
 }
-export  default HomePage ;
 
-export {
-    storage, firebase
-}
+export default HomePage
+export { storage, firebase }

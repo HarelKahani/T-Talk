@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
+ // Link,
   Redirect
 } from "react-router-dom";
 import HomePage from './../src/pages/HomePage'
@@ -13,8 +12,8 @@ import NotFoundPage from './pages/404'
 import TherapistMenu from './pages/TherapistMenu'
 import ChooseTopic from './pages/ChooseTopic'
 import ManageTopic from './pages/ManageTopic';
+import Board from './Board/Board';
 import ManageSupriseCard from './pages/ManageSupriseCard';
-import Board from './Board/Board'
 import { Button } from 'react-bootstrap';
 
 
