@@ -29,6 +29,7 @@ const firebaseConfig = {
     appId: "1:215575410414:web:ec69197d49f7cf2e7ce5ff"
   };
 firebase.initializeApp(firebaseConfig)
+const storage = firebase.storage();
 document.addEventListener("DOMContentLoaded", event => {
     const app = firebase.app()
     console.log(app)
@@ -82,4 +83,6 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage
+export {
+    HomePage, storage, firebase as default
+}

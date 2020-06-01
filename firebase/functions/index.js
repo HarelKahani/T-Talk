@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const os = require('os');
 const path = require('path');
+const spawn = require('child-process-promise').spawn;
 const cors = require('cors')({origin: true});
 const Busboy = require('busboy');
 const fs = require('fs');
@@ -21,10 +22,21 @@ exports.onFileChange = functions.storage.object().onFinalize(event => {
     console.log(event);
     const object = event;
     const filePath = object.name;
+    console.log(filePath)
     const bucket = object.bucket;
     const contentType = object.contentType;
 
-    if(path.basename(filePath).startsWith("renamed-")){
+    if(object.resourceState === "not_exists"){
+        console.log("we really deleted this file");
+        return;
+    }
+
+    // if(object.data.resourceState === "not_exists"){
+    //     console.log("we deleted this file");
+    //     return;
+    // }
+
+    if(path.basename(filePath).startsWith("small-")){
         console.log("this file was already renamed");
         return;
     }
@@ -42,8 +54,10 @@ exports.onFileChange = functions.storage.object().onFinalize(event => {
         destination: tmpPath
         }).then(()=>{
             console.log("download success");
+            return spawn('convert', [tmpPath, '-resize', '100x150', tmpPath]);
+        }).then(()=>{
             return destBucket.upload(tmpPath,{
-                destination: "renamed-"+ path.basename(filePath),
+                destination: "resized/small-"+ path.basename(filePath),
                 metadata: metadata,
             });
         });
