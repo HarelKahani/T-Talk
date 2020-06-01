@@ -20,8 +20,8 @@ class TherapistMenu extends Component {
                     <Nav.Link href="/ChooseTopic" style={{color: 'white', textDecoration: 'none'}}>בחירת נושא</Nav.Link>
                     <Nav.Link href="/ManageTopic" style={{color: 'white', textDecoration: 'none'}}>ניהול נושאים</Nav.Link>
                     <Nav.Link href="" style={{color: 'white', textDecoration: 'none'}} >ניהול כרטיסי הפתעה</Nav.Link>
-                    <Nav.Link href="" style={{color: 'white', textDecoration: 'none'}} >התחל משחק</Nav.Link>
-                
+                    <Nav.Link href="/Board" style={{color: 'white', textDecoration: 'none'}} >התחל משחק</Nav.Link>
+                    
                 </Nav>
             </Navbar>
         

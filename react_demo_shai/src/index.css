@@ -15,24 +15,11 @@ tbody{
   text-align: center;
 }
 
-
-#delete_card{
-  text-align: center;
-  padding:5%;
-  margin-top: 25%;
-}
-#existing_cards,#delete_subject,#add_card{
-  width: 20%; /*can be in percentage also.*/
-  margin: 1% auto;
-  padding: 0.5%;
-  position: relative;
-}
-
-
-.upload_pic{
-  text-align: center;
+#existing_cards,#add_remove_btm,#remove_subject{
   margin: auto;
+  width: 20%;
 }
+
 #start_game{
   display: block;
   position: fixed;
@@ -54,212 +41,33 @@ tbody{
 
 }
 
-#button1 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
+#container {
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  margin-right: 15%;
 }
 
-#button2 {
-  /* background-color: blue; */
-  height: 120px;
-  width: 120px;
-  border: none;
+#lock {
+  float: left;
+  content: "\e033";
+  /* background-color: red; */
+  width: 20%;
 }
-
-#button3 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-}
-
-#button4 {
-  /* background-color: green; */
-  height: 120px;
-  width: 120px;
-  border: none;
-}
-
-#button5 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-}
-
-#button6 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button7 {
-  /* background-color: green; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button8 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button9 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button10 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-  /* margin-left: 78.34%; */
-  /* display: flex; */
-  /* right: 78.9%; */
-  /* flex-wrap: wrap; */
-  /* flex-direction: row; */
-  
-} 
-
-#button11 {
-  /* background-color: blue; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button12 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button13 {
-  /* background-color: green; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button14 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button15 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button16 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button17 {
-  /* background-color: blue; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button18 {
-  /* background-color: green; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button19 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button20 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button21 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button22 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button23 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button24 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button25 {
-  /* background-color: pink; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button26 {
-  /* background-color: yellow; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
-#button27 {
-  /* background-color: cyan; */
-  height: 120px;
-  width: 120px;
-  border: none;
-} 
-
 
 #buttons {
-  display: inline;
-} 
-
-
-/* #a,#b,#c{
-  
-  margin: 0 auto;
-  margin-top: 5%;
   display: block;
-} */
-  
+  position: fixed;
+  height: 95%;
+  width: 75%;
+}  
+
+#buttons > Button {
+  height: 15%;
+  width: 9%;
+  border: none;
+  border-radius: 0%;
+  background-color: white;
+}
 
