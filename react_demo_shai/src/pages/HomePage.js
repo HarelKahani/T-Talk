@@ -59,12 +59,7 @@ class HomePage extends Component {
     }
 
     render() {
-<<<<<<< HEAD
-        console.log(auth);
-            if (auth !== false) {
-=======
             if (this.state.LoggedIn) {
->>>>>>> b443b1b5cdf2e4ee340dd21993030c89a86f6dc1
                 console.log("HERE")
                 console.log(this.state.LoggedIn);
                 return(<Redirect to="/TherapistMenu" />);
@@ -86,11 +81,6 @@ class HomePage extends Component {
 }
 export  default HomePage ;
 
-<<<<<<< HEAD
 export {
     storage, firebase
 }
-=======
-export default HomePage
-export { storage, firebase }
->>>>>>> b443b1b5cdf2e4ee340dd21993030c89a86f6dc1
