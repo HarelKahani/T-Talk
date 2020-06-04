@@ -4,6 +4,8 @@ import { AddCardsModal } from './AddCardsModal'
 import { ExistingCardModal } from './ExistingCardModal'
 import { DeleteDialog } from './DeleteDialog'
 import { AddSubjectModal } from './AddSubjectModal'
+import { TopicsButtons } from './topics_btns'
+import {storage} from '../pages/HomePage'
 
 
 
@@ -12,7 +14,32 @@ class ManageTopic extends Component {
         super(props);
         this.getSubjectName = this.getSubjectName.bind(this);
         this.addSubject = this.addSubject.bind(this);
-        this.state = {  SubjectNameval: "" , SubjectName: [], addModalShowForUpload: false, addModalShowForExisting: false, addModalShowForSubjUpload: false }
+        this.getAllSubjectNames = this.getAllSubjectNames.bind(this);
+        this.state = {  
+            SubjectNameval: "" ,
+            // SubjectName: ["Shai's_topic", "secondTopic"],
+            SubjectName: [], 
+            addModalShowForSubjUpload: false 
+        }
+        this.getAllSubjectNames();
+    }
+
+    getAllSubjectNames = () => {
+        console.log("erererererrerer")
+        let topics = storage.ref('topics/')
+        console.log(topics)
+        return topics.listAll().then(event =>{
+            let list = event.prefixes
+            console.log(list);
+            list.map((item, index) => {
+                console.log(item.name)
+                this.setState({
+                    SubjectName: this.state.SubjectName.concat(item.name)
+                })
+            })
+        }).catch(err => {
+            console.log(err)
+        });  
     }
 
     getSubjectName = event => {
@@ -25,12 +52,33 @@ class ManageTopic extends Component {
             return;
         }
         this.setState({SubjectName: this.state.SubjectName.concat(this.state.SubjectNameval)})
+        console.log(this.state)
+    }
+
+    showRow = (i) => {                       
+        let topics = this.state.SubjectName
+        return topics.map((item, index)=>{
+            return <tr>
+                <td>{index+1}</td>
+                <td > {item} </td>
+                <td>
+                    <TopicsButtons topicName={item}/>
+                </td>
+            </tr>
+        })
+    }
+
+    showAllRows = () => {
+        let all = new Object;
+        console.log("here")
+        for (let i=0; i<this.state.SubjectName.length; i++){
+            all.insert(this.showRow(i))
+        }
+        return all
     }
     
     render() {
-        let addModalCloseUpload = () => this.setState({ addModalShowForUpload: false });
-        let addModalCloseExisting = () => this.setState({ addModalShowForExisting: false });
-        let addModalCloseDelete = () => this.setState({ addModalShowForDelete: false });
+        // this.getAllSubjectNames();
         let addModalCloseSubjecUp = () => this.setState({ addModalShowForSubjUpload: false });
         return (
             <div>
@@ -44,92 +92,7 @@ class ManageTopic extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                         <tr>
-                            <td>1</td>
-                            <td > {this.state.SubjectName[0]} </td>
-                            <td>
-                                <ButtonToolbar>
-                                    <Button variant="outline-primary" id="add_card" onClick={() => this.setState({ addModalShowForUpload: true })} >הוסף תמונה</Button>
-                                    <AddCardsModal
-                                        show={this.state.addModalShowForUpload}
-                                        onHide={addModalCloseUpload}
-                                        title={"הוספת תמונה"}
-                                        describe={"להוספת תמונה יש ללחוץ על 'בחר תמונה' ,לאחר מכן יש לצרף שם לתמונה. לחיצה על 'הוסף' תוסיף את התמונה אל הנושא הנבחר. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות."}
-                                    />
-                                    <Button variant="outline-primary" id="existing_cards" onClick={() => this.setState({ addModalShowForExisting: true })} >קלפים קיימים</Button>
-                                    <ExistingCardModal
-                                        show={this.state.addModalShowForExisting}
-                                        onHide={addModalCloseExisting}
-                                    />
-                                    <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true, isSubject: true })} >מחק נושא</Button>
-                                    <DeleteDialog
-                                        show={this.state.addModalShowForDelete}
-                                        onHide={addModalCloseDelete}
-                                    />
-
-                                </ButtonToolbar>
-                            </td>
-
-                        </tr>
-                       {/* <tr>
-                            <td>2</td>
-                            <td>הגייה של האות ש</td>
-                            <td>
-
-                                <ButtonToolbar>
-                                    <Button variant="outline-primary" id="add_card" onClick={() => this.setState({ addModalShowForUpload: true })} >הוסף תמונה</Button>
-                                    <AddCardsModal
-                                        show={this.state.addModalShowForUpload}
-                                        onHide={addModalCloseUpload}
-                                        title={"הוספת תמונה"}
-                                        describe={"להוספת תמונה יש ללחוץ על 'בחר תמונה' ,לאחר מכן יש לצרף שם לתמונה. לחיצה על 'הוסף' תוסיף את התמונה אל הנושא הנבחר. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות."}
-
-                                    />
-                                    <Button variant="outline-primary" id="existing_cards" onClick={() => this.setState({ addModalShowForExisting: true })} >קלפים קיימים</Button>
-                                    <ExistingCardModal
-                                        show={this.state.addModalShowForExisting}
-                                        onHide={addModalCloseExisting}
-                                    />
-                                    <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
-                                    <DeleteDialog
-                                        show={this.state.addModalShowForDelete}
-                                        onHide={addModalCloseDelete}
-                                    />
-
-                                </ButtonToolbar>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td >{this.state.SubjectName}</td>
-                            <td>
-                                <ButtonToolbar>
-                                    <Button variant="outline-primary" id="add_card" onClick={() => this.setState({ addModalShowForUpload: true })} >הוסף תמונה</Button>
-                                    <AddCardsModal
-                                        show={this.state.addModalShowForUpload}
-                                        onHide={addModalCloseUpload}
-                                        title={"הוספת תמונה"}
-                                        describe={"להוספת תמונה יש ללחוץ על 'בחר תמונה' ,לאחר מכן יש לצרף שם לתמונה. לחיצה על 'הוסף' תוסיף את התמונה אל הנושא הנבחר. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות."}
-
-                                    />
-                                    <Button variant="outline-primary" id="existing_cards" onClick={() => this.setState({ addModalShowForExisting: true })} >קלפים קיימים</Button>
-                                    <ExistingCardModal
-                                        show={this.state.addModalShowForExisting}
-                                        onHide={addModalCloseExisting}
-                                    />
-                                    <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true })} >מחק נושא</Button>
-                                    <DeleteDialog
-                                        show={this.state.addModalShowForDelete}
-                                        onHide={addModalCloseDelete}
-                                    />
-
-
-
-                                </ButtonToolbar>
-
-                            </td>
-                        </tr> */}
+                        {this.showRow()}
                     </tbody>
                 </Table>
 
@@ -141,15 +104,7 @@ class ManageTopic extends Component {
                     onHide={addModalCloseSubjecUp}
                     transferToTable={this.getSubjectName}
                     add={this.addSubject}
-                />
-                {/* <AddCardsModal
-                    subjectName=""
-                    title={"הוספת נושא"}
-                    describe = {"להוספת נושא יש לצרף שם לנושא. לחיצה על 'הוסף' תוסיף את הנושא אל טבלת ניהול הנושאים שם יתאפשר להוסיף תמונות. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות."}
-
-                /> */}
-                
-
+                />s
             </div>
 
         )

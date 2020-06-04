@@ -1,16 +1,59 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-
-
-
+import { Button, Modal } from 'react-bootstrap';
+import { storage } from '../pages/HomePage';
 
 
 export class AddSubjectModal extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+        topicName: '',
+        url: ''
+    };
+    this.addtopic = this.addtopic.bind(this)
+  }
+
+  getName = event =>{
+    this.props.transferToTable(event);
+    let name = event.target.value
+    this.setState({
+        topicName: name 
+    });
+    console.log(this.state)
+  }
+
+  addtopic = () => {
+    const uploadTask = storage.ref(`topics/${this.state.topicName}/init.txt`).putString("temp_init");
+    uploadTask.on('state_changed',
+    (snapshot) => {
+        console.log("in progress")
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({progress});
+        console.log(progress)
+    },
+    (error) =>{
+        console.log("error")
+        console.log(error);
+    },
+    () => {
+        storage.ref(`topics/${this.state.topicName}/init.txt`).getDownloadURL()
+        .then(url => {
+            console.log("ok")
+            console.log(url);
+            this.setState({url});
+        })
+    });
+
+  }
+
  
-      onClick = ()=>{
-        this.props.add();
-        this.props.onHide();
-      }
+  onClick = ()=>{
+    this.addtopic();
+    // this.props.transferToTable
+    this.props.add();
+    this.props.onHide();
+  }
   
   render() {
 
@@ -32,10 +75,10 @@ export class AddSubjectModal extends Component {
           <hr></hr>
           <div class="subj_container">
           <input class="subj_input"
-          placeholder="רשום את שם הנושא כאן"
-           type="text"
-           name="SubjectName"
-           onChange = {this.props.transferToTable}
+            placeholder="רשום את שם הנושא כאן"
+            type="text"
+            name="SubjectName"
+            onChange = {this.getName}
          />
          </div>
         </Modal.Body>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'react-bootstrap';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 import axios from 'axios'
 import {storage} from '../pages/HomePage'
 import { database } from 'firebase';
@@ -23,12 +23,6 @@ export class ImgHandler extends Component {
     getName = event =>{
         let name = event.target.value
         console.log(name)
-        storage.ref(this.state.topicName).listAll()
-        .then((event)=> {
-            console.log(event)
-            console.log(event.items)
-            return event.items
-        });
         // console.log(item)
         let fileName = `${name}.JPG`
         this.setState({
@@ -46,9 +40,9 @@ export class ImgHandler extends Component {
         let file = evt.target.files[0]
         console.log(file)
         this.setState(prevState => ({
-            image: file
-        }));
-        
+                image: file
+            })
+        );  
         console.log(this.state)
     }
 
@@ -60,7 +54,7 @@ export class ImgHandler extends Component {
             return;
         }
 
-        const uploadTask = storage.ref(`${this.state.topicName}/${this.state.imgName}`).put(image);
+        const uploadTask = storage.ref(`topics/${this.state.topicName}/${this.state.imgName}`).put(image);
         uploadTask.on('state_changed',
         (snapshot) => {
             console.log("in progress")
@@ -73,7 +67,7 @@ export class ImgHandler extends Component {
             console.log(error);
         },
         () => {
-            storage.ref(`${this.state.topicName}`).child(`${this.state.imgName}`).getDownloadURL()
+            storage.ref(`topics/${this.state.topicName}`).child(`${this.state.imgName}`).getDownloadURL()
             .then(url => {
                 console.log("ok")
                 console.log(url);
@@ -85,7 +79,7 @@ export class ImgHandler extends Component {
     render() {
         return (
             <div>
-                <ListOfTopicImg/>
+                 <ButtonToolbar>
                 <input
                 type="file"
                 style={{display: 'none'}}
@@ -98,8 +92,9 @@ export class ImgHandler extends Component {
                 type="text"
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>
-                <Button onClick={this.imgUploadHAndler}>הוסף</Button> 
-                <img src={this.state.url} alt="Uploaded image" width='200' height='150'/>
+                <Button onClick={this.imgUploadHAndler}>הוסף תמונה ל <b>{this.state.topicName}</b></Button> 
+                <img src={this.state.url} alt="No image addad" width='200' height='150'/>
+                </ButtonToolbar>
             </div>
         );
     }

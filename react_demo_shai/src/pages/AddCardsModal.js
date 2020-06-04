@@ -7,6 +7,12 @@ import {ImgHandler} from '../crads_upload/image_handler'
 
 
 export class AddCardsModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        topicName: this.props.topicName
+    };
+}
  
   render() {
 
@@ -27,12 +33,7 @@ export class AddCardsModal extends Component {
             <h5 style={{ textAlign: "center"}}> {this.props.describe} </h5>
           <hr></hr>
           <div className="container">
-            {/* <ButtonToolbar> */}
-            {/* <Upload
-            name={"this is the name project"}
-            /> */}
-            <ImgHandler topicName={"My_topic_name"}/>
-            {/* </ButtonToolbar> */}
+            <ImgHandler topicName={this.state.topicName}/>
           </div>
         </Modal.Body>
         <Modal.Footer>
