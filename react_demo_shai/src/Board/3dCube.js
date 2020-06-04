@@ -27,7 +27,7 @@ export class Cube extends Component {
 
     render() {
         return (
-            
+          
           <div className="cube_inner_container">
              
             <div className="dice" onClick={rollDice}>
@@ -39,8 +39,8 @@ export class Cube extends Component {
                 <li className="die-item" data-side="5"></li>
                 <li className="die-item" data-side="6"></li>
               </ol>
+              <h4 className="cube_instru" style={{textAlign:"center"}}>לחץ על הקובייה להטלה</h4>
             </div>
-            <button type="button" id="roll-button" onClick={rollDice} >הטל קובייה</button>
             </div>
         );
     }

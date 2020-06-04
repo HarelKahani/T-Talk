@@ -106,7 +106,11 @@ tbody{
 
 
 
-
+.cube_instru{
+  position: fixed;
+ margin-top: 90%;
+ padding-right: 17%;
+}
 .vl {
   display: block;
   position: fixed;
@@ -134,29 +138,29 @@ tbody{
 
 /*cube style-start*/
 .cube_container{
-  display: block;
-  position: fixed;
-  margin-right: 1%;
-  top:70%;
-}
-#roll-button{
-  display: block;
-  margin-right: 30%;
-  
-}
-#roll-button:hover{
-  background-color: rgba(55, 150, 228, 0.795);
+  position: relative;
 }
 
+.cube_inner_container{
+  display: block;
+  position: fixed;
+  margin-right: -2%;
+  top:70%;
+}
+
+
+
 .dice {
+  display: flex;
+  margin-right: 30%;
   align-items: center;
   display: grid;
-  grid-gap: 2rem;
+  grid-gap: 2%;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   grid-template-rows: auto;
   justify-items: center;
   margin-right: 17%;
-  padding: 2rem;
+  padding: 15%;
   perspective: 600px;
 }
 .die-list {
