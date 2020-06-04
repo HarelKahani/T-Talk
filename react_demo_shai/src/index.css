@@ -3,7 +3,6 @@ body {
  
 
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -14,7 +13,7 @@ thead{
 tbody{
   text-align: center;
 }
-
+/*manage topic syle- start*/
 .subj_container{
   text-align: center;
   margin: auto;
@@ -104,3 +103,17 @@ tbody{
   background-color: white;
 }
 
+/*cards style-start*/
+.cards_container{
+  display: block;
+  position: fixed;
+  width: 15%;
+  padding-left: 2%;
+  padding-top: 2%;
+
+}
+
+#card_top{
+  height: 70%;
+  width: 70%;
+}
