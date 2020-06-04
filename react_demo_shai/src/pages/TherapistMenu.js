@@ -34,7 +34,7 @@ class TherapistMenu extends Component {
     render() {
         if (!this.state.gameStart) {
             return (
-                    <div>
+                    <div id="user_side">
                     <Navbar bg="primary" variant="dark">
                         <Navbar.Brand href="/">T-Talk</Navbar.Brand>
                         <Nav className="justify-content-start" style={{ width: "100%" ,  paddingRight:"1%"}}>
@@ -52,7 +52,7 @@ class TherapistMenu extends Component {
         } else {
             return (<Redirect to="/Board"/>);
         }
-       
+    
 
     }
 }

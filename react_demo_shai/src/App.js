@@ -24,6 +24,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route path="/User_Board" component={Board} />
           <Route path="/TherapistMenu" component={TherapistMenu} />
           <div className="admin-panel-container">
             <TherapistMenu />
@@ -32,6 +33,7 @@ class App extends Component {
             <Route path="/ManageSupriseCard" component={ManageSupriseCard} />
             <Route path="/Board" component={Board} />
           </div>
+         
           <Route path="/404" component={NotFoundPage} />
           <Redirect to="/404" />
         </Switch>

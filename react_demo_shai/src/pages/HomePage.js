@@ -96,7 +96,7 @@ class HomePage extends Component {
     }
     render() {
             if (this.state.FoundGame) {
-                return(<Redirect to="/Board" />);
+                return(<Redirect to="/User_Board" />);
             }
             if (this.state.LoggedIn) {
                 console.log("HERE")
