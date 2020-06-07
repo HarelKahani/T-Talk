@@ -14,7 +14,7 @@ class Board extends React.Component {
     fillArray = () => {
         let buttonArray = [];
         let idIndex;
-        for (idIndex = 1; idIndex < 29; idIndex++) {
+        for (idIndex = 1; idIndex < 30; idIndex++) {
             buttonArray[idIndex] = document.getElementById(`button${idIndex}`);
         }
         return buttonArray;
