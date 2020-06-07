@@ -5,6 +5,18 @@ import { Cube } from './3dCube'
 
 class Board extends React.Component {
 
+    constructor(props) {
+        super(props);
+        //this.getSubjectName = this.getSubjectName.bind(this);
+        //this.addSubject = this.addSubject.bind(this);
+        this.setColor = this.setColor.bind(this);
+        this.state = { color: 0 }
+    }
+
+    setColor = (event)=>{
+        this.setState({ color: event });
+    };
+
     handleClick = (id, color) => {
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
@@ -39,6 +51,7 @@ class Board extends React.Component {
 
 
     render() {
+        console.log(this.state.color);
         return (
             <div>
                 <div className="vl"></div>
@@ -48,7 +61,7 @@ class Board extends React.Component {
                 </div>
 
                 <div className="cube_container">
-                    <Cube />
+                    <Cube color={this.setColor} />
                 </div>
 
                 <div id="enbale-disable">
