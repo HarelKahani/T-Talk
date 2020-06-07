@@ -19,26 +19,30 @@ function getRandomNumber(min, max) {
 
 export class Cube extends Component {
   constructor(props) {
-    super(props);
-    this.rollDice = this.rollDice.bind(this);
+      super(props);
+      this.rollDice = this.rollDice.bind(this);
     }
      
     rollDice() {
       const dice = [...document.querySelectorAll(".die-list")];
       dice.forEach(die => {
         toggleClasses(die);
-        die.dataset.roll = getRandomNumber(1, 6);
-        this.props.color(die.dataset.roll);
-
+        if (this.props.ccolor === -1) {
+          die.dataset.roll = getRandomNumber(1, 6);
+          this.props.color(die.dataset.roll);
+        } else {
+          die.dataset.roll = this.props.ccolor;
+        }
+        console.log(die.dataset.roll)
       });
     }
-
   render() {
-
+    console.log("redid cube", this.props.ccolor)
+    if (this.props.ccolor != -1) {
+      this.rollDice()
+    }
     return (
-
       <div className="cube_inner_container">
-
         <div className="dice" onClick={this.rollDice}>
           <ol className="die-list even-roll" data-roll="1" id="die-1">
             <li className="die-item" data-side="1"></li>

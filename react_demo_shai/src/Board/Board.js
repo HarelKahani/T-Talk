@@ -2,18 +2,54 @@ import React from 'react';
 import { Button, ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { CardsPack } from './CardsPack'
 import { Cube } from './3dCube'
+import { myFirestore } from './../pages/HomePage'
+
+// .onUpdate((snapshot, context) => {
+//     const val = snapshot.val();
+//     console.log(val)
+// });
 
 class Board extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log("props:",props)
         //this.getSubjectName = this.getSubjectName.bind(this);
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
-        this.state = { color: 0 }
+        this.state = { color: 0, ccolor: -1 }
+        let query = myFirestore.collection('Games')
+        let observer = query
+        .onSnapshot(querySnapshot => {
+            querySnapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+                console.log('New: ', change.doc.data());
+            }
+            if (change.type === 'modified') {
+                console.log('Modified: ', change.doc.data());
+                if (change.doc.data().cube != this.state.color) {   
+                    console.log(change.doc.data().cube)
+                    this.setState({ccolor: change.doc.data().cube})
+                }
+            }
+            if (change.type === 'removed') {
+                console.log('Removed: ', change.doc.data());
+            }
+            });
+        });
     }
 
     setColor = (event)=>{
+        myFirestore
+        .collection("Games")
+        .doc(this.props.location.gamedata.email)
+        .update({cube: event})
+        .then(() => {
+            console.log("written cube color")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
         this.setState({ color: event });
     };
 
@@ -52,6 +88,7 @@ class Board extends React.Component {
 
     render() {
         console.log(this.state.color);
+        console.log(this.props.location.gamedata)
         return (
             <div>
                 <div className="vl"></div>
@@ -59,9 +96,8 @@ class Board extends React.Component {
                     <CardsPack />
 
                 </div>
-
                 <div className="cube_container">
-                    <Cube color={this.setColor} />
+                    <Cube color={this.setColor} ccolor={this.state.ccolor}/>
                 </div>
 
                 <div id="enbale-disable">

@@ -81,9 +81,9 @@ class HomePage extends Component {
               let now = new Date()
               let timedelta = (now - queryTime) / 1000
               console.log(timedelta)
-              if (timedelta < 60 && doc.data().content == "Open Game") {
+              if (timedelta < 9999999999999 && doc.data().content == "Open Game") {
                   console.log(`Joining ${doc.data().name}'s game`)
-                  this.setState({FoundGame: true})
+                  this.setState({FoundGame: doc.data()})
               }
               else {
                   console.log("No recent game found")
@@ -96,7 +96,7 @@ class HomePage extends Component {
     }
     render() {
             if (this.state.FoundGame) {
-                return(<Redirect to="/User_Board" />);
+                return(<Redirect to={{pathname: "/User_Board", gamedata: this.state.FoundGame }}/>);
             }
             if (this.state.LoggedIn) {
                 console.log("HERE")
