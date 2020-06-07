@@ -17,7 +17,6 @@ class ManageTopic extends Component {
         this.getAllSubjectNames = this.getAllSubjectNames.bind(this);
         this.state = {  
             SubjectNameval: "" ,
-            // SubjectName: ["Shai's_topic", "secondTopic"],
             SubjectName: [], 
             addModalShowForSubjUpload: false 
         }
@@ -32,7 +31,6 @@ class ManageTopic extends Component {
             let list = event.prefixes
             console.log(list);
             list.map((item, index) => {
-                console.log(item.name)
                 this.setState({
                     SubjectName: this.state.SubjectName.concat(item.name)
                 })
@@ -104,7 +102,7 @@ class ManageTopic extends Component {
                     onHide={addModalCloseSubjecUp}
                     transferToTable={this.getSubjectName}
                     add={this.addSubject}
-                />s
+                />
             </div>
 
         )

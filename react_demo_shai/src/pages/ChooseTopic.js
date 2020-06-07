@@ -42,7 +42,14 @@ class ChooseTopic extends Component {
             return <tr>
                 <td>{index+1}</td>
                 <td > {item} </td>
-                <td> <Button variant="outline-primary" style={{ width: "20%"}}>התחל משחק</Button></td>
+                <td> 
+                    <Button
+                    // onclick={} 
+                    variant="outline-primary" 
+                    style={{ width: "20%"}}>
+                        התחל משחק
+                    </Button>
+                </td>
             </tr>
         })
     }
@@ -73,43 +80,6 @@ class ChooseTopic extends Component {
                 </tbody>
             </Table>
         </div>
-
-
-
-
-
-
-            // <Table striped bordered hover>
-
-            //     <thead>
-            //         <tr>
-            //             <th >#</th>
-            //             <th>שם הנושא</th>
-            //             <th>בחר נושא</th>
-            //         </tr>
-            //     </thead>
-            //     <tbody>
-            //         <tr>
-            //             <td>1</td>
-            //             <td > הגייה של האות צ</td>
-            //             <td> <Button variant="outline-primary"style={{ width: "20%"}}>התחל משחק</Button></td>
-            //         </tr>
-            //         <tr>
-            //             <td>2</td>
-            //             <td>הגייה של האות ש</td>
-            //             <td> <Button variant="outline-primary" style={{ width: "20%"}}>התחל משחק</Button></td>
-            //         </tr>
-            //         <tr>
-            //             <td>3</td>
-            //             <td > הגייה של האות ר</td>
-            //             <td> <Button variant="outline-primary" style={{ width: "20%"}}>התחל משחק</Button></td>
-            //         </tr>
-            //     </tbody>
-
-            // </Table>
-
-
-
         )
     }
 }

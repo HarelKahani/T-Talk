@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, ButtonToolbar} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import {storage} from '../pages/HomePage'
 import { database } from 'firebase';
@@ -79,7 +79,6 @@ export class ImgHandler extends Component {
     render() {
         return (
             <div>
-                 <ButtonToolbar>
                 <input
                 type="file"
                 style={{display: 'none'}}
@@ -94,7 +93,6 @@ export class ImgHandler extends Component {
                 onChange={this.getName}/>
                 <Button onClick={this.imgUploadHAndler}>הוסף תמונה ל <b>{this.state.topicName}</b></Button> 
                 <img src={this.state.url} alt="No image addad" width='200' height='150'/>
-                </ButtonToolbar>
             </div>
         );
     }
