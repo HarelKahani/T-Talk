@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Table} from 'react-bootstrap';
-import axios from 'axios'
-import {storage} from '../pages/HomePage'
-import { database } from 'firebase';
 
 export default class TableHandler extends Component{
     constructor(props){

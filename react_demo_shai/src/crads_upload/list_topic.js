@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import axios from 'axios'
 import {storage} from '../pages/HomePage'
-import { database } from 'firebase';
 import TableHandler from './table_handler';
 
 export class ListOfTopicImg extends Component{
@@ -52,7 +50,7 @@ export class ListOfTopicImg extends Component{
                 .then( url => {
                     obj.url = url;
                 }).then(() =>{
-                    obj.name = this.state.list[j].name.replace(".JPG", "")
+                    obj.name = this.state.list[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
                     obj.index = `${j+1}`
                     arr.push(obj)
                     this.setState({arr: arr})
