@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonToolbar, Table } from 'react-bootstrap';
-import { AddCardsModal } from './AddCardsModal'
-import { ExistingCardModal } from './ExistingCardModal'
-import { DeleteDialog } from './DeleteDialog'
+import { Button, Table } from 'react-bootstrap';
 import { AddSubjectModal } from './AddSubjectModal'
 import { TopicsButtons } from './topics_btns'
 import {storage} from '../pages/HomePage'

@@ -51,12 +51,11 @@ class ChooseTopic extends Component {
         return surprises.map((item, index)=>{
             if(!item.board){
                 counter += 1;
-                let name = item.name
                 return  <tr>
                             <td> {counter} </td>
                             <td style={{fontSize:"200%", textAlign:"center"}}> {item.name} </td>
-                            <td> <img src={item.url} alt= "no image yet" height="150px" /> </td>
-                            <td> <img src={this.addSmall(surprises, item.name)} alt= "no image yet" height="150px" /> </td>
+                            <td> <img src={item.url} alt= "לא התווספה תמונה לבינתיים" height="150px" /> </td>
+                            <td> <img src={this.addSmall(surprises, item.name)} alt= "לא התווספה תמונה לבינתיים" height="150px" /> </td>
                             <td>
                                 <SurpriseButton cardName={item.name} onHide={this.addModalCloseUpload}/>
                             </td>

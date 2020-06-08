@@ -34,7 +34,7 @@ export class CardsModal extends Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <img src={`/cards_imgs/${this.state.counter}.JPG`}></img>
+                        <img src={`/cards_imgs/${this.state.counter}.JPG`} alt=""></img>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button type="submit" onClick={this.onClick} style={{ width: "20%" }}>המשך</Button>

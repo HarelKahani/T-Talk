@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom";
-import TherapistMenu from './TherapistMenu'
+import { BrowserRouter as Link,Redirect } from "react-router-dom";
 import * as firebase from 'firebase';
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 let LoggedUser = false
@@ -101,7 +93,7 @@ class HomePage extends Component {
             if (this.state.LoggedIn) {
                 console.log("HERE")
                 console.log(this.state.LoggedIn);
-                return(<Redirect to="/TherapistMenu" />);
+                return(<Redirect to="/ChooseTopic" />);
             }
             else {
             return (

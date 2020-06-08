@@ -29,8 +29,8 @@ export class SurpriseButton extends Component {
     }
     
     render(){
-        let addModalCloseUpload = () => this.setState({ addModalShowForUpload: false });
-        let addModalCloseExisting = () => this.setState({ addModalShowForExisting: false });
+       // let addModalCloseUpload = () => this.setState({ addModalShowForUpload: false });
+        //let addModalCloseExisting = () => this.setState({ addModalShowForExisting: false });
 
         return(
             <div>

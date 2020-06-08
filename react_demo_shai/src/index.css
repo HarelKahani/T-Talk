@@ -46,8 +46,17 @@ tbody{
   padding: 0.5%;
   position: relative;
 }
-
-
+/*manage topic syle- end*/
+/*manage topic syle -add pic- start*/
+.img_input{
+  text-align: center;
+  margin: auto;
+}
+.upload_seccess{
+  display: block;
+  margin: auto;
+  padding-top: 5%;
+}
 .upload_pic{
   text-align: center;
   margin: auto;
@@ -105,7 +114,7 @@ tbody{
   margin-right: 15.6%;
   border-left: 10px solid #007BFF;
   border-radius: 0px;
-  height:94%;
+  height:100%;
 }
 /*cards style-start*/
 .cards_container{
