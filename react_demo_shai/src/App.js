@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
- // Link,
   Redirect
 } from "react-router-dom";
 import HomePage from './../src/pages/HomePage'
@@ -14,8 +13,6 @@ import ChooseTopic from './pages/ChooseTopic'
 import ManageTopic from './pages/ManageTopic';
 import Board from './Board/Board';
 import ManageSupriseCard from './pages/ManageSupriseCard';
-import { Button } from 'react-bootstrap';
-
 
 class App extends Component {
   render() {

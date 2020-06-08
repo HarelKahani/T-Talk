@@ -35,7 +35,7 @@ export default class TableHandler extends Component{
             // console.log(index)
             return <tr key={index}>
                         <RenderRow key={index} data={row} keys={keys}/>
-                        <td><img src={row.url} height="200" width="150"/></td>
+                        <td><img src={row.url} height="200" width="150" alt=""/></td>
                         <Button variant="danger" id="delete_card" style={{width: "75px"}} onClick={this.delete_photo}><b>X</b></Button>
                     </tr>
         })

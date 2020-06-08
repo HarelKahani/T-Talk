@@ -78,7 +78,7 @@ export class ImgHandler extends Component {
 
     render() {
         return (
-            <div>
+            <div className="img_input">
                 <input
                 type="file"
                 style={{display: 'none'}}
@@ -92,7 +92,7 @@ export class ImgHandler extends Component {
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>
                 <Button onClick={this.imgUploadHAndler}>הוסף תמונה ל <b>{this.state.topicName}</b></Button> 
-                <img src={this.state.url} alt="No image addad" width='200' height='150'/>
+                <img src={this.state.url} alt="No image addad" width='200' height='150' className="upload_seccess"/>
             </div>
         );
     }
