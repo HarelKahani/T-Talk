@@ -17,10 +17,10 @@ class Board extends React.Component {
         //this.getSubjectName = this.getSubjectName.bind(this);
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
-        this.state = { color: 0, ccolor: -1 };
-
-        this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
         this.handleClick = this.handleClick.bind(this);
+        this.state = { color: 0, ccolor: -1, currentSquare: "button1" };
+
+        // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
         let observer = query
@@ -60,9 +60,15 @@ class Board extends React.Component {
     handleClick = (id, color) => {
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
-        // let currSquare = document.getElementById(`${id}`);
-        // this.setState({squareToTurnOff: `currentSquare`, currentSquare: `${id}`});  //causing the dice to roll
-        document.getElementById(`${id}`).innerHTML = `${id}`;
+
+        document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
+        
+        let nextSquare = document.getElementById(`${id}`);
+        console.log(`currentSquare ${this.state.currentSquare}`);
+        this.setState({currentSquare: id}, () => {
+            console.log(`second currentSquare ${this.state.currentSquare}`);
+            nextSquare.innerHTML = `${id}`;
+        });
     }
 
     fillArray = () => {
@@ -177,7 +183,8 @@ class Board extends React.Component {
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
                         <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>
+                            button1
+                            {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
                         </Button>
                     </div>
                 </div>
