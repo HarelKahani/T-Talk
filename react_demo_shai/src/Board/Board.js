@@ -4,6 +4,7 @@ import { CardsPack } from './CardsPack'
 import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
 import { storage } from '../pages/HomePage'
+import { Path } from './Path'
 
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
@@ -24,9 +25,10 @@ class Board extends React.Component {
             user: this.props.location.user,
             color: 0, 
             ccolor: -1, 
-            currentSquare: "button1"
+            currentSquare: "button1",
+            surprises: null
             };
-
+        this.getSurpriseImages()
         // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
@@ -53,7 +55,7 @@ class Board extends React.Component {
     setColor = (event)=>{
         myFirestore
         .collection("Games")
-        .doc(this.state.gameData)
+        .doc(this.state.gameData.email)
         .update({cube: event})
         .then(() => {
             console.log("written cube color")
@@ -124,8 +126,6 @@ class Board extends React.Component {
                     arr.push(obj);
                     this.setState({surprises: arr});
                     console.log(arr)
-                    let nextSquare = document.getElementById("dis1");
-                    nextSquare.innerHTML = `<img src={arr[0].url} width="30%"/>`
             }).catch(err => {
                 console.log(err)
                 })
@@ -133,97 +133,24 @@ class Board extends React.Component {
         })
     }
 
-
+    showPath = () => {
+        console.log(this.state)
+        return <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises}/>
+    }
     render() {
         console.log(this.state.color);
         console.log(this.props.location.gamedata)
         return (
             <div>
+                {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
                 <div className="cards_container">
                     <CardsPack />
-
                 </div>
                 <div className="cube_container">
                     <Cube color={this.setColor} ccolor={this.state.ccolor}/>
                 </div>
-
-                <div id="enbale-disable">
-                    <Button id="disable" onClick={e => this.enableDisable(e.target.id)}>
-                        Disable Board
-                    </Button>
-                    <Button id="enable" onClick={e => this.enableDisable(e.target.id)}>
-                        Enable Board
-                    </Button>
-                </div>
-                
-                <div id="path_container">
-                    <div id="buttons">
-                        <Button  id="dis1" style={{ backgroundColor: 'gray'}}></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button id="button30" style={{ backgroundColor: 'yellow' ,borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button29" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button28" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button27" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button26" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button25" style={{ backgroundColor: 'lightblue' ,borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <br />
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button id="button24" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <br />
-                        <Button id="button13" style={{ backgroundColor: 'pink' ,borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button14" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button15" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button16" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button17" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button18" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button19" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button20" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button21" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button22" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button23" style={{ backgroundColor: 'green' ,borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <br />
-                        <Button id="button12" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <Button disabled></Button>
-                        <br />
-                        <Button id="button11" style={{ backgroundColor: 'yellow' ,borderRadius: "0px 0px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button10" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button9" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button8" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button7" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button6" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button5" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button4" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button3" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button2" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
-                        </Button>
-                        <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            button1
-                            {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
-                        </Button>
-                    </div>
-                </div>
+                <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises}/>
             </div>
         )
     }
