@@ -42,7 +42,7 @@ export class Cube extends Component {
       this.rollDice()
     }
     return (
-      <div className="cube_inner_container">
+      
         <div className="dice" onClick={this.rollDice}>
           <ol className="die-list even-roll" data-roll="1" id="die-1">
             <li className="die-item" data-side="1"></li>
@@ -52,9 +52,9 @@ export class Cube extends Component {
             <li className="die-item" data-side="5"></li>
             <li className="die-item" data-side="6"></li>
           </ol>
-          <h4 style={{ textAlign: "center" }}>לחץ על הקובייה להטלה</h4>
+          <h6 style={{ textAlign: "center" }}>לחץ על הקובייה</h6>
         </div>
-      </div>
+      
     );
   }
 } 
