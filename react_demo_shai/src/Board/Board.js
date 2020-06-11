@@ -65,9 +65,10 @@ class Board extends React.Component {
         
         let nextSquare = document.getElementById(`${id}`);
         console.log(`currentSquare ${this.state.currentSquare}`);
+        //if image already in  the square -> do nothing
         this.setState({currentSquare: id}, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `${id}`;
+            nextSquare.innerHTML = `<img src='Pawn.png' width=30%></img>`;
         });
     }
 
@@ -153,7 +154,7 @@ class Board extends React.Component {
                         <Button id="button17" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button18" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button19" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button20" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button20" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button21" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button22" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button23" style={{ backgroundColor: 'green' ,borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
@@ -183,7 +184,8 @@ class Board extends React.Component {
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
                         <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            button1
+                            {/* button1 */}
+                            <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>
                             {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
                         </Button>
                     </div>
