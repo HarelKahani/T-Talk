@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { BrowserRouter as Link,Redirect } from "react-router-dom";
+import { BrowserRouter as Link, Redirect } from "react-router-dom";
 import * as firebase from 'firebase';
+
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -19,7 +20,7 @@ const firebaseConfig = {
     storageBucket: "t-talk-game.appspot.com",
     messagingSenderId: "215575410414",
     appId: "1:215575410414:web:ec69197d49f7cf2e7ce5ff"
-  };
+};
 firebase.initializeApp(firebaseConfig)
 firebase.firestore().settings({
     timestampsInSnapshots: true
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", event => {
 class HomePage extends Component {
     constructor() {
         super();
-        this.state = {LoggedIn: false, FoundGame: false}
+        this.state = { LoggedIn: false, FoundGame: false }
         this.googleLogin = this.googleLogin.bind(this)
         this.joinGame = this.joinGame.bind(this)
     }
@@ -46,42 +47,42 @@ class HomePage extends Component {
                 if (accepted_emails.includes(user.email)) {
                     console.log(user)
                     console.log("ACCEPTED")
-                    this.setState({LoggedIn: user})
-                 }
+                    this.setState({ LoggedIn: user })
+                }
                 else {
                     console.log("DENIED");
                     console.log("TRY AGAIN");
-                   // alert unrecognized user
-                 }
+                    // alert unrecognized user
+                }
             })
             .catch(console.log) //recieve error and alert it
     }
     joinGame() {
         let GamesRef = myFirestore.collection('Games');
         let query = GamesRef.get()
-          .then(snapshot => {
-            if (snapshot.empty) {
-              console.log('No matching documents.');
-              return;
-            }  
-            snapshot.forEach(doc => {
-              let queryTime = new Date(doc.data().timeXstamp)
-              console.log(queryTime)
-              let now = new Date()
-              let timedelta = (now - queryTime) / 1000
-              console.log(timedelta)
-              if (timedelta < 9999999999999 && doc.data().content == "Open Game") {
-                  console.log(`Joining ${doc.data().name}'s game`)
-                  this.setState({FoundGame: doc.data()})
-              }
-              else {
-                  console.log("No recent game found")
-              }
+            .then(snapshot => {
+                if (snapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    let queryTime = new Date(doc.data().timeXstamp)
+                    console.log(queryTime)
+                    let now = new Date()
+                    let timedelta = (now - queryTime) / 1000
+                    console.log(timedelta)
+                    if (timedelta < 9999999999999 && doc.data().content == "Open Game") {
+                        console.log(`Joining ${doc.data().name}'s game`)
+                        this.setState({ FoundGame: doc.data() })
+                    }
+                    else {
+                        console.log("No recent game found")
+                    }
+                });
+            })
+            .catch(err => {
+                console.log('Error getting documents', err);
             });
-          })
-          .catch(err => {
-            console.log('Error getting documents', err);
-          });
     }
     render() {
             if (this.state.FoundGame) {
@@ -94,17 +95,29 @@ class HomePage extends Component {
             }
             else {
             return (
-                    <div id="home_page">
-                        <Link to="">
-                            <Button variant="primary" size="lg" id="start_game" onClick={this.joinGame}> התחל משחק </Button>
-                        </Link>
+                <div  style={{
+                    position: "fixed",
+                    backgroundColor: "grey",
+                    width: "100%",
+                    height: "100%",
+                    display: "block"
+                  }}>
+                    <header className="jumbotron_text_center">
+                        <img src="/cards_imgs/logo.png" className="main_pic"></img>
+                    </header>
+
+                    <div className="menu_btn">
                         <Link to="/">
                             <Button variant="primary" size="lg" id="connect" onClick={this.googleLogin} > התחבר </Button>
                         </Link>
+                        <Link to="">
+                            <Button variant="primary" size="lg" id="start_game" onClick={this.joinGame}> התחל משחק </Button>
+                        </Link>
                     </div>
-            
+                </div>
+
             )
-            }
+        }
     }
 }
 
