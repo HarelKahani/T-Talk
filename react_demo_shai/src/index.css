@@ -1,8 +1,6 @@
 body {
   margin: 0;
- 
-
-}
+ }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -13,6 +11,41 @@ thead{
 tbody{
   text-align: center;
 }
+
+
+/* Home-page -start */
+
+.jumbotron_text_center{
+  display: block;
+  position: fixed;
+  height: 27%;
+  width: 100%;
+}
+
+.main_pic{
+  height: 100%;
+  width: 27%;
+  margin-left: 36.5%;
+  margin-top: 5%;
+}
+.menu_btn{
+  position: fixed;
+  display: grid;
+  top: 50%;
+  width: 100%;
+  
+}
+#start_game{
+  width: 45%;
+  margin-bottom: 3%;
+  margin-top: 3%;
+}
+#connect{
+  width: 45%;
+}
+/* Home-page -end */
+
+
 /*manage topic syle- start*/
 .subj_container{
   text-align: center;
@@ -61,26 +94,7 @@ tbody{
   text-align: center;
   margin: auto;
 }
-#start_game{
-  display: block;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 45%;
-  margin-top: -7%;
-  margin-left: -22%;
 
-}
-#connect{
-  display: block;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 45%;
-  margin-top: 1%;
-  margin-left: -22%;
-
-}
 
 #path_container {
   margin-top: 4%;
@@ -97,6 +111,7 @@ tbody{
   position: fixed;
   height: 95%;
   width: 75%;
+
 }  
 
 #buttons > Button {
@@ -108,14 +123,6 @@ tbody{
 }
 
 
-.vl {
-  display: block;
-  position: fixed;
-  margin-right: 15.6%;
-  border-left: 10px solid #007BFF;
-  border-radius: 0px;
-  height:100%;
-}
 /*cards style-start*/
 .cards_container{
   display: block;
@@ -347,14 +354,8 @@ button:hover {
 
 #enbale-disable {
   display: block;
-  position: fixed;
-  margin-right: 16%;
-  /* margin-left: 68%; */
-  /* display: flex; */
-  /* float: right; */
+  margin-left: 40%;
+  margin-top: 4%;
+
 }
 
-#disable {
-  margin-right: 0%;
-  /* padding-right: 0%; */
-}

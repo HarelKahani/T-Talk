@@ -52,7 +52,7 @@ export class Cube extends Component {
             <li className="die-item" data-side="5"></li>
             <li className="die-item" data-side="6"></li>
           </ol>
-          <h6 style={{ textAlign: "center" }}>לחץ על הקובייה</h6>
+          <h6 style={{ textAlign: "center" , backgroundColor:"white"}}><b>לחץ על הקובייה</b></h6>
         </div>
       
     );

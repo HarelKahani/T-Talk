@@ -6,6 +6,7 @@ import { myFirestore } from './../pages/HomePage'
 import { storage } from '../pages/HomePage'
 import { Path } from './Path'
 
+
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
 //     console.log(val)
@@ -141,7 +142,16 @@ class Board extends React.Component {
         console.log(this.state.color);
         console.log(this.props.location.gamedata)
         return (
-            <div>
+            <div style={{
+                position: "fixed",
+                backgroundImage: `url(cards_imgs/BG.jpg)`,
+                width: "100%",
+                height: "100%",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+               display: "block"
+              }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
                 <div className="cards_container">
