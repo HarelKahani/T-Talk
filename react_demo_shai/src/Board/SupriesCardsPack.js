@@ -6,7 +6,7 @@ export class CardsPack extends Component {
         super(props);
         //this.getSubjectName = this.getSubjectName.bind(this);
         //this.addSubject = this.addSubject.bind(this);
-        this.state = { addModalShowForTask: false }
+        this.state = { addModalShowForTask: false}
     }
 
     // getSubjectName = event => {
@@ -30,7 +30,7 @@ export class CardsPack extends Component {
                     <CardsModal
                         show={this.state.addModalShowForTask}
                         onHide={addModalCloseTask}
-                        kind = {this.props.kind}
+                        kind= {this.props.kind}
                         title={this.props.title}
                         describe={this.props.describe}
                     />

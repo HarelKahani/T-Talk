@@ -126,6 +126,17 @@ tbody{
 
 }
 
+.sup_cards_container{
+  position: fixed;
+  width: 15%;
+  margin-top: 18%;
+  padding-left: 2%;
+ 
+
+}
+
+
+
 #card_top{
   height: 70%;
   width: 70%;
@@ -135,17 +146,12 @@ tbody{
 
 /*cube style-start*/
 .cube_container{
-  position: relative;
-}
-
-.cube_inner_container{
-  display: block;
   position: fixed;
-  margin-right: -2%;
-  top:70%;
+  width: 15%;
+  margin-top: 33%;
+  margin-left: 5%;
+  padding-left: 2%;
 }
-
-
 
 .dice {
   display: flex;

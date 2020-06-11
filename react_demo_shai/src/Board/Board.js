@@ -52,7 +52,7 @@ class Board extends React.Component {
     setColor = (event)=>{
         myFirestore
         .collection("Games")
-        .doc(this.state.gameData)
+        .doc(this.state.gameData.email)
         .update({cube: event})
         .then(() => {
             console.log("written cube color")
@@ -111,7 +111,16 @@ class Board extends React.Component {
             <div>
                 <div className="vl"></div>
                 <div className="cards_container">
-                    <CardsPack />
+                    <CardsPack kind = {"task"}
+                    title={"משימה"}
+                    describe={"האם תצליחו להשלים את המשימה?"}/>
+
+                </div>
+                <div className="sup_cards_container">
+                    <CardsPack kind = {"suprise"}
+                     title={"קלף הפתעה"}
+                     describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
+                     />
 
                 </div>
                 <div className="cube_container">
