@@ -19,7 +19,6 @@ export default class TableHandler extends Component{
     }
     
     getHeader = function(){
-        // let keys = this.getKeys();
         let keys =["#","שם","תמונה"]
         return keys.map((key, index)=>{
             return <th key={index+30}>{key.toUpperCase()}</th>
@@ -30,12 +29,9 @@ export default class TableHandler extends Component{
         let items = this.props.data.slice().sort((a,b)=>a.index-b.index);
         let keys = this.getKeys();
         return items.map((row, index)=>{
-            console.log(row.name)
-            console.log(row.image)
-            // console.log(index)
             return <tr key={index}>
                         <RenderRow key={index} data={row} keys={keys}/>
-                        <td><img src={row.url} height="200" width="150" alt=""/></td>
+                        <td><img src={row.url} height="200" width="150"/></td>
                         <Button variant="danger" id="delete_card" style={{width: "75px"}} onClick={this.delete_photo}><b>X</b></Button>
                     </tr>
         })
