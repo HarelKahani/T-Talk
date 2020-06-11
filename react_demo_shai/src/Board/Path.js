@@ -126,7 +126,7 @@ export class Path extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button className="suprise_pic" id="button24" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button className="suprise_pic" id="button13" style={{ backgroundColor: '#e91e63', borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button13" style={{ backgroundColor: '#e91e63', borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button14" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button15" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button16" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
@@ -138,7 +138,7 @@ export class Path extends React.Component {
                         <Button id="button22" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button23" style={{ backgroundColor: 'green', borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button id="button12" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button12" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
