@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
 //import { storage } from '../pages/HomePage';
 import {Redirect} from 'react-router-dom';
-import HomePage, { myFirestore, storage, LoggedUser } from './HomePage'
+import HomePage, { myFirestore, storage } from './HomePage'
 
 
 class ChooseTopic extends Component {
-    constructor(props) {
+    constructor(props) { // explanation at the beginning
         super(props);
         this.getSubjectName = this.getSubjectName.bind(this);
         this.getAllSubjectNames = this.getAllSubjectNames.bind(this);
         this.startGame = this.startGame.bind(this)
         this.state = {
+            gameData: this.props.location.gamedata,
+            user: this.props.location.user,
             SubjectNameval: "",
             SubjectName: [],
             addModalShowForSubjUpload: false,
@@ -22,18 +24,18 @@ class ChooseTopic extends Component {
 
     startGame() {
         console.log("start game")
-        console.log(LoggedUser)
+        console.log(this.state.user) // verify loggeduser else alert
 
         const itemMessage = {
-            email: LoggedUser.email,
-            name: LoggedUser.displayName,
+            email: this.state.user.email,
+            name: this.state.user.displayName,
             timeXstamp: String(new Date()),
             content: "Open Game",
         }
         console.log(itemMessage)
         myFirestore
             .collection("Games")
-            .doc(LoggedUser.email)
+            .doc(this.state.user.email)
             .set(itemMessage)
             .then(() => {
                 console.log("written new game")
@@ -111,7 +113,7 @@ class ChooseTopic extends Component {
                 </div>
             )
         } else {
-            return (<Redirect to="/Board"/>);
+            return (<Redirect to={{pathname: "/Board", gamedata: this.state.gamedata, user: this.state.user }}/>); // pass arguments
         }
     }
 }

@@ -18,7 +18,13 @@ class Board extends React.Component {
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.state = { color: 0, ccolor: -1, currentSquare: "button1" };
+        this.state = {
+            gameData: this.props.location.gamedata,
+            user: this.props.location.user,
+            color: 0, 
+            ccolor: -1, 
+            currentSquare: "button1"
+            };
 
         // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
@@ -46,7 +52,7 @@ class Board extends React.Component {
     setColor = (event)=>{
         myFirestore
         .collection("Games")
-        .doc(this.props.location.gamedata.email)
+        .doc(this.state.gameData)
         .update({cube: event})
         .then(() => {
             console.log("written cube color")
