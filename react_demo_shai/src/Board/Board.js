@@ -74,10 +74,9 @@ class Board extends React.Component {
         
         let nextSquare = document.getElementById(`${id}`);
         console.log(`currentSquare ${this.state.currentSquare}`);
-        //if image already in  the square -> do nothing
         this.setState({currentSquare: id}, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `<img src='Pawn.png' width=30%></img>`;
+            nextSquare.innerHTML = `${<img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>}`;
         });
     }
 
@@ -134,10 +133,6 @@ class Board extends React.Component {
         })
     }
 
-    showPath = () => {
-        console.log(this.state)
-        return <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises}/>
-    }
     render() {
         console.log(this.state.color);
         console.log(this.props.location.gamedata)
@@ -148,13 +143,14 @@ class Board extends React.Component {
                 <div className="cards_container">
                     <CardsPack kind = {"task"}
                     title={"משימה"}
-                    describe={"האם תצליחו להשלים את המשימה?"}/>
-
+                    describe={"האם תצליחו להשלים את המשימה?"}
+                    gamedata={this.props.location.gamedata}/>
                 </div>
                 <div className="sup_cards_container">
-                    <CardsPack kind = {"suprise"}
+                    <CardsPack kind = {"surprise"}
                      title={"קלף הפתעה"}
                      describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
+                     gamedata={this.props.location.gamedata}
                      />
 
                 </div>

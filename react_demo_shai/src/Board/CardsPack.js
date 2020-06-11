@@ -1,59 +1,128 @@
 import React, { Component } from 'react';
 import { CardsModal } from './CardsModal'
+import { storage } from '../pages/HomePage'
 
 export class CardsPack extends Component {
     constructor(props) {
         super(props);
-        //this.getSubjectName = this.getSubjectName.bind(this);
-        //this.addSubject = this.addSubject.bind(this);
-        this.state = { addModalShowForTask: false }
+        this.state = { 
+            addModalShowForTask: false,
+            gotlist: false,
+            gotsurprise: false,
+            list: [],
+            surprises: [],
+            topicName: "Shai's_topic",
+            refs: [],
+            sup_refs: [],
+         }
+         this.getCardsList = this.getCardsList.bind(this);
+         this.onClick = this.onClick.bind(this);
+         this.getSurpriseList = this.getSurpriseList.bind(this);
     }
 
-    // getSubjectName = event => {
-    //     this.setState({ SubjectNameval: event.target.value });
-    // };
+    getCardsList = () => {
+        if(this.state.gotlist){
+            console.log(this.state.list)
+            console.log("got list already")
+            return;
+        }
+        let topic = this.state.topicName
+        console.log("in here", this.props.gamedata)
+        if(this.props.gamedata){
+            console.log("got topic name from game data", this.props.gamedata.topic)
+            topic = this.props.gamedata.topic
+        }
+        return storage.ref(`topics/${topic}`).listAll()
+            .then((event) => {
+                console.log(event.items)
+                this.state.refs = event.items
+                console.log(this.state.list)
+            }).then(() => {
+                let arr = []
+                for (let j = 0; j < this.state.refs.length; j++) {
+                    let obj = {}
+                    this.state.refs[j].getDownloadURL()
+                        .then(url => {
+                            obj.url = url;
+                        }).then(() => {
+                            obj.name = this.state.refs[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
+                            obj.index = `${j + 1}`
+                            arr.push(obj)
+                            // this.setState({list: arr})
+                            this.state.list = arr
+                        }).then(()=>{
+                            this.setState({
+                                gotlist: true
+                            })
+                        });
+                } 
+                console.log(this.state)
+                // console.log(this.state.counter)/
+            });
+    }
 
-    // addSubject = ()=>{
-    //     if(this.state.SubjectNameval===""){
-    //         alert("יש להזין שם")
-    //         return;
-    //     }
-    //     this.setState({SubjectName: this.state.SubjectName.concat(this.state.SubjectNameval)})
-    // }
+    getSurpriseList = () => {
+        if(this.state.gotsurprise){
+            console.log(this.state.surprises)
+            console.log("got surprises already")
+            return;
+        }
+        return storage.ref(`surprise/`).listAll()
+            .then((event) => {
+                console.log(event.items)
+                this.state.sup_refs = event.items
+                console.log(this.state.list)
+            }).then(() => {
+                let arr = []
+                for (let j = 0; j < this.state.sup_refs.length; j++) {
+                    let obj = {}
+                    this.state.sup_refs[j].getDownloadURL()
+                        .then(url => {
+                            obj.url = url;
+                        }).then(() => {
+                            obj.board = false;
+                            obj.name = this.state.sup_refs[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
+                            obj.index = `${j + 1}`
+                            if (obj.name.startsWith("board")){
+                                obj.board = true;
+                            }
+                            arr.push(obj)
+                            // this.setState({list: arr})
+                            this.state.surprises = arr
+                        }).then(()=>{
+                            this.setState({
+                                gotsurprise: true
+                            })
+                        });
+                } 
+                console.log(this.state)
+                // console.log(this.state.counter)/
+            });
+    }
+
+    
+    onClick = () => {
+        this.getCardsList();
+        this.getSurpriseList();
+        this.setState({ addModalShowForTask: true })
+    }
 
     render() {
         let addModalCloseTask = () => this.setState({ addModalShowForTask: false });
-
         return (
             <div>
-                <img id="card_top" alt="" src="/cards_imgs/main.png" onClick={() => this.setState({ addModalShowForTask: true })}   />
-                    <CardsModal
-                        show={this.state.addModalShowForTask}
-                        onHide={addModalCloseTask}
-                        kind = {this.props.kind}
-                        title={this.props.title}
-                        describe={this.props.describe}
-                    />
-    
-                {/* <Button variant="primary" id="add_subj" onClick={() => this.setState({ addModalShowForSubjUpload: true })}>הוסף נושא</Button>
-                <AddSubjectModal
-                    describe={"להוספת נושא יש להזין טקסט בתיבת הטקסט המופיע מתחת. לחיצה על 'הוסף' תוסיף את הנושא אל מאגר הנושאים הקיים.."}
-                    title={"הוספת נושא"}
-                    show={this.state.addModalShowForSubjUpload}
-                    onHide={addModalCloseSubjecUp}
-                    transferToTable={this.getSubjectName}
-                    add={this.addSubject}
-                /> */}
-                {/* <AddCardsModal
-                    subjectName=""
-                    title={"הוספת נושא"}
-                    describe = {"להוספת נושא יש לצרף שם לנושא. לחיצה על 'הוסף' תוסיף את הנושא אל טבלת ניהול הנושאים שם יתאפשר להוסיף תמונות. ניתן לחזור על פעולה זו עבור כמות הוספות רצויות."}
-
-                /> */}
-
-
+                <img id="card_top" alt="" src="/cards_imgs/main.png" onClick={this.onClick}   />
+                <CardsModal
+                    show={this.state.addModalShowForTask}
+                    onHide={addModalCloseTask}
+                    kind = {this.props.kind}
+                    title={this.props.title}
+                    describe={this.props.describe}
+                    gamedata={this.props.gamedata}
+                    cards={this.state.list}
+                    surprises={this.state.surprises}
+                />
             </div>
-
         )
     }
 }

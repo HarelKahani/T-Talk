@@ -98,7 +98,6 @@ export class Path extends React.Component {
 
     render() {
         this.fillSurprise()
-        console.log(this.state)
         return (
             <div>
                 <div id="enbale-disable">
