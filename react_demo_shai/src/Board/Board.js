@@ -3,6 +3,7 @@ import { Button, ButtonGroup, ToggleButton, Image } from 'react-bootstrap';
 import { CardsPack } from './CardsPack'
 import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
+import { storage } from '../pages/HomePage'
 
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
@@ -18,8 +19,16 @@ class Board extends React.Component {
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.state = { color: 0, ccolor: -1, currentSquare: "button1" };
+        this.state = { 
+            color: 0,
+            ccolor: -1,
+            currentSquare: "button1",
+            surprises: null,
+        };
+        this.getSurpriseImages();
 
+        let nextSquare = document.getElementById("dis1");
+        nextSquare.innerHTML = `<img src={this.state.surprises[0].url} width="30%"/>`
         // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
@@ -67,7 +76,7 @@ class Board extends React.Component {
         console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({currentSquare: id}, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `${id}`;
+            nextSquare.innerHTML = `${<img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>}`;
         });
     }
 
@@ -97,6 +106,35 @@ class Board extends React.Component {
         }
     }
 
+    getSurpriseImages = () => {
+        let surprise = storage.ref('surprise/')
+        return surprise.listAll().then(event =>{
+            let arr = []
+            let list = event.items
+            list.map((item, index) => {
+                let obj = {}
+                item.getDownloadURL()
+                .then(url => {
+                    obj.url = url;
+                }).then(() =>{
+                    obj.board = false;
+                    obj.name = item.name.replace(".JPG", "").replace(".jpg", "").replace(".png", "");
+                    obj.index = index;
+                    if (obj.name.startsWith("board")){
+                        obj.board = true;
+                    }
+                    arr.push(obj);
+                    this.setState({surprises: arr});
+                    console.log(arr)
+                    let nextSquare = document.getElementById("dis1");
+                    nextSquare.innerHTML = `<img src={arr[0].url} width="30%"/>`
+            }).catch(err => {
+                console.log(err)
+                })
+            });  
+        })
+    }
+
 
     render() {
         console.log(this.state.color);
@@ -123,7 +161,7 @@ class Board extends React.Component {
                 
                 <div id="path_container">
                     <div id="buttons">
-                        <Button disabled></Button>
+                        <Button  id="dis1" style={{ backgroundColor: 'gray'}}></Button>
                         <Button disabled></Button>
                         <Button disabled></Button>
                         <Button disabled></Button>

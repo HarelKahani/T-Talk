@@ -20,7 +20,7 @@ class ChooseTopic extends Component {
         this.getAllSubjectNames();
     }
 
-    startGame() {
+    startGame(topic) {
         console.log("start game")
         console.log(LoggedUser)
 
@@ -29,6 +29,7 @@ class ChooseTopic extends Component {
             name: LoggedUser.displayName,
             timeXstamp: String(new Date()),
             content: "Open Game",
+            topic: topic
         }
         console.log(itemMessage)
         myFirestore
@@ -72,7 +73,7 @@ class ChooseTopic extends Component {
                 <td > {item} </td>
                 <td>
                     <Button
-                        onClick={this.startGame}
+                        onClick={e => this.startGame(item)}
                         variant="outline-primary"
                         style={{ width: "20%" }}>
                         התחל משחק
