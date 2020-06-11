@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import {storage} from '../pages/HomePage'
+import { storage } from '../pages/HomePage'
 
 //define the amount of cards in one pack rotine
-const CARDS_LIMIT=16;
+const CARDS_LIMIT = 16;
 
 export class CardsModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             counter: 1,
             list: null,
             arr: [],
-            topicName: "Shai's_topic"
+            topicName: "Shai's_topic",
+            kind: this.props.kind
             // topicName: this.props.topicname
         }
         this.getList = this.getList.bind(this);
@@ -21,41 +22,40 @@ export class CardsModal extends Component {
 
     getList = () => {
         return storage.ref(`topics/${this.state.topicName}`).listAll()
-        .then((event)=> {
-            console.log(event.items)
-            this.state.list = event.items
-            console.log(this.state.list)
-        }).then(()=>{
-            let arr = []
-            for(let j=0; j< this.state.list.length; j++){
-                let obj = {}
-                this.state.list[j].getDownloadURL()
-                .then( url => {
-                    obj.url = url;
-                }).then(() =>{
-                    obj.name = this.state.list[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
-                    obj.index = `${j+1}`
-                    arr.push(obj)
-                    this.state.arr = arr
-                });  
-            }
-            console.log(this.state.arr)
-            console.log(this.state.counter)
-        });
+            .then((event) => {
+                console.log(event.items)
+                this.state.list = event.items
+                console.log(this.state.list)
+            }).then(() => {
+                let arr = []
+                for (let j = 0; j < this.state.list.length; j++) {
+                    let obj = {}
+                    this.state.list[j].getDownloadURL()
+                        .then(url => {
+                            obj.url = url;
+                        }).then(() => {
+                            obj.name = this.state.list[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
+                            obj.index = `${j + 1}`
+                            arr.push(obj)
+                            this.state.arr = arr
+                        });
+                }
+                console.log(this.state.arr)
+                console.log(this.state.counter)
+            });
     }
 
 
     onClick = () => {
         this.getList();
         this.props.onHide();
-        this.setState( {counter: this.state.counter += 1});
-        if(this.state.counter > CARDS_LIMIT){
-            this.setState( {counter: 0});
+        this.setState({ counter: this.state.counter += 1 });
+        if (this.state.counter > CARDS_LIMIT) {
+            this.setState({ counter: 0 });
         }
     }
 
     render() {
-        
         return (
             <div>
                 <Modal
@@ -67,11 +67,14 @@ export class CardsModal extends Component {
                 >
                     <Modal.Header>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            <b>משימה</b>
+                            <b>{this.props.title}</b>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <h5 style={{ textAlign: "center" }}> {this.props.describe} </h5>
+                        <hr></hr>
                         <img src={"../cards/public/1.jpg"}></img>
+                        {this.state.kind}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button type="submit" onClick={this.onClick} style={{ width: "20%" }}>המשך</Button>

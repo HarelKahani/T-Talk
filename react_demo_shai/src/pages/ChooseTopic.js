@@ -114,7 +114,7 @@ class ChooseTopic extends Component {
                 </div>
             )
         } else {
-            return (<Redirect to={{pathname: "/Board", gamedata: this.state.gamedata, user: this.state.user }}/>); // pass arguments
+            return (<Redirect to={{pathname: "/User_Board", gamedata: this.state.gamedata, user: this.state.user }}/>); // pass arguments
         }
     }
 }

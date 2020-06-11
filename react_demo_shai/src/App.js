@@ -28,7 +28,6 @@ class App extends Component {
             <Route path="/ChooseTopic" component={ChooseTopic} />
             <Route path="/ManageTopic" component={ManageTopic} />
             <Route path="/ManageSupriseCard" component={ManageSupriseCard} />
-            <Route path="/Board" component={Board} />
           </div>
          
           <Route path="/404" component={NotFoundPage} />

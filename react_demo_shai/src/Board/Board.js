@@ -145,7 +145,17 @@ class Board extends React.Component {
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
                 <div className="cards_container">
-                    <CardsPack />
+                    <CardsPack kind = {"task"}
+                    title={"משימה"}
+                    describe={"האם תצליחו להשלים את המשימה?"}/>
+
+                </div>
+                <div className="sup_cards_container">
+                    <CardsPack kind = {"suprise"}
+                     title={"קלף הפתעה"}
+                     describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
+                     />
+
                 </div>
                 <div className="cube_container">
                     <Cube color={this.setColor} ccolor={this.state.ccolor}/>
