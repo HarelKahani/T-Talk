@@ -39,13 +39,20 @@ export class Path extends React.Component {
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
 
+        console.log(`this is current ${this.state.currentSquare}`)
+
+        if (this.state.currentSquare === id) {
+            console.log('have the same id');
+            return;
+        }
         document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
 
         let nextSquare = document.getElementById(`${id}`);
         console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `${<img src='Pawn.png' style={{ width: '30%', visibility: 'visible' }} ></img>}`;
+            let curr = nextSquare.innerHTML;
+            nextSquare.innerHTML = `${curr} <img class='pawn' src='Pawn.png' width=30% color=${color} id=${id}></img>`;
         });
     }
 
@@ -78,17 +85,19 @@ export class Path extends React.Component {
     fillSurprise = () => {
         const classes = document.getElementsByClassName("suprise_pic")
         const ids = Array.from(classes)
-        ids.map((item, index) => {
-            console.log()
-            if (this.props.surprises !== null && this.props.surprises[index] !== undefined) {
-                item.innerHTML = `<img src=${this.props.surprises[index].url} width=85% height=85%/>`;
+        ids.map((item, index)=>{
+            console.log(item.id, item.style.backgroundColor)
+            if(this.props.surprises !== null && this.props.surprises[index] !== undefined){
+                const pic = this.props.surprises[index].url
+                item.style = `background-image: url(${pic}); background-size: 85% 85%; background-repeat: no-repeat; background-position: 50% 50%; background-color: ${item.style.backgroundColor};`;
+                // item.innerHTML = `<img class="sup_img" src=${this.props.surprises[index].url} width=100% color=${item.style.backgroundColor} id=${item.id}></img>`;
+             
             }
         });
     }
 
     render() {
         this.fillSurprise()
-        console.log(this.state)
         return (
             <div>
 
@@ -153,8 +162,8 @@ export class Path extends React.Component {
                         <Button id="button2" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
-                        <Button id="button1" style={{ backgroundColor: 'yellow', borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            button1
+                        <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                            {/* button1 */}
                             {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
                         </Button>
                         <div id="enbale-disable">
