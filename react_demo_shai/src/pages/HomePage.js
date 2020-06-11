@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import { BrowserRouter as Link,Redirect } from "react-router-dom";
 import * as firebase from 'firebase';
 let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
-let LoggedUser = false
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
 //
@@ -36,7 +35,6 @@ class HomePage extends Component {
     constructor() {
         super();
         this.state = {LoggedIn: false, FoundGame: false}
-        LoggedUser = false
         this.googleLogin = this.googleLogin.bind(this)
         this.joinGame = this.joinGame.bind(this)
     }
@@ -48,16 +46,15 @@ class HomePage extends Component {
                 if (accepted_emails.includes(user.email)) {
                     console.log(user)
                     console.log("ACCEPTED")
-                    LoggedUser = user
                     this.setState({LoggedIn: user})
                  }
                 else {
                     console.log("DENIED");
                     console.log("TRY AGAIN");
-                   
+                   // alert unrecognized user
                  }
             })
-            .catch(console.log)
+            .catch(console.log) //recieve error and alert it
     }
     joinGame() {
         let GamesRef = myFirestore.collection('Games');
@@ -88,12 +85,12 @@ class HomePage extends Component {
     }
     render() {
             if (this.state.FoundGame) {
-                return(<Redirect to={{pathname: "/User_Board", gamedata: this.state.FoundGame }}/>);
+                return(<Redirect to={{pathname: "/User_Board", gamedata: this.state.FoundGame , user: this.state.LoggedIn}}/>);
             }
             if (this.state.LoggedIn) {
                 console.log("HERE")
                 console.log(this.state.LoggedIn);
-                return(<Redirect to="/ChooseTopic" />);
+                return(<Redirect to={{pathname: "/ChooseTopic", gamedata: this.state.FoundGame , user: this.state.LoggedIn}} />); // give LoggedIn as argument
             }
             else {
             return (
@@ -112,4 +109,4 @@ class HomePage extends Component {
 }
 
 export default HomePage
-export { storage, firebase, myFirestore, LoggedUser }
+export { storage, firebase, myFirestore }
