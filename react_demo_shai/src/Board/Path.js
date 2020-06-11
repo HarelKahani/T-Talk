@@ -39,13 +39,20 @@ export class Path extends React.Component {
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
 
+        console.log(`this is current ${this.state.currentSquare}`)
+
+        if (this.state.currentSquare === id) {
+            console.log('have the same id');
+            return;
+        }
         document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
         
         let nextSquare = document.getElementById(`${id}`);
         console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({currentSquare: id}, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `${<img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>}`;
+            let curr = nextSquare.innerHTML;
+            nextSquare.innerHTML = `${curr} <img class='pawn' src='Pawn.png' width=30% color=${color} id=${id}></img>`;
         });
     }
 
@@ -79,9 +86,12 @@ export class Path extends React.Component {
         const classes = document.getElementsByClassName("dis")
         const ids = Array.from(classes)
         ids.map((item, index)=>{
-            console.log()
+            console.log(item.id, item.style.backgroundColor)
             if(this.props.surprises !== null && this.props.surprises[index] !== undefined){
-                item.innerHTML = `<img src=${this.props.surprises[index].url} width=100%/>`;
+                const pic = this.props.surprises[index].url
+                item.style = `background-image: url(${pic}); background-size: 85% 85%; background-repeat: no-repeat; background-position: 50% 50%; background-color: ${item.style.backgroundColor};`;
+                // item.innerHTML = `<img class="sup_img" src=${this.props.surprises[index].url} width=100% color=${item.style.backgroundColor} id=${item.id}></img>`;
+             
             }
         });   
     }
@@ -108,7 +118,7 @@ export class Path extends React.Component {
                         <Button disabled></Button>
                         <Button disabled></Button>
                         <Button id="button30" style={{ backgroundColor: 'yellow' ,borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button class="dis"  id="button29" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="dis"  id="button29" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button28" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button27" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button id="button26" style={{ backgroundColor: 'pink' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
@@ -162,7 +172,7 @@ export class Path extends React.Component {
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
                         <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
-                            button1
+                            {/* button1 */}
                             {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
                         </Button>
                     </div>

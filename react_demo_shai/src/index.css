@@ -323,6 +323,16 @@ tbody{
   grid-area: nine;
 }
 
+.sup_img {
+  position: relative;
+    z-index: 1;
+}
+
+.pawn::after {
+  position: relative;
+  z-index: 2;
+}
+
 button {
   align-self: center;
   background-color: #efefef;
