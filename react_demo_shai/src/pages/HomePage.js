@@ -90,7 +90,7 @@ class HomePage extends Component {
             if (this.state.LoggedIn) {
                 console.log("HERE")
                 console.log(this.state.LoggedIn);
-                return(<Redirect to={{pathname: "/ChooseTopic", gamedata: this.state.FoundGame , user: this.state.LoggedIn}} />); // give LoggedIn as argument
+                return(<Redirect to={{pathname: "/ChooseTopic" , user: this.state.LoggedIn}} />); // give LoggedIn as argument
             }
             else {
             return (

@@ -23,8 +23,7 @@ class Board extends React.Component {
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
-            color: 0, 
-            ccolor: -1, 
+            color: -1, 
             currentSquare: "button1",
             surprises: null
             };
@@ -42,7 +41,7 @@ class Board extends React.Component {
                 console.log('Modified: ', change.doc.data());
                 if (change.doc.data().cube != this.state.color) {   
                     console.log(change.doc.data().cube)
-                    this.setState({ccolor: change.doc.data().cube})
+                    this.setState({color: change.doc.data().cube})
                 }
             }
             if (change.type === 'removed') {
@@ -58,12 +57,12 @@ class Board extends React.Component {
         .doc(this.state.gameData.email)
         .update({cube: event})
         .then(() => {
+            this.setState({ color: event });
             console.log("written cube color")
         })
         .catch(err => {
             console.log("something went wrong", err)
         })
-        this.setState({ color: event });
     };
 
     handleClick = (id, color) => {
@@ -159,7 +158,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container">
-                    <Cube color={this.setColor} ccolor={this.state.ccolor}/>
+                    <Cube setColor={this.setColor} color={this.state.color}/>
                 </div>
                 <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises}/>
             </div>

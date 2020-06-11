@@ -12,7 +12,7 @@ class ChooseTopic extends Component {
         this.getAllSubjectNames = this.getAllSubjectNames.bind(this);
         this.startGame = this.startGame.bind(this)
         this.state = {
-            gameData: this.props.location.gamedata,
+            gameData: false,
             user: this.props.location.user,
             SubjectNameval: "",
             SubjectName: [],
@@ -33,6 +33,7 @@ class ChooseTopic extends Component {
             content: "Open Game",
             topic: topic
         }
+        this.setState({gameData: itemMessage})
         console.log(itemMessage)
         myFirestore
             .collection("Games")
@@ -114,7 +115,7 @@ class ChooseTopic extends Component {
                 </div>
             )
         } else {
-            return (<Redirect to={{pathname: "/User_Board", gamedata: this.state.gamedata, user: this.state.user }}/>); // pass arguments
+            return (<Redirect to={{pathname: "/User_Board", gamedata: this.state.gameData, user: this.state.user }}/>); // pass arguments
         }
     }
 }

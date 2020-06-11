@@ -21,29 +21,33 @@ export class Cube extends Component {
   constructor(props) {
       super(props);
       this.rollDice = this.rollDice.bind(this);
+      this.state = {clicked: false}
     }
      
     rollDice() {
       const dice = [...document.querySelectorAll(".die-list")];
+      let bandage = 1
       dice.forEach(die => {
         toggleClasses(die);
-        if (this.props.ccolor === -1) {
+        if (this.state.clicked && bandage > 0) {
           die.dataset.roll = getRandomNumber(1, 6);
-          this.props.color(die.dataset.roll);
-        } else {
-          die.dataset.roll = this.props.ccolor;
+          this.props.setColor(die.dataset.roll);
+          this.state.clicked = false
+          bandage--;
+        } else if (bandage > 0)  {
+          die.dataset.roll = this.props.color;
+          bandage--;
         }
         console.log(die.dataset.roll)
       });
     }
   render() {
-    console.log("redid cube", this.props.ccolor)
-    if (this.props.ccolor != -1) {
+    console.log("redid cube", this.props.color)
+    if (this.props.color != -1 && !this.state.clicked) {
       this.rollDice()
     }
     return (
-      
-        <div className="dice" onClick={this.rollDice}>
+        <div className="dice" onClick={() => { this.state.clicked = true; this.rollDice() }}>
           <ol className="die-list even-roll" data-roll="1" id="die-1">
             <li className="die-item" data-side="1"></li>
             <li className="die-item" data-side="2"></li>
