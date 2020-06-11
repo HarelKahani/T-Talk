@@ -244,28 +244,51 @@ tbody{
 }
 [data-side="1"] {
   transform: rotate3d(0, 0, 0, 90deg) translateZ(4rem);
-  background: yellow;
+  background: #EEFF08;
+  background: -moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%);
+  background: -webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%);
+  background: radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%);
 }
 [data-side="2"] {
   transform: rotate3d(-1, 0, 0, 90deg) translateZ(4rem);
-  background: red;
+  background: #FF0000;
+  background: -moz-radial-gradient(center, #FF0000 0%, #680909 99%, #FF0000 100%);
+  background: -webkit-radial-gradient(center, #FF0000 0%, #680909 99%, #FF0000 100%);
+  background: radial-gradient(ellipse at center, #FF0000 0%, #680909 99%, #FF0000 100%);
 }
 [data-side="3"] {
   transform: rotate3d(0, 1, 0, 90deg) translateZ(4rem);
-  background: green;
+  background: #3AFF12;
+  background: -moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%);
+  background: -webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%);
+  background: radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%);
 }
 [data-side="4"] {
   transform: rotate3d(0, -1, 0, 90deg) translateZ(4rem);
-  background: pink;
+  background: #FF31EA;
+  background: -moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%);
+  background: -webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%);
+  background: radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%);
 }
 [data-side="5"] {
   transform: rotate3d(1, 0, 0, 90deg) translateZ(4rem);
-  background: blue;
+  background: #2222FF;
+  background: -moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%);
+  background: -webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%);
+  background: radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%);
 }
+
+
+
 [data-side="6"] {
   transform: rotate3d(1, 0, 0, 180deg) translateZ(4rem);
-  background: lightblue;
+  background: #FFD500;
+  background: -moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%);
+  background: -webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%);
+  background: radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%);
 }
+
+
 [data-side="1"] .dot:nth-of-type(1) {
   grid-area: five;
 }

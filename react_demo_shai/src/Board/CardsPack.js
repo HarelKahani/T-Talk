@@ -111,7 +111,7 @@ export class CardsPack extends Component {
         let addModalCloseTask = () => this.setState({ addModalShowForTask: false });
         return (
             <div>
-                <img id="card_top" alt="" src="/cards_imgs/main.png" onClick={this.onClick}   />
+                <img id="card_top" alt="" src={this.props.img} onClick={this.onClick}   />
                 <CardsModal
                     show={this.state.addModalShowForTask}
                     onHide={addModalCloseTask}

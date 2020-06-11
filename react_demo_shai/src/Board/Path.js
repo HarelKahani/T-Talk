@@ -86,7 +86,7 @@ export class Path extends React.Component {
         const classes = document.getElementsByClassName("suprise_pic")
         const ids = Array.from(classes)
         ids.map((item, index)=>{
-            console.log(item.id, item.style.backgroundColor)
+            //console.log(item.id, item.style.backgroundColor)
             if(this.props.surprises !== null && this.props.surprises[index] !== undefined){
                 const pic = this.props.surprises[index].url
                 item.style = `background-image: url(${pic}); background-size: 85% 85%; background-repeat: no-repeat; background-position: 50% 50%; background-color: ${item.style.backgroundColor};`;
@@ -98,6 +98,11 @@ export class Path extends React.Component {
 
     render() {
         this.fillSurprise()
+        let yellow_style = {background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)"};
+        let blue_style = { background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)" };
+        let pink_style = {background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)"}
+        let green_style= {  background: "#3AFF12", background: "-moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "-webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%)"}
+        let orange_style={background: "#FFD500", background: "-moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "-webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)"}
         return (
             <div>
 
@@ -108,12 +113,12 @@ export class Path extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button id="button30" style={{ backgroundColor: 'yellow', borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic" id="button29" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button28" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button27" style={{ backgroundColor: 'rgba(33, 150, 243, 0.75)' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button26" style={{ backgroundColor: 'rgba(233, 30, 99, 0.75)' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button25" style={{ backgroundColor: 'lightblue', borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button30" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button29" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button28" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button27" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button26" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button25" style={{background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -124,21 +129,21 @@ export class Path extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button className="suprise_pic" id="button24" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button24" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button id="button13" style={{ backgroundColor: '#e91e63', borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button14" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button15" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button16" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic" id="button17" style={{ backgroundColor: '#e91e63' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button18" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button19" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button20" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button21" style={{ backgroundColor: '#e91e63' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button22" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button23" style={{ backgroundColor: 'green', borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button13" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button14" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button15" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button16" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button17" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button18" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button19" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button20" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button21" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button22" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button23" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button className="suprise_pic" id="button12" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button12" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -150,19 +155,19 @@ export class Path extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <br />
-                        <Button id="button11" style={{ backgroundColor: 'yellow', borderRadius: "0px 0px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button10" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button9" style={{ backgroundColor: '#e91e63' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button8" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic" id="button7" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button6" style={{ backgroundColor: 'yellow' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button5" style={{ backgroundColor: 'lightblue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button4" style={{ backgroundColor: '#e91e63' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic" id="button3" style={{ backgroundColor: 'blue' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button id="button2" style={{ backgroundColor: 'green' }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                        <Button id="button11" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", borderRadius: "0px 0px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button10" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button9" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button8" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button7" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button6" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button5" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button4" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button className="suprise_pic" id="button3" style={{background:"#00008B" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button id="button2" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
-                        <Button id="button1" style={{ backgroundColor: 'yellow' , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                        <Button id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* button1 */}
                             {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
                         </Button>

@@ -16,7 +16,7 @@ class Board extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("props:",props)
+        console.log("props:", props)
         //this.getSubjectName = this.getSubjectName.bind(this);
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
@@ -24,46 +24,46 @@ class Board extends React.Component {
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
-            color: -1, 
+            color: -1,
             currentSquare: "button1",
             surprises: null
-            };
+        };
         this.getSurpriseImages()
         // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
         let observer = query
-        .onSnapshot(querySnapshot => {
-            querySnapshot.docChanges().forEach(change => {
-            if (change.type === 'added') {
-                console.log('New: ', change.doc.data());
-            }
-            if (change.type === 'modified') {
-                console.log('Modified: ', change.doc.data());
-                if (change.doc.data().cube != this.state.color) {   
-                    console.log(change.doc.data().cube)
-                    this.setState({color: change.doc.data().cube})
-                }
-            }
-            if (change.type === 'removed') {
-                console.log('Removed: ', change.doc.data());
-            }
+            .onSnapshot(querySnapshot => {
+                querySnapshot.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        console.log('New: ', change.doc.data());
+                    }
+                    if (change.type === 'modified') {
+                        console.log('Modified: ', change.doc.data());
+                        if (change.doc.data().cube != this.state.color) {
+                            console.log(change.doc.data().cube)
+                            this.setState({ color: change.doc.data().cube })
+                        }
+                    }
+                    if (change.type === 'removed') {
+                        console.log('Removed: ', change.doc.data());
+                    }
+                });
             });
-        });
     }
 
-    setColor = (event)=>{
+    setColor = (event) => {
         myFirestore
-        .collection("Games")
-        .doc(this.state.gameData.email)
-        .update({cube: event})
-        .then(() => {
-            this.setState({ color: event });
-            console.log("written cube color")
-        })
-        .catch(err => {
-            console.log("something went wrong", err)
-        })
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ cube: event })
+            .then(() => {
+                this.setState({ color: event });
+                console.log("written cube color")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
     };
 
     handleClick = (id, color) => {
@@ -71,12 +71,12 @@ class Board extends React.Component {
         console.log(`this is color ${color}`);
 
         document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
-        
+
         let nextSquare = document.getElementById(`${id}`);
         console.log(`currentSquare ${this.state.currentSquare}`);
-        this.setState({currentSquare: id}, () => {
+        this.setState({ currentSquare: id }, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
-            nextSquare.innerHTML = `${<img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>}`;
+            nextSquare.innerHTML = `${<img src='Pawn.png' style={{ width: '30%', visibility: 'visible' }} ></img>}`;
         });
     }
 
@@ -97,7 +97,7 @@ class Board extends React.Component {
             buttonArray.map((button) => {
                 button.disabled = false;
             });
-        } 
+        }
         if (id === `disable`) {
             console.log(`disable was pressed`);
             buttonArray.map((button) => {
@@ -108,28 +108,28 @@ class Board extends React.Component {
 
     getSurpriseImages = () => {
         let surprise = storage.ref('surprise/')
-        return surprise.listAll().then(event =>{
+        return surprise.listAll().then(event => {
             let arr = []
             let list = event.items
             list.map((item, index) => {
                 let obj = {}
                 item.getDownloadURL()
-                .then(url => {
-                    obj.url = url;
-                }).then(() =>{
-                    obj.board = false;
-                    obj.name = item.name.replace(".JPG", "").replace(".jpg", "").replace(".png", "");
-                    obj.index = index;
-                    if (obj.name.startsWith("board")){
-                        obj.board = true;
-                    }
-                    arr.push(obj);
-                    this.setState({surprises: arr});
-                    console.log(arr)
-            }).catch(err => {
-                console.log(err)
-                })
-            });  
+                    .then(url => {
+                        obj.url = url;
+                    }).then(() => {
+                        obj.board = false;
+                        obj.name = item.name.replace(".JPG", "").replace(".jpg", "").replace(".png", "");
+                        obj.index = index;
+                        if (obj.name.startsWith("board")) {
+                            obj.board = true;
+                        }
+                        arr.push(obj);
+                        this.setState({ surprises: arr });
+                        console.log(arr)
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            });
         })
     }
 
@@ -145,28 +145,30 @@ class Board extends React.Component {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
-               display: "block"
-              }}>
+                display: "block"
+            }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
                 <div className="cards_container">
-                    <CardsPack kind = {"task"}
-                    title={"משימה"}
-                    describe={"האם תצליחו להשלים את המשימה?"}
-                    gamedata={this.props.location.gamedata}/>
+                    <CardsPack kind={"task"}
+                        img={"/cards_imgs/suprise.jpeg"}
+                        title={"משימה"}
+                        describe={"האם תצליחו להשלים את המשימה?"}
+                        gamedata={this.props.location.gamedata} />
                 </div>
                 <div className="sup_cards_container">
-                    <CardsPack kind = {"surprise"}
-                     title={"קלף הפתעה"}
-                     describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
-                     gamedata={this.props.location.gamedata}
-                     />
+                    <CardsPack kind={"surprise"}
+                        img={"/cards_imgs/main.png"}
+                        title={"קלף הפתעה"}
+                        describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
+                        gamedata={this.props.location.gamedata}
+                    />
 
                 </div>
                 <div className="cube_container">
-                    <Cube setColor={this.setColor} color={this.state.color}/>
+                    <Cube setColor={this.setColor} color={this.state.color} />
                 </div>
-                <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises}/>
+                <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} />
             </div>
         )
     }
