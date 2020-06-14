@@ -3,6 +3,10 @@ import { Button, Table } from 'react-bootstrap';
 //import { storage } from '../pages/HomePage';
 import {Redirect} from 'react-router-dom';
 import HomePage, { myFirestore, storage } from './HomePage'
+import * as firebase from 'firebase';
+
+
+let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 
 
 class ChooseTopic extends Component {
@@ -11,33 +15,54 @@ class ChooseTopic extends Component {
         this.getSubjectName = this.getSubjectName.bind(this);
         this.getAllSubjectNames = this.getAllSubjectNames.bind(this);
         this.startGame = this.startGame.bind(this)
+        this.googleLogin = this.googleLogin.bind(this)
         this.state = {
             gameData: false,
             user: this.props.location.user,
             SubjectNameval: "",
             SubjectName: [],
             addModalShowForSubjUpload: false,
-            gameStart: false
+            gameStart: false,
+            LoggedIn: false, 
+            FoundGame: false
         }
         this.getAllSubjectNames();
     }
+    googleLogin(topic) {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        return firebase.auth().signInWithPopup(provider)
+            .then(result => {
+                const user = result.user
+                if (accepted_emails.includes(user.email)) {
+                    console.log(user)
+                    console.log("ACCEPTED")
+                    this.setState({ LoggedIn: user })
+                    this.startGame(topic);
+                }
+                else {
+                    console.log("DENIED");
+                    console.log("TRY AGAIN");
+                    // alert unrecognized user
+                }
+            })
+            .catch(console.log) //recieve error and alert it
+    }
+   
 
     startGame(topic) {
         console.log("start game")
-        console.log(this.state.user) // verify loggeduser else alert
-
+        console.log(this.state.LoggedIn) // verify loggeduser else alert
         const itemMessage = {
-            email: this.state.user.email,
-            name: this.state.user.displayName,
+            email: this.state.LoggedIn.email,
+            name: this.state.LoggedIn.displayName,
             timeXstamp: String(new Date()),
             content: "Open Game",
             topic: topic
         }
         this.setState({gameData: itemMessage})
-        console.log(itemMessage)
         myFirestore
             .collection("Games")
-            .doc(this.state.user.email)
+            .doc(this.state.LoggedIn.email)
             .set(itemMessage)
             .then(() => {
                 console.log("written new game")
@@ -76,7 +101,7 @@ class ChooseTopic extends Component {
                 <td > {item} </td>
                 <td>
                     <Button
-                        onClick={e => this.startGame(item)}
+                        onClick={e => this.googleLogin(item)}
                         variant="outline-primary"
                         style={{ width: "20%" }}>
                         התחל משחק
@@ -97,7 +122,9 @@ class ChooseTopic extends Component {
 
 
     render() {
+        
         if (!this.state.gameStart) {
+            console.log(this.state.user)
             return (
                 <div>
                     <Table striped bordered hover>

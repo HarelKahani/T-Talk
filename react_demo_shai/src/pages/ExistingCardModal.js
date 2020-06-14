@@ -26,7 +26,7 @@ export class ExistingCardModal extends Component {
           </Modal.Title>
           </Modal.Header>
           <Modal.Body >
-              <h5 style={{ textAlign: "center"}}> כאן מופיעים כלל הכרטיסים הקיימים בנושא הנבחר. לחיצה על "X" תסיר את הכרטיס הנבחר מהנושא. </h5>
+              <h5 style={{ textAlign: "center"}}>להצגת הקלפים עבור הנושא הנבחר יש ללחוץ על "הצג תמונות", מיד עם הלחיצה יופיעו כלל הכרטיסים הקיימים בנושא הנבחר. לחיצה על "X" תסיר את הכרטיס הנבחר מהנושא. </h5>
             <hr></hr>
             <div className="container">
               <Table striped bordered hover>
