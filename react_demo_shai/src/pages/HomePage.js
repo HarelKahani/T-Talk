@@ -71,7 +71,7 @@ class HomePage extends Component {
                     let now = new Date()
                     let timedelta = (now - queryTime) / 1000
                     console.log(timedelta)
-                    if (timedelta < 9999999999999 && doc.data().content == "Open Game") {
+                    if (timedelta < 60 && doc.data().content == "Open Game") {
                         console.log(`Joining ${doc.data().name}'s game`)
                         this.setState({ FoundGame: doc.data() })
                     }

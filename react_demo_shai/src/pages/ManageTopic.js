@@ -20,21 +20,22 @@ class ManageTopic extends Component {
         this.getAllSubjectNames();
     }
 
-    getAllSubjectNames = () => {
-        console.log("erererererrerer")
+    getAllSubjectNames = async () => {
         let topics = storage.ref('topics/')
         console.log(topics)
-        return topics.listAll().then(event =>{
-            let list = event.prefixes
+        try {
+            const event = await topics.listAll();
+            let list = event.prefixes;
             console.log(list);
             list.map((item, index) => {
                 this.setState({
                     SubjectName: this.state.SubjectName.concat(item.name)
-                })
-            })
-        }).catch(err => {
-            console.log(err)
-        });  
+                });
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }  
     }
 
     getSubjectName = event => {
@@ -53,11 +54,11 @@ class ManageTopic extends Component {
     showRow = (i) => {                       
         let topics = this.state.SubjectName
         return topics.map((item, index)=>{
-            return <tr>
+            return <tr  key={index+1}>
                 <td>{index+1}</td>
                 <td > {item} </td>
                 <td>
-                    <TopicsButtons topicName={item}/>
+                    <TopicsButtons topicName={item} refresh={() => {alert("הנושא נמחק בהצלחה. לחץ שוב על ניהול נושאים בכדי לראות רשימה מעודכנת"); this.setState({SubjectName:[]}); this.getAllSubjectNames(); }}/>
                 </td>
             </tr>
         })
@@ -73,7 +74,6 @@ class ManageTopic extends Component {
     }
     
     render() {
-        // this.getAllSubjectNames();
         let addModalCloseSubjecUp = () => this.setState({ addModalShowForSubjUpload: false });
         return (
             <div>
@@ -83,7 +83,6 @@ class ManageTopic extends Component {
                             <th >#</th>
                             <th>שם הנושא</th>
                             <th>ניהול נושא</th>
-                            {/* <th>הוספת תמונה</th> */}
                         </tr>
                     </thead>
                     <tbody>
