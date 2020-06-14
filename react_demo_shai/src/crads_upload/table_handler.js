@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Table} from 'react-bootstrap';
+import { storage } from '../pages/HomePage';
 
 export default class TableHandler extends Component{
     constructor(props){
@@ -7,11 +8,47 @@ export default class TableHandler extends Component{
         this.getHeader = this.getHeader.bind(this);
         this.getRowsData = this.getRowsData.bind(this);
         this.getKeys = this.getKeys.bind(this);
+        this.state = {
+            topicName: this.props.topicname
+        }
     }
     
-    //TODO: add deletion
-    delete_photo = function(){
-        alert("למחוק תמונה?");
+    delete_photo = (name) => {
+        console.log("name is", name);
+        if(name === undefined){
+            alert("בעיית תקשורת. נא לנסות שוב")
+        }
+        if(window.confirm(`האם למחוק את ${name} לצמיתות מהמאגר?`)) {
+            console.log("approve")
+            this.deleteForGood(name);
+            this.props.list();
+        }
+        else{
+            alert("התמונה לא נמחקה");
+            console.log("deny");
+        }
+    }
+
+    deleteForGood = (name) => {
+        storage.ref(`topics/${this.state.topicName}/${name}.JPG`).delete()
+        .then(() =>{
+            console.log("delete JPG was a success")
+        }).catch((err) => {
+            console.log("error")
+            console.log(err)
+            storage.ref(`topics/${this.state.topicName}/${name}.jpg`).delete()
+            .then(()=>{
+                console.log("deleted jpg was a success");
+            }).catch((err) =>{
+                console.log(err)
+                storage.ref(`topics/${this.state.topicName}/${name}.png`).delete()
+                .then(()=>{
+                    console.log("deleted png  was a success");
+                }).catch((err) =>{
+                    console.log(err)
+                });
+            });
+        });
     }
 
     getKeys = function(){
@@ -31,8 +68,15 @@ export default class TableHandler extends Component{
         return items.map((row, index)=>{
             return <tr key={index}>
                         <RenderRow key={index} data={row} keys={keys}/>
-                        <td><img src={row.url} height="200" width="150"/></td>
-                        <Button variant="danger" id="delete_card" style={{width: "75px"}} onClick={this.delete_photo}><b>X</b></Button>
+                        <td key={index*17+1}><img src={row.url} height="200" width="150"/></td>
+                        <Button 
+                        variant="danger" 
+                        id="delete_card" 
+                        name = {row.name}
+                        style={{width: "75px"}} 
+                        onClick={e => this.delete_photo(e.target.name)}>
+                            <b>X</b>
+                        </Button>
                     </tr>
         })
     }

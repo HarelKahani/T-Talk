@@ -56,9 +56,12 @@ export class TopicsButtons extends Component {
             />
             <Button variant="outline-primary" id="delete_subject" onClick={() => this.setState({ addModalShowForDelete: true, isSubject: true })} >מחק נושא</Button>
             <DeleteDialog
-                topicName={this.state.topicName}
+                topicname={this.state.topicName}
                 show={this.state.addModalShowForDelete}
-                onHide={addModalCloseDelete}
+                onHide={()=>{addModalCloseDelete(); this.props.refresh()}}
+                title={"מחיקת נושא"}
+                describe={"לחיצה על 'מחק' תמחק לצמיתות מהמאגר את הנושא ואת כל התמונות שלו. האם למחוק?"}
+
             />
         </ButtonToolbar>
         )
