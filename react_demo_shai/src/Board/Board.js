@@ -31,6 +31,7 @@ class Board extends React.Component {
         this.setColor = this.setColor.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.fillSurprise = this.fillSurprise.bind(this);
+        this.findClosestSquare = this.findClosestSquare.bind(this);
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
@@ -40,7 +41,8 @@ class Board extends React.Component {
             therapistSquare: "button1",
             currentCard: -1,
             currentSuprise: -1,
-            surprises: null
+            surprises: null,
+            desiredId: null
         };
         this.getSurpriseImages()
         // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
@@ -57,10 +59,10 @@ class Board extends React.Component {
                         if (change.doc.data().cube != this.state.color) {
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                             this.setState({ color: change.doc.data().cube })
-                            // console.log(`this is state color ${this.state.color}`);
+                            console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
                                 let desiredId = this.findClosestSquare();
-                                this.disableNotRelevantSquares(desiredId);
+                                // this.disableNotRelevantSquares(desiredId);
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                         }
@@ -93,7 +95,7 @@ class Board extends React.Component {
         
         for (let i = 1; i < 31; i++) {
             let square = document.getElementById(`button${i}`);
-            console.log('this is square/////////////////////////////', square);
+            // console.log('this is square/////////////////////////////', square);
             if (square.getAttribute('id') === desiredId) {
                 square.disabled = false;
                 continue;
@@ -104,11 +106,15 @@ class Board extends React.Component {
     }
 
     findClosestSquare = () => {
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2');
          //1. when cube color change => to translate the number to that in this.state.color from the numbersToColors array
          //2. to fill up array with all button's ids beside the current square
          //the current square is in this.state.currentSquare
          //3. after array is full with the ids => loop through the array and disable all buttons in it
         // let buttonArray =[];
+
+        console.log('this is state.color %%%%%%%%%%%%%%%%%', this.state.color);
+
         let cubeColor = NumbersToColors[this.state.color];
         console.log(`this is cubecolor ${cubeColor}`);
 
@@ -116,11 +122,7 @@ class Board extends React.Component {
         let sameColorButtons = Array.from(colorClass);
         console.log('this is colorbuttons', sameColorButtons);
 
-        // for (let i = 0; i < sameColorButtons.length; i++) {
-        //     console.log(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
-        //     console.log(typeof(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]))
-        // }
-
+    
         let swapped;
         let temp;
         do {
@@ -147,6 +149,7 @@ class Board extends React.Component {
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
             if (sameColorButtonsIdNumber > currentSquareIdNumber) {
                 desiredSquareId = sameColorButtons[i].getAttribute('id');
+                this.setState({desiredId: desiredSquareId});
                 console.log('this is desired square', desiredSquareId);
                 return desiredSquareId;
             }
@@ -188,6 +191,10 @@ class Board extends React.Component {
     };
 
     handleClick = (id, color) => {
+        if (id !== this.state.desiredId) {
+            console.log('wrong id');
+            return;
+        }
         this.setPawn(id)
         let prevSquare = () => {
             console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
@@ -384,7 +391,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container">
-                    <Cube setColor={this.setColor} color={this.state.color} />
+                    <Cube setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
