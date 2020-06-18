@@ -96,11 +96,7 @@ class HomePage extends Component {
             else {
             return (
                 <div  style={{
-                    position: "fixed",
-                    backgroundColor: "grey",
-                    width: "100%",
-                    height: "100%",
-                    display: "block"
+                    background: '#44F5BD url("https://htmlcheatsheet.com/images/logo-css.png") no-repeat scroll 50% 0%'
                   }}>
                     <header className="jumbotron_text_center">
                         <img src="/cards_imgs/logo.png" className="main_pic"></img>
