@@ -42,9 +42,7 @@ export class SurpriseButton extends Component {
                         <Popover id={`popover-positioned-${this.placement}`}>
                             <Popover.Title as="h3">{`שימו ❤️`}</Popover.Title>
                             <Popover.Content>
-                                הוספת התמונה תחולל שינוי בחבילת כרטיסי ההפתעה. 
-                                <br></br>
-                                תמונות הלוח בלתי ניתנות לשינוי.
+                                אומנם תמונות הלוח בלתי ניתנות לשינוי, אבל בכיף אפשר להחליף את תמונת הכרטיס שמתייחסת אליהן 😁
                             </Popover.Content>
                         </Popover>
                     }
@@ -53,7 +51,7 @@ export class SurpriseButton extends Component {
                         variant="outline-primary"
                         onClick={() => this.setState({ addModalShowForUpload: true })}
                         style={{ width: "50%" }}>
-                        החלף ל{this.state.cardName}
+                        החלף קלף ל{this.state.cardName}
                     </Button>
                 </OverlayTrigger>
 

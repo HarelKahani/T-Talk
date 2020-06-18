@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import { BrowserRouter as Link, Redirect } from "react-router-dom";
 import * as firebase from 'firebase';
 
@@ -85,29 +85,64 @@ class HomePage extends Component {
             });
     }
     render() {
-            if (this.state.FoundGame) {
-                return(<Redirect to={{pathname: "/User_Board", gamedata: this.state.FoundGame , user: this.state.LoggedIn}}/>);
-            }
-            if (this.state.LoggedIn) {
-                console.log("HERE")
-                console.log(this.state.LoggedIn);
-                return(<Redirect to={{pathname: "/ChooseTopic" , LoggedIn: this.state.LoggedIn}} />); // give LoggedIn as argument
-            }
-            else {
+        if (this.state.FoundGame) {
+            return (<Redirect to={{ pathname: "/User_Board", gamedata: this.state.FoundGame, user: this.state.LoggedIn }} />);
+        }
+        if (this.state.LoggedIn) {
+            console.log("HERE")
+            console.log(this.state.LoggedIn);
+            return (<Redirect to={{ pathname: "/ChooseTopic", LoggedIn: this.state.LoggedIn }} />); // give LoggedIn as argument
+        }
+        else {
             return (
-                <div  style={{
-                    background: '#44F5BD url("https://htmlcheatsheet.com/images/logo-css.png") no-repeat scroll 50% 0%'
-                  }}>
+                <div style={{
+                    position: "fixed",
+                    backgroundColor: "grey",
+                    backgroundImage: `url(cards_imgs/homePageBG.jpg)`,
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover",
+                    width: "100%",
+                    height: "100%",
+                    display: "block"
+                }}>
                     <header className="jumbotron_text_center">
                         <img src="/cards_imgs/logo.png" className="main_pic"></img>
                     </header>
 
                     <div className="menu_btn">
                         <Link to="/">
-                            <Button variant="primary" size="lg" id="connect" onClick={this.googleLogin} > התחבר </Button>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="top"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Title as="h3">{"כניסה לרשומים בלבד"}</Popover.Title>
+                                        <Popover.Content>
+                                            על מנת להתחבר למשחק עליך להרשם באמצעות מייל דרך בעלת האתר
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button variant="t-talk" size="lg" id="connect" onClick={this.googleLogin} > התחבר </Button>
+                            </OverlayTrigger>
                         </Link>
                         <Link to="">
-                            <Button variant="primary" size="lg" id="start_game" onClick={this.joinGame}> התחל משחק </Button>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="bottom"
+                                placement="bottom"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Title as="h3">{"רק עוד קצת ומתחילים"}</Popover.Title>
+                                        <Popover.Content>
+                                            עליך להמתין עד לקבלת אישור כניסה מהמטפל/ת ולאחר מכן ללחוץ על "התחל משחק"
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button variant="t-talk" size="lg" id="start_game" onClick={this.joinGame}> התחל משחק </Button>
+                            </OverlayTrigger>
+
                         </Link>
                     </div>
                 </div>
