@@ -27,7 +27,7 @@ export default function LetItRain() {
       >
         <Confetti
           recycle={show}
-          numberOfPieces={2000}
+          numberOfPieces={4000}
           width={width}
           height={height}
         />
