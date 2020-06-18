@@ -55,7 +55,8 @@ class Board extends React.Component {
                             this.setState({ color: change.doc.data().cube })
                             // console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
-                                this.findClosestSquare();
+                                let desiredId = this.findClosestSquare();
+                                this.disableNotRelevantSquares(desiredId);
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                         }
@@ -67,8 +68,20 @@ class Board extends React.Component {
             });
     }
 
-    findColorOfCurrentButton = () => {
-
+    disableNotRelevantSquares = (desiredId) => {
+        console.log('this is desiredId', desiredId);
+        let buttonArray = this.fillArray();
+        
+        for (let i = 1; i < 31; i++) {
+            let square = document.getElementById(`button${i}`);
+            console.log('this is square/////////////////////////////', square);
+            if (square.getAttribute('id') === desiredId) {
+                square.disabled = false;
+                continue;
+            } else {
+                square.disabled = true;
+            }
+        }
     }
 
     findClosestSquare = () => {
@@ -81,36 +94,45 @@ class Board extends React.Component {
         console.log(`this is cubecolor ${cubeColor}`);
 
         let colorClass = document.getElementsByClassName(cubeColor);
-        let colorButtons = Array.from(colorClass);
-        console.log('this is colorbuttons', colorButtons);
+        let sameColorButtons = Array.from(colorClass);
+        console.log('this is colorbuttons', sameColorButtons);
 
+        // for (let i = 0; i < sameColorButtons.length; i++) {
+        //     console.log(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
+        //     console.log(typeof(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]))
+        // }
+
+        let swapped;
+        let temp;
+        do {
+            swapped = false;
+            for (let i = 0; i < sameColorButtons.length - 1; i++) {
+                if (Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]) > Number(sameColorButtons[i+1].getAttribute('id').match(/(\d+)/)[0])) {
+                    temp = sameColorButtons[i];
+                    sameColorButtons[i] = sameColorButtons[i+1];
+                    sameColorButtons[i+1] = temp;
+                    swapped = true;
+                    
+                }
+                
+            }
+        } while (swapped);
+
+        console.log('this is sorted ==============', sameColorButtons);
+
+        
         let desiredSquareId;
         
-        for (let i = 0; i < colorButtons.length; i++) {
-            if (colorButtons[i].getAttribute('id') > this.state.currentSquare) {
-                desiredSquareId = colorButtons[i].getAttribute('id');
+        for (let i = 0; i < sameColorButtons.length; i++) {
+            let currentSquareIdNumber = Number(this.state.currentSquare.match(/(\d+)/)[0]);
+            let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
+            if (sameColorButtonsIdNumber > currentSquareIdNumber) {
+                desiredSquareId = sameColorButtons[i].getAttribute('id');
                 console.log('this is desired square', desiredSquareId);
                 return desiredSquareId;
             }
         }
-        // colorButtons.map((item) => {
-        //     if (item.getAttribute('id') > this.state.currentSquare) {
-        //         desiredSquareId = item.getAttribute('id');
-        //         console.log('this is desired square', desiredSquareId);
-        //         return desiredSquareId;
-        //         console.log('here------------------------');
-        //     }
-        // });
-
         
-        let i;
-        // for (i = 1; i < 31; i++) {
-        //     let squareId = document.getElementById(`button${i}`);
-            
-        //     // console.log('')
-
-        // }
-
     }
 
     setColor = (event) => {
