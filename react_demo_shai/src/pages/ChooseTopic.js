@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table, OverlayTrigger, Popover } from 'react-bootstrap';
 //import { storage } from '../pages/HomePage';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import HomePage, { myFirestore, storage } from './HomePage'
 import * as firebase from 'firebase';
 
@@ -28,7 +28,7 @@ class ChooseTopic extends Component {
         this.getAllSubjectNames();
     }
     googleLogin(topic) {
-        if(this.state.user !== undefined){
+        if (this.state.user !== undefined) {
             console.log(`in return ----> ${this.state.user}`);
             this.startGame(topic);
             return;
@@ -51,7 +51,7 @@ class ChooseTopic extends Component {
             })
             .catch(console.log) //recieve error and alert it
     }
-   
+
 
     startGame(topic) {
         const itemMessage = {
@@ -62,7 +62,7 @@ class ChooseTopic extends Component {
             topic: topic
         }
 
-        this.setState({gameData: itemMessage})
+        this.setState({ gameData: itemMessage })
         myFirestore
             .collection("Games")
             .doc(this.state.user.email)
@@ -103,12 +103,30 @@ class ChooseTopic extends Component {
                 <td>{index + 1}</td>
                 <td > {item} </td>
                 <td>
-                    <Button
-                        onClick={e => this.googleLogin(item)}
-                        variant="outline-primary"
-                        style={{ width: "20%" }}>
-                        התחל משחק
-                    </Button>
+                    <OverlayTrigger
+                        trigger="hover"
+                        key="right"
+                        placement="right"
+                        overlay={
+                            <Popover id={`popover-positioned-${this.placement}`}>
+                                <Popover.Title as="h3">{`שימו ❤️`}</Popover.Title>
+                                <Popover.Content>
+                                     יש לדאוג כי המטופל קיבל את הלינק הבא
+                                     <br></br>
+                                     <strong>https://game-t-talk.web.app</strong>
+                                     <br></br>
+                                     ולוודא כי נבחרה האפשרות של "התחל משחק"
+                                     </Popover.Content>
+                            </Popover>
+                        }
+                    >
+                        <Button
+                            onClick={e => this.googleLogin(item)}
+                            variant="outline-primary"
+                            style={{ width: "20%" }}>
+                            התחל משחק
+                         </Button>
+                    </OverlayTrigger>
                 </td>
             </tr>
         })
@@ -125,11 +143,11 @@ class ChooseTopic extends Component {
 
 
     render() {
-        
+
         if (!this.state.gameStart) {
             console.log(this.state.user)
             return (
-                <div>
+                <div className="topic-table">
                     <Table striped bordered hover>
                         <thead>
                             <tr>
@@ -145,7 +163,7 @@ class ChooseTopic extends Component {
                 </div>
             )
         } else {
-            return (<Redirect to={{pathname: "/User_Board", gamedata: this.state.gameData, user: this.state.user }}/>); // pass arguments
+            return (<Redirect to={{ pathname: "/User_Board", gamedata: this.state.gameData, user: this.state.user }} />); // pass arguments
         }
     }
 }
