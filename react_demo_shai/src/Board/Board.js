@@ -36,6 +36,10 @@ class Board extends React.Component {
             user: this.props.location.user,
             color: -1,
             currentSquare: "button1",
+            childSquare: "button1",
+            therapistSquare: "button1",
+            currentCard: -1,
+            currentSuprise: -1,
             surprises: null
         };
         this.getSurpriseImages()
@@ -60,6 +64,22 @@ class Board extends React.Component {
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                         }
+                        if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
+                            this.moveOtherPawn(change.doc.data().childSquare, "Child")
+                            this.state.childSquare = change.doc.data().childSquare
+                        }
+                        if (change.doc.data().therapistSquare != this.state.therapistSquare && !this.state.user) {
+                            
+                            this.moveOtherPawn(change.doc.data().therapistSquare, "Therapist")
+                            this.state.therapistSquare = change.doc.data().therapistSquare
+                            
+                        }
+                        if (change.doc.data().currentCard != this.state.currentCard) {
+                            
+                        }
+                        if (change.doc.data().currentSuprise != this.state.currentSuprise) {
+                            
+                        }
                     }
                     if (change.type === 'removed') {
                         console.log('Removed: ', change.doc.data());
@@ -70,7 +90,6 @@ class Board extends React.Component {
 
     disableNotRelevantSquares = (desiredId) => {
         console.log('this is desiredId', desiredId);
-        let buttonArray = this.fillArray();
         
         for (let i = 1; i < 31; i++) {
             let square = document.getElementById(`button${i}`);
@@ -89,7 +108,7 @@ class Board extends React.Component {
          //2. to fill up array with all button's ids beside the current square
          //the current square is in this.state.currentSquare
          //3. after array is full with the ids => loop through the array and disable all buttons in it
-        let buttonArray =[];
+        // let buttonArray =[];
         let cubeColor = NumbersToColors[this.state.color];
         console.log(`this is cubecolor ${cubeColor}`);
 
@@ -118,7 +137,7 @@ class Board extends React.Component {
             }
         } while (swapped);
 
-        console.log('this is sorted ==============', sameColorButtons);
+        // console.log('this is sorted ==============', sameColorButtons);
 
         
         let desiredSquareId;
@@ -149,16 +168,37 @@ class Board extends React.Component {
             })
     };
 
-    handleClick = (id, color, e) => {    
-        // let but = document.getElementById(`${id}`).getElementsByTagName('class');
-        // // const but1 = Array.from(but);
+    setPawn = (event)=> {
+        let to_update = null;
+        if (this.state.user) {
+            to_update = {therapistSquare: event}
+        } else {
+            to_update = {childSquare: event}
+        }
+        myFirestore
+        .collection("Games")
+        .doc(this.state.gameData.email)
+        .update(to_update)
+        .then(() => {
+            console.log("written pawn")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
+    };
 
-        // console.log("this is button array", but);
-
-        const cls = document.getElementsByClassName('orange');
-        const arr = Array.from(cls);
-        console.log("fdssdff!!!!!!!!!!!!!!!!!!!!!1", arr);
-
+    handleClick = (id, color) => {
+        this.setPawn(id)
+        let prevSquare = () => {
+            console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
+                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.currentSquare}></img>`
+                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.currentSquare}></img>`
+                } else {
+                    return ``
+                }
+        }
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
 
@@ -168,15 +208,65 @@ class Board extends React.Component {
             console.log('have the same id');
             return;
         }
-        document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
+        document.getElementById(`${this.state.currentSquare}`).innerHTML = prevSquare();
 
         let nextSquare = document.getElementById(`${id}`);
+        let next_pawn_img = () => {
+            if (nextSquare.innerHTML.includes("<img")) {
+                return "Pawns.png"
+            }
+            else if (this.state.user) {
+                return "Pawn.png"
+            }
+            else {
+                return "Pawn2.png"
+            }
+
+        }
         console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
             let curr = nextSquare.innerHTML;
-            nextSquare.innerHTML = `${curr} <img class='pawn' src='Pawn.png' width=30% color=${color} id=${id}></img>`;
+            nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% color=${color} id=${id}></img>`;
         });
+    }
+
+    moveOtherPawn = (id, toChange) => {
+        let nextSquare = document.getElementById(`${id}`);
+        let next_pawn_img = () => {
+            if (nextSquare.innerHTML.includes("<img")) {
+                return "Pawns.png"
+            }
+            else if (this.state.user) {
+                return "Pawn2.png"
+            }
+            else {
+                return "Pawn.png"
+            }
+        }
+        let prevSquare = () => {
+            console.log("moveother", this.state.therapistSquare, this.state.childSquare)
+                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.childSquare}></img>`
+                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.therapistSquare}></img>`
+                } else {
+                    return ``
+                }
+        }
+        if (toChange == "Therapist") {
+            document.getElementById(`${this.state.therapistSquare}`).innerHTML = prevSquare();
+            let curr = nextSquare.innerHTML;
+            this.setState({therapistSquare: id}, () => {
+                nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30%  id=${id}></img>`;
+            });
+        } else if (toChange == "Child") {
+            document.getElementById(`${this.state.childSquare}`).innerHTML = prevSquare();
+            let curr = nextSquare.innerHTML;
+            this.setState({childSquare: id}, () => {
+                nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% id=${id}></img>`;
+            });
+        }
     }
 
     fillArray = () => {
@@ -262,7 +352,6 @@ class Board extends React.Component {
         let pink_style = {background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)"}
         let green_style= {  background: "#3AFF12", background: "-moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "-webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%)"}
         let orange_style={background: "#FFD500", background: "-moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "-webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)"}
-       
         return (
             <div style={{
                 position: "fixed",
@@ -357,9 +446,10 @@ class Board extends React.Component {
                         <Button value={'green'} className="green" id="button2" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
-                        <Button disabled value={'yellow'} className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                        <Button className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} >
+                            
                             {/* button1 */}
-                            <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img>
+                            { <img src='Pawns.png' style={{width: '30%', visibility: 'visible'}} ></img> }
                         </Button>
                         <div id="enbale-disable">
                         <Button id="disable" onClick={e => this.enableDisable(e.target.id)} style={{margin:"2%"}}>

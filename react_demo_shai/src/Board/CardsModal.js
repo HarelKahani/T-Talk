@@ -55,7 +55,7 @@ export class CardsModal extends Component {
             console.log("state surprise", this.state.list)
             if (this.props.surprises.length > 0){
                 // if(!this.props.surprises[this.state.surprise_count].board){
-                    return <img src={this.props.surprises[this.state.surprise_count].url}></img>
+                    return <img width="500px" height="500px" src={this.props.surprises[this.state.surprise_count].url} ></img>
                 // }
             }
         }
@@ -81,7 +81,6 @@ export class CardsModal extends Component {
                         <hr></hr>
                         <div className="img_input">
                             {this.showCard()}
-                            {this.state.kind}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
