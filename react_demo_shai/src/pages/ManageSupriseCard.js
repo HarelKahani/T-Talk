@@ -51,7 +51,7 @@ class ChooseTopic extends Component {
         return surprises.map((item, index)=>{
             if(!item.board){
                 counter += 1;
-                return  <tr>
+                return  <tr key={index}>
                             <td> {counter} </td>
                             <td style={{fontSize:"200%", textAlign:"center"}}> {item.name} </td>
                             <td> <img src={item.url} alt= "לא התווספה תמונה לבינתיים" height="150px" /> </td>

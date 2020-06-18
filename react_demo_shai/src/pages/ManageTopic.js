@@ -58,7 +58,7 @@ class ManageTopic extends Component {
                 <td>{index+1}</td>
                 <td > {item} </td>
                 <td>
-                    <TopicsButtons topicName={item} refresh={() => {alert("הנושא נמחק בהצלחה. לחץ שוב על ניהול נושאים בכדי לראות רשימה מעודכנת"); this.setState({SubjectName:[]}); this.getAllSubjectNames(); }}/>
+                    <TopicsButtons topicName={item} refresh={() => {this.setState({SubjectName:[]}); this.getAllSubjectNames();}}/>
                 </td>
             </tr>
         })
