@@ -5,7 +5,7 @@ import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
 import { storage } from '../pages/HomePage'
 // import { Path } from './Path'
-
+import LetItRain from './confetti'
 
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
@@ -217,7 +217,7 @@ class Board extends React.Component {
                 display: "block"
             }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
-                <div className="vl"></div>
+                
                 <div className="cards_container">
                     <CardsPack kind={"task"}
                         img={"/cards_imgs/suprise.jpeg"}
@@ -314,6 +314,7 @@ class Board extends React.Component {
                     </div>
                     
                 </div>
+                <div id="confettis"><LetItRain /></div>
             </div>
         )
     }
