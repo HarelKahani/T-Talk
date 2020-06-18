@@ -133,6 +133,10 @@ class Board extends React.Component {
         })
     }
 
+    enable = () => {
+        console.log("somthing somthing")
+    }
+
     render() {
         console.log(this.state.color);
         console.log(this.props.location.gamedata)
@@ -168,7 +172,7 @@ class Board extends React.Component {
                 <div className="cube_container">
                     <Cube setColor={this.setColor} color={this.state.color} />
                 </div>
-                <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} />
+                <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} enable={this.enable}/>
             </div>
         )
     }

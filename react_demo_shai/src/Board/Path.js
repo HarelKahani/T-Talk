@@ -66,8 +66,9 @@ export class Path extends React.Component {
     }
 
     enableDisable = (id) => {
+        this.props.enable();
         let buttonArray = this.fillArray();
-        console.log(buttonArray);
+        // console.log(buttonArray);
         if (id === `enable`) {
             console.log(`enable was pressed`);
             buttonArray.map((button) => {
@@ -85,10 +86,17 @@ export class Path extends React.Component {
     fillSurprise = () => {
         const classes = document.getElementsByClassName("suprise_pic")
         const ids = Array.from(classes)
+        let surprises =[]
+        console.log(surprises)
+        if(this.props.surprises !== null){
+            surprises = this.props.surprises.slice().sort((a,b)=>a.index-b.index)
+        }
+        console.log(surprises)
         ids.map((item, index)=>{
             //console.log(item.id, item.style.backgroundColor)
             if(this.props.surprises !== null && this.props.surprises[index] !== undefined){
-                const pic = this.props.surprises[index].url
+               
+                const pic = surprises[index].url
                 item.style = `background-image: url(${pic}); background-size: 85% 85%; background-repeat: no-repeat; background-position: 50% 50%; background-color: ${item.style.backgroundColor};`;
                 // item.innerHTML = `<img class="sup_img" src=${this.props.surprises[index].url} width=100% color=${item.style.backgroundColor} id=${item.id}></img>`;
              
