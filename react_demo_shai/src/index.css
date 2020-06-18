@@ -22,6 +22,22 @@ tbody{
   width: 100%;
 }
 
+  .btn-t-talk {
+    color:whitesmoke;
+    background-color: #185262;
+  }
+
+  .btn-t-talk:hover{
+    color:#2cd3c3;
+    
+  }
+
+  .btn-xxl {
+    padding: 1rem 1.5rem;
+    font-size: 1.5rem;
+  }
+
+
 .main_pic{
   height: 100%;
   width: 27%;
@@ -35,6 +51,7 @@ tbody{
   width: 100%;
   
 }
+
 #start_game{
   width: 45%;
   margin-bottom: 3%;
@@ -44,6 +61,37 @@ tbody{
   width: 45%;
 }
 /* Home-page -end */
+
+/* therapist menu - start */
+.navbar-bg-flat{
+  background-color: #4DA6FF;
+}
+.navbar-flat{
+  background-color: #4DA6FF;
+}
+
+.navbar-brand{
+  color: whitesmoke;
+  font-weight: bold;
+ 
+}
+.navbar-brand:hover{
+  color:#3c3e3f;
+}
+.btn-all{
+  background-color: #4DA6FF;
+  color: whitesmoke;
+  font-weight: bold;
+}
+.btn-all:hover{
+ 
+  color:#3c3e3f;
+}
+
+.btn-outline-primary:hover{
+  background-color: #4DA6FF;
+}
+/* therapist menu - end */
 
 
 /*manage topic syle- start*/

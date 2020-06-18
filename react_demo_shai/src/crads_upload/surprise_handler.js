@@ -75,7 +75,7 @@ export class SurpriseHandler extends Component {
 
     render() {
         return (
-            <div style={{alignItems: "center", marginLeft:"20%"}}>
+            <div className="img_input" >
                 <input
                 type="file"
                 style={{display: 'none', position:'fixed'}}

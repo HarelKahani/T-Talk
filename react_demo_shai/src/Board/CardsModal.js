@@ -24,32 +24,6 @@ export class CardsModal extends Component {
 
     }
 
-    // getList = () => {
-    //     return storage.ref(`topics/${this.state.topicName}`).listAll()
-    //         .then((event) => {
-    //             console.log(event.items)
-    //             this.state.list = event.items
-    //             console.log(this.state.list)
-    //         }).then(() => {
-    //             let arr = []
-    //             for (let j = 0; j < this.state.list.length; j++) {
-    //                 let obj = {}
-    //                 this.state.list[j].getDownloadURL()
-    //                     .then(url => {
-    //                         obj.url = url;
-    //                     }).then(() => {
-    //                         obj.name = this.state.list[j].name.replace(".JPG", "").replace(".jpg", "").replace(".png", "")
-    //                         obj.index = `${j + 1}`
-    //                         arr.push(obj)
-    //                         this.state.arr = arr
-    //                     });
-    //             }
-    //             console.log(this.state.arr)
-    //             console.log(this.state.counter)
-    //         });
-    // }
-
-
     onClick = () => {
         // this.getList();
         this.props.onHide();
@@ -81,7 +55,7 @@ export class CardsModal extends Component {
             console.log("state surprise", this.state.list)
             if (this.props.surprises.length > 0){
                 // if(!this.props.surprises[this.state.surprise_count].board){
-                    return <img src={this.props.surprises[this.state.surprise_count].url}></img>
+                    return <img width="500px" height="500px" src={this.props.surprises[this.state.surprise_count].url} ></img>
                 // }
             }
         }
@@ -105,8 +79,9 @@ export class CardsModal extends Component {
                     <Modal.Body>
                         <h5 style={{ textAlign: "center" }}> {this.props.describe} </h5>
                         <hr></hr>
-                        {this.showCard()}
-                        {this.state.kind}
+                        <div className="img_input">
+                            {this.showCard()}
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button type="submit" onClick={this.onClick} style={{ width: "20%" }}>המשך</Button>

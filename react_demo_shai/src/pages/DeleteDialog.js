@@ -16,13 +16,17 @@ export class DeleteDialog extends Component {
     storage.ref(`topics/${this.state.topicName}`).listAll()
     .then((event) =>{
       var list = event.items;
-      list.map((item) =>{
-        item.delete().then(()=>{
+      list.map((item, index) =>{
+          item.delete().then(()=>{
           console.log(`${item.name} was deleted`)
+          if(index === list.length-1){
+            this.props.onHide()
+          }
         }).catch((err)=> {
           console.log(err)
         });
       })
+      // alert("הנושא נמחק בהצלחה. לחץ שוב על ניהול נושאים בכדי לראות רשימה מעודכנת");
     }).catch((err) =>{
       console.log(err);
     });
@@ -47,7 +51,7 @@ export class DeleteDialog extends Component {
         
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={() => {this.deleteTopic(); this.props.onHide()}} style={{ width: "20%"}}>מחק</Button>
+          <Button variant="danger" onClick={() => {this.deleteTopic();}} style={{ width: "20%"}}>מחק</Button>
           <Button onClick={this.props.onHide} style={{ width: "20%"}}>ביטול</Button>
         </Modal.Footer>
       </Modal>

@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import axios from 'axios'
 import {storage} from '../pages/HomePage'
-import { database } from 'firebase';
-import {ListOfTopicImg} from './list_topic'
-import TableHandler from './table_handler'
 
 export class ImgHandler extends Component {
     constructor(props) {
@@ -15,28 +11,23 @@ export class ImgHandler extends Component {
             url:'',
             progress: 0,
             imgName: '',
-            topicName: this.props.topicName
+            topicName: this.props.topicName,
+            name: '',
+            curr:''
         };
-        // this.imgSelectHandler = this.imgSelectHandler.bind(this);
-        // this.imgUploadHAndler = this.imgSelectHandler.bind(this);
     }
     getName = event =>{
         let name = event.target.value
         console.log(name)
-        // console.log(item)
         let fileName = `${name}.JPG`
         this.setState({
-            imgName: fileName 
+            imgName: fileName,
+            name: name 
         });
     }
 
     imgSelectHandler = evt => {
         console.log(evt)
-        // if(evt.target.files[0]){
-        //     const image = evt.target.files[0];
-        //     this.setState(()=> ({image}));
-        //     console.log(image)
-        // }
         let file = evt.target.files[0]
         console.log(file)
         this.setState(prevState => ({
@@ -61,6 +52,9 @@ export class ImgHandler extends Component {
             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             this.setState({progress});
             console.log(progress)
+            if (progress === 100){
+                console.log("התמונה עלתה בהצלחה")
+            }
         },
         (error) =>{
             console.log("error")
@@ -71,7 +65,7 @@ export class ImgHandler extends Component {
             .then(url => {
                 console.log("ok")
                 console.log(url);
-                this.setState({url});
+                this.setState({url, name: '', curr: this.state.imgName});                
             })
         });
     }
@@ -87,12 +81,14 @@ export class ImgHandler extends Component {
                 onChange={evt => this.imgSelectHandler(evt)}/>
                 <Button onClick={() => this.fileInput.click()}>בחר תמונה</Button>
                 <input 
-                placeholder="רשום את שם התמונה כאן" 
+                placeholder="רשום את שם התמונה כאן"
+                value={this.state.name}
                 type="text"
                 style = {{margin: '10px', width: '250px'}} 
                 onChange={this.getName}/>
                 <Button onClick={this.imgUploadHAndler}>הוסף תמונה ל <b>{this.state.topicName}</b></Button> 
-                <img src={this.state.url} alt="No image addad" width='200' height='150' className="upload_seccess"/>
+                <img src={this.state.url} alt="No image addad" width='200' height='300' className="upload_seccess"/>
+                <p>{this.state.curr.replace(".JPG", "")}</p>
             </div>
         );
     }
