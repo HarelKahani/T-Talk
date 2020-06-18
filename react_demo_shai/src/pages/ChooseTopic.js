@@ -59,7 +59,11 @@ class ChooseTopic extends Component {
             name: this.state.user.displayName,
             timeXstamp: String(new Date()),
             content: "Open Game",
-            topic: topic
+            topic: topic,
+            cube: -1,
+            childSquare: "button1",
+            therapistSquare: "button1",
+            currentCard: -1
         }
 
         this.setState({ gameData: itemMessage })

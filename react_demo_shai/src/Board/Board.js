@@ -36,6 +36,10 @@ class Board extends React.Component {
             user: this.props.location.user,
             color: -1,
             currentSquare: "button1",
+            childSquare: "button1",
+            therapistSquare: "button1",
+            currentCard: -1,
+            currentSuprise: -1,
             surprises: null
         };
         this.getSurpriseImages()
@@ -53,8 +57,28 @@ class Board extends React.Component {
                         if (change.doc.data().cube != this.state.color) {
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                             this.setState({ color: change.doc.data().cube })
-                            this.findClosestSquare(this.state.color);
+                            // console.log(`this is state color ${this.state.color}`);
+                            if (this.state.color !== -1) {
+                                let desiredId = this.findClosestSquare();
+                                this.disableNotRelevantSquares(desiredId);
+                            }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                        }
+                        if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
+                            this.moveOtherPawn(change.doc.data().childSquare, "Child")
+                            this.state.childSquare = change.doc.data().childSquare
+                        }
+                        if (change.doc.data().therapistSquare != this.state.therapistSquare && !this.state.user) {
+                            
+                            this.moveOtherPawn(change.doc.data().therapistSquare, "Therapist")
+                            this.state.therapistSquare = change.doc.data().therapistSquare
+                            
+                        }
+                        if (change.doc.data().currentCard != this.state.currentCard) {
+                            
+                        }
+                        if (change.doc.data().currentSuprise != this.state.currentSuprise) {
+                            
                         }
                     }
                     if (change.type === 'removed') {
@@ -64,26 +88,70 @@ class Board extends React.Component {
             });
     }
 
-    addButtonsToArray = (idOfButtonToSkip) => {
-        let buttonArray = [];
-        let i;
-        let currentColor = this.NumbersToColors[this.state.color]
-        for (i = 1; i < 31; i++) {
-            if (idOfButtonToSkip === this.state.currentSquare) {
+    disableNotRelevantSquares = (desiredId) => {
+        console.log('this is desiredId', desiredId);
+        
+        for (let i = 1; i < 31; i++) {
+            let square = document.getElementById(`button${i}`);
+            console.log('this is square/////////////////////////////', square);
+            if (square.getAttribute('id') === desiredId) {
+                square.disabled = false;
                 continue;
-            }
-            else {
-                buttonArray[i] = document.getElementById(`button${i}`);
+            } else {
+                square.disabled = true;
             }
         }
     }
 
-    findClosestSquare = (currentColor) => {
-        let buttonArray = [];
-        let i;
-        for (i = 1; i < 31; i++) {
+    findClosestSquare = () => {
+         //1. when cube color change => to translate the number to that in this.state.color from the numbersToColors array
+         //2. to fill up array with all button's ids beside the current square
+         //the current square is in this.state.currentSquare
+         //3. after array is full with the ids => loop through the array and disable all buttons in it
+        // let buttonArray =[];
+        let cubeColor = NumbersToColors[this.state.color];
+        console.log(`this is cubecolor ${cubeColor}`);
 
+        let colorClass = document.getElementsByClassName(cubeColor);
+        let sameColorButtons = Array.from(colorClass);
+        console.log('this is colorbuttons', sameColorButtons);
+
+        // for (let i = 0; i < sameColorButtons.length; i++) {
+        //     console.log(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
+        //     console.log(typeof(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]))
+        // }
+
+        let swapped;
+        let temp;
+        do {
+            swapped = false;
+            for (let i = 0; i < sameColorButtons.length - 1; i++) {
+                if (Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]) > Number(sameColorButtons[i+1].getAttribute('id').match(/(\d+)/)[0])) {
+                    temp = sameColorButtons[i];
+                    sameColorButtons[i] = sameColorButtons[i+1];
+                    sameColorButtons[i+1] = temp;
+                    swapped = true;
+                    
+                }
+                
+            }
+        } while (swapped);
+
+        // console.log('this is sorted ==============', sameColorButtons);
+
+        
+        let desiredSquareId;
+        
+        for (let i = 0; i < sameColorButtons.length; i++) {
+            let currentSquareIdNumber = Number(this.state.currentSquare.match(/(\d+)/)[0]);
+            let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
+            if (sameColorButtonsIdNumber > currentSquareIdNumber) {
+                desiredSquareId = sameColorButtons[i].getAttribute('id');
+                console.log('this is desired square', desiredSquareId);
+                return desiredSquareId;
+            }
         }
+        
     }
 
     setColor = (event) => {
@@ -100,7 +168,37 @@ class Board extends React.Component {
             })
     };
 
+    setPawn = (event)=> {
+        let to_update = null;
+        if (this.state.user) {
+            to_update = {therapistSquare: event}
+        } else {
+            to_update = {childSquare: event}
+        }
+        myFirestore
+        .collection("Games")
+        .doc(this.state.gameData.email)
+        .update(to_update)
+        .then(() => {
+            console.log("written pawn")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
+    };
+
     handleClick = (id, color) => {
+        this.setPawn(id)
+        let prevSquare = () => {
+            console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
+                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.currentSquare}></img>`
+                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.currentSquare}></img>`
+                } else {
+                    return ``
+                }
+        }
         console.log(`this is id ${id}`);
         console.log(`this is color ${color}`);
 
@@ -110,15 +208,65 @@ class Board extends React.Component {
             console.log('have the same id');
             return;
         }
-        document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
+        document.getElementById(`${this.state.currentSquare}`).innerHTML = prevSquare();
 
         let nextSquare = document.getElementById(`${id}`);
+        let next_pawn_img = () => {
+            if (nextSquare.innerHTML.includes("<img")) {
+                return "Pawns.png"
+            }
+            else if (this.state.user) {
+                return "Pawn.png"
+            }
+            else {
+                return "Pawn2.png"
+            }
+
+        }
         console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
             console.log(`second currentSquare ${this.state.currentSquare}`);
             let curr = nextSquare.innerHTML;
-            nextSquare.innerHTML = `${curr} <img class='pawn' src='Pawn.png' width=30% color=${color} id=${id}></img>`;
+            nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% color=${color} id=${id}></img>`;
         });
+    }
+
+    moveOtherPawn = (id, toChange) => {
+        let nextSquare = document.getElementById(`${id}`);
+        let next_pawn_img = () => {
+            if (nextSquare.innerHTML.includes("<img")) {
+                return "Pawns.png"
+            }
+            else if (this.state.user) {
+                return "Pawn2.png"
+            }
+            else {
+                return "Pawn.png"
+            }
+        }
+        let prevSquare = () => {
+            console.log("moveother", this.state.therapistSquare, this.state.childSquare)
+                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.childSquare}></img>`
+                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.therapistSquare}></img>`
+                } else {
+                    return ``
+                }
+        }
+        if (toChange == "Therapist") {
+            document.getElementById(`${this.state.therapistSquare}`).innerHTML = prevSquare();
+            let curr = nextSquare.innerHTML;
+            this.setState({therapistSquare: id}, () => {
+                nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30%  id=${id}></img>`;
+            });
+        } else if (toChange == "Child") {
+            document.getElementById(`${this.state.childSquare}`).innerHTML = prevSquare();
+            let curr = nextSquare.innerHTML;
+            this.setState({childSquare: id}, () => {
+                nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% id=${id}></img>`;
+            });
+        }
     }
 
     fillArray = () => {
@@ -204,7 +352,6 @@ class Board extends React.Component {
         let pink_style = {background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)"}
         let green_style= {  background: "#3AFF12", background: "-moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "-webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%)"}
         let orange_style={background: "#FFD500", background: "-moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "-webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)"}
-       
         return (
             <div style={{
                 position: "fixed",
@@ -223,7 +370,8 @@ class Board extends React.Component {
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
                         describe={"האם תצליחו להשלים את המשימה?"}
-                        gamedata={this.props.location.gamedata} />
+                        gamedata={this.props.location.gamedata}
+                        user={this.props.location.user} />
                 </div>
                 <div className="sup_cards_container">
                     <CardsPack kind={"surprise"}
@@ -231,6 +379,7 @@ class Board extends React.Component {
                         title={"קלף הפתעה"}
                         describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
                         gamedata={this.props.location.gamedata}
+                        user={this.props.location.user}
                     />
 
                 </div>
@@ -245,12 +394,12 @@ class Board extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button className="pink" id="button30" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic orange" id="button29" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="blue" id="button28" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="green" id="button27" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="yellow" id="button26" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="pink" id="button25" style={{background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button30" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="suprise_pic orange" id="button29" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="blue" id="button28" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="green" id="button27" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'yellow'} className="yellow" id="button26" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button25" style={{background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -261,21 +410,21 @@ class Board extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button className="suprise_pic orange" id="button24" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="suprise_pic orange" id="button24" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button className="blue" id="button13" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="orange" id="button14" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="pink" id="button15" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="yellow" id="button16" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic green" id="button17" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="blue" id="button18" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="orange" id="button19" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="pink" id="button20" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="yellow" id="button21" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="green" id="button22" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="blue" id="button23" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="blue" id="button13" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="orange" id="button14" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button15" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'yellow'} className="yellow" id="button16" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button17" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="blue" id="button18" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="orange" id="button19" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button20" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'yellow'} className="yellow" id="button21" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="green" id="button22" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="blue" id="button23" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button className="suprise_pic green" id="button12" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button12" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -287,21 +436,22 @@ class Board extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <br />
-                        <Button className="yellow" id="button11" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", borderRadius: "0px 0px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="pink" id="button10" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="orange" id="button9" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="blue" id="button8" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic green" id="button7" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="yellow" id="button6" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="pink" id="button5" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="orange" id="button4" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="suprise_pic blue" id="button3" style={{background:"#00008B" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button className="green" id="button2" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                        <Button value={'yellow'} className="yellow" id="button11" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", borderRadius: "0px 0px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button10" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="orange" id="button9" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="blue" id="button8" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button7" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'yellow'} className="yellow" id="button6" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button5" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="orange" id="button4" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="suprise_pic blue" id="button3" style={{background:"#00008B" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="green" id="button2" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
-                        <Button className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
+                        <Button className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} >
+                            
                             {/* button1 */}
-                            {/* <img src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></img> */}
+                            { <img src='Pawns.png' style={{width: '30%', visibility: 'visible'}} ></img> }
                         </Button>
                         <div id="enbale-disable">
                         <Button id="disable" onClick={e => this.enableDisable(e.target.id)} style={{margin:"2%"}}>
