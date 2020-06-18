@@ -20,20 +20,12 @@ export class CardsModal extends Component {
             surprises: this.props.surprises,
             // topicName: this.props.topicname
         }
-        // console.log("!!!!!!!!!", this.props.user)
-        // if(this.props.user){
-        //     console.log(this.props.user)
-        //     document.getElementById("cont").disabled = true
-        // }
-
     }
 
     onClick = () => {
-        // this.getList();
         console.log("!!!!!!!!!", this.props.user)
         if(!this.props.user){
-            console.log("You are a client boomer!!")
-            // document.getElementById("cont").disabled = true
+            console.log("You are a patiant!!")
             return;
         }
         this.props.onHide();
@@ -80,6 +72,8 @@ export class CardsModal extends Component {
                     {...this.props}
                     size="xl"
                     aria-labelledby="contained-modal-title-vcenter"
+                    backdrop="static"
+                    keyboard = {false}
                     centered
                 //scrollable
                 >

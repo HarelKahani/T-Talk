@@ -15,7 +15,7 @@ class ManageTopic extends Component {
         this.state = {  
             SubjectNameval: "" ,
             SubjectName: [], 
-            addModalShowForSubjUpload: false 
+            addModalShowForSubjUpload: false
         }
         this.getAllSubjectNames();
     }
@@ -75,6 +75,7 @@ class ManageTopic extends Component {
     
     render() {
         let addModalCloseSubjecUp = () => this.setState({ addModalShowForSubjUpload: false });
+        const loading = this.state.loading
         return (
             <div>
                 <Table striped bordered hover>
