@@ -62,7 +62,7 @@ export class ImgHandler extends Component {
             this.setState({progress});
             console.log(progress)
             if (progress === 100){
-                alert("התמונה עלתה בהצלחה")
+                console.log("התמונה עלתה בהצלחה")
             }
         },
         (error) =>{

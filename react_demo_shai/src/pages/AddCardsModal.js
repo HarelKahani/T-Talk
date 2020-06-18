@@ -31,7 +31,7 @@ export class AddCardsModal extends Component {
         <Modal.Body>
             <h5 style={{ textAlign: "center"}}> {this.props.describe} </h5>
             <hr></hr>
-            <p style={{ textAlign: "center"}}><b>{"שימו לב - המאגר הינו מאגר משותף אין להוסיף תמונות או פרטים אישיים של מטופלים! "}</b></p>
+            <p style={{ textAlign: "center"}}><b>{"שימו לב ❤️ - המאגר הינו מאגר משותף אין להוסיף תמונות או פרטים אישיים של מטופלים! "}</b></p>
             <div className="container">
             <ImgHandler topicName={this.state.topicName}/>
           </div>
