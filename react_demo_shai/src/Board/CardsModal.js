@@ -20,12 +20,22 @@ export class CardsModal extends Component {
             surprises: this.props.surprises,
             // topicName: this.props.topicname
         }
-        // this.getList = this.getList.bind(this);
+        // console.log("!!!!!!!!!", this.props.user)
+        // if(this.props.user){
+        //     console.log(this.props.user)
+        //     document.getElementById("cont").disabled = true
+        // }
 
     }
 
     onClick = () => {
         // this.getList();
+        console.log("!!!!!!!!!", this.props.user)
+        if(!this.props.user){
+            console.log("You are a client boomer!!")
+            // document.getElementById("cont").disabled = true
+            return;
+        }
         this.props.onHide();
         if(this.state.kind == "task"){
             this.setState({ counter: this.state.counter += 1 });
@@ -42,20 +52,22 @@ export class CardsModal extends Component {
     }
 
     showCard = () => {
-        console.log("showing cards")
+        // console.log("showing cards")
+        let items = this.props.cards.slice().sort((a,b)=>a.index-b.index);
         if(this.state.kind == "task"){
-            console.log("props cards",this.props.cards)
-            console.log("state cards", this.state.list)
-            if (this.props.cards.length > 0){
-                return <img src={this.props.cards[this.state.counter].url}></img>
+            // console.log("props cards",this.props.cards)
+            // console.log("state cards", this.state.list)
+            if (items.length > 0){
+                return <img  width="500px" height="500px" src={items[this.state.counter].url}></img>
             }
         }
         else if(this.state.kind == "surprise"){
-            console.log("props surprise",this.props.surprises)
-            console.log("state surprise", this.state.list)
-            if (this.props.surprises.length > 0){
+            let items = this.props.surprises.slice().sort((a,b)=>a.index-b.index);
+            // console.log("props surprise",this.props.surprises)
+            // console.log("state surprise", this.state.list)
+            if (items.length > 0){
                 // if(!this.props.surprises[this.state.surprise_count].board){
-                    return <img width="500px" height="500px" src={this.props.surprises[this.state.surprise_count].url} ></img>
+                    return <img width="500px" height="500px" src={items[this.state.surprise_count].url} ></img>
                 // }
             }
         }
@@ -84,7 +96,7 @@ export class CardsModal extends Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button type="submit" onClick={this.onClick} style={{ width: "20%" }}>המשך</Button>
+                        <Button id="cont" type="submit" onClick={this.onClick} style={{ width: "20%" }}>המשך</Button>
                     </Modal.Footer>
                 </Modal>
             </div>

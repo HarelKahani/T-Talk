@@ -322,7 +322,8 @@ class Board extends React.Component {
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
                         describe={"האם תצליחו להשלים את המשימה?"}
-                        gamedata={this.props.location.gamedata} />
+                        gamedata={this.props.location.gamedata}
+                        user={this.props.location.user} />
                 </div>
                 <div className="sup_cards_container">
                     <CardsPack kind={"surprise"}
@@ -330,6 +331,7 @@ class Board extends React.Component {
                         title={"קלף הפתעה"}
                         describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
                         gamedata={this.props.location.gamedata}
+                        user={this.props.location.user}
                     />
 
                 </div>

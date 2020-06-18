@@ -21,8 +21,9 @@ export class CardsPack extends Component {
     }
 
     getCardsList = () => {
+        console.log("??????????", this.props.user)
         if(this.state.gotlist){
-            console.log(this.state.list)
+            // console.log(this.state.list)
             console.log("got list already")
             return;
         }
@@ -34,9 +35,9 @@ export class CardsPack extends Component {
         }
         return storage.ref(`topics/${topic}`).listAll()
             .then((event) => {
-                console.log(event.items)
+                // console.log(event.items)
                 this.state.refs = event.items
-                console.log(this.state.list)
+                // console.log(this.state.list)
             }).then(() => {
                 let arr = []
                 for (let j = 0; j < this.state.refs.length; j++) {
@@ -56,22 +57,22 @@ export class CardsPack extends Component {
                             })
                         });
                 } 
-                console.log(this.state)
+                // console.log(this.state)
                 // console.log(this.state.counter)/
             });
     }
 
     getSurpriseList = () => {
         if(this.state.gotsurprise){
-            console.log(this.state.surprises)
+            // console.log(this.state.surprises)
             console.log("got surprises already")
             return;
         }
         return storage.ref(`surprise/`).listAll()
             .then((event) => {
-                console.log(event.items)
+                // console.log(event.items)
                 this.state.sup_refs = event.items
-                console.log(this.state.list)
+                // console.log(this.state.list)
             }).then(() => {
                 let arr = []
                 for (let j = 0; j < this.state.sup_refs.length; j++) {
@@ -95,7 +96,7 @@ export class CardsPack extends Component {
                             })
                         });
                 } 
-                console.log(this.state)
+                // console.log(this.state)
                 // console.log(this.state.counter)/
             });
     }
@@ -119,6 +120,7 @@ export class CardsPack extends Component {
                     title={this.props.title}
                     describe={this.props.describe}
                     gamedata={this.props.gamedata}
+                    user={this.props.user}
                     cards={this.state.list}
                     surprises={this.state.surprises}
                 />
