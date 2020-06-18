@@ -18,17 +18,21 @@ class ChooseTopic extends Component {
         this.googleLogin = this.googleLogin.bind(this)
         this.state = {
             gameData: false,
-            user: this.props.location.user,
+            user: this.props.location.LoggedIn,
             SubjectNameval: "",
             SubjectName: [],
             addModalShowForSubjUpload: false,
             gameStart: false,
-            LoggedIn: false, 
             FoundGame: false
         }
         this.getAllSubjectNames();
     }
     googleLogin(topic) {
+        if(this.state.user !== undefined){
+            console.log(`in return ----> ${this.state.user}`);
+            this.startGame(topic);
+            return;
+        }
         const provider = new firebase.auth.GoogleAuthProvider();
         return firebase.auth().signInWithPopup(provider)
             .then(result => {
@@ -36,7 +40,7 @@ class ChooseTopic extends Component {
                 if (accepted_emails.includes(user.email)) {
                     console.log(user)
                     console.log("ACCEPTED")
-                    this.setState({ LoggedIn: user })
+                    this.setState({ user: user })
                     this.startGame(topic);
                 }
                 else {
@@ -50,19 +54,18 @@ class ChooseTopic extends Component {
    
 
     startGame(topic) {
-        console.log("start game")
-        console.log(this.state.LoggedIn) // verify loggeduser else alert
         const itemMessage = {
-            email: this.state.LoggedIn.email,
-            name: this.state.LoggedIn.displayName,
+            email: this.state.user.email,
+            name: this.state.user.displayName,
             timeXstamp: String(new Date()),
             content: "Open Game",
             topic: topic
         }
+
         this.setState({gameData: itemMessage})
         myFirestore
             .collection("Games")
-            .doc(this.state.LoggedIn.email)
+            .doc(this.state.user.email)
             .set(itemMessage)
             .then(() => {
                 console.log("written new game")
