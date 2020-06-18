@@ -7,7 +7,7 @@ class TherapistMenu extends Component {
 
         return (
             <div id="user_side">
-                <Navbar bg="primary" variant="dark">
+                <Navbar bg="flat" variant="flat">
                     <Navbar.Brand href="/">T-Talk</Navbar.Brand>
                     <Nav className="justify-content-start" style={{ width: "100%", paddingRight: "1%" }}>
                         <OverlayTrigger

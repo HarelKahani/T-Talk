@@ -90,7 +90,7 @@ class ManageTopic extends Component {
                     </tbody>
                 </Table>
 
-                <Button variant="primary" id="add_subj" onClick={() => this.setState({ addModalShowForSubjUpload: true })}>הוסף נושא</Button>
+                <Button variant="all" id="add_subj" onClick={() => this.setState({ addModalShowForSubjUpload: true })}>הוסף נושא</Button>
                 <AddSubjectModal
                 describe={"להוספת נושא יש להזין טקסט בתיבת הטקסט המופיע מתחת. לחיצה על 'הוסף' תוסיף את הנושא אל מאגר הנושאים הקיים.."}
                     title={"הוספת נושא"}

@@ -147,7 +147,7 @@ class ChooseTopic extends Component {
         if (!this.state.gameStart) {
             console.log(this.state.user)
             return (
-                <div>
+                <div className="topic-table">
                     <Table striped bordered hover>
                         <thead>
                             <tr>
