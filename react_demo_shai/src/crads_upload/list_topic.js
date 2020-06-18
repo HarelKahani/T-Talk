@@ -62,8 +62,8 @@ export class ListOfTopicImg extends Component{
     }
     render(){
         return (
-            <div style={{alignContent:"right"}}>
-                <Button style={{alignSelf:"right"}} onClick={this.getList}>הצג תמונות מהנושא <b>{this.state.topicName}</b></Button>
+            <div >
+                <Button style={{margin:"auto", display: "flex"}} onClick={this.getList}>הצג תמונות מהנושא <b>{this.state.topicName}</b></Button>
                 <TableHandler topicname={this.state.topicName} data={this.state.arr} list={this.getList}/>
             </div>
         )

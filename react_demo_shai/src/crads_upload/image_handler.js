@@ -61,6 +61,9 @@ export class ImgHandler extends Component {
             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             this.setState({progress});
             console.log(progress)
+            if (progress === 100){
+                alert("התמונה עלתה בהצלחה")
+            }
         },
         (error) =>{
             console.log("error")

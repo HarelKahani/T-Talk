@@ -38,7 +38,7 @@ export class SurpriseButton extends Component {
                     variant="outline-primary"  
                     onClick={() => this.setState({ addModalShowForUpload: true })} 
                     style={{ width: "50%"}}>
-                            החלף ל{this.state.cardName}
+                            החלף קלף ל{this.state.cardName}
                 </Button>
                     <ReplaceCard
                         cardName={this.state.cardName}

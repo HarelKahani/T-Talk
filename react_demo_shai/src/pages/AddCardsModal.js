@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, Button} from 'react-bootstrap';
-import {Upload} from '../crads_upload/img_upload';
 import {ImgHandler} from '../crads_upload/image_handler'
 
 
@@ -31,8 +30,9 @@ export class AddCardsModal extends Component {
         </Modal.Header>
         <Modal.Body>
             <h5 style={{ textAlign: "center"}}> {this.props.describe} </h5>
-          <hr></hr>
-          <div className="container">
+            <hr></hr>
+            <p style={{ textAlign: "center"}}><b>{"שימו לב - המאגר הינו מאגר משותף אין להוסיף תמונות או פרטים אישיים של מטופלים! "}</b></p>
+            <div className="container">
             <ImgHandler topicName={this.state.topicName}/>
           </div>
         </Modal.Body>
