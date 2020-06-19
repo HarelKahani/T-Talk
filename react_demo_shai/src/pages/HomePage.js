@@ -71,9 +71,19 @@ class HomePage extends Component {
                     let now = new Date()
                     let timedelta = (now - queryTime) / 1000
                     console.log(timedelta)
-                    if (timedelta < 60 && doc.data().content == "Open Game") {
+                    if (timedelta < 60000 && doc.data().content == "Open Game" && !this.state.FoundGame) {
                         console.log(`Joining ${doc.data().name}'s game`)
                         this.setState({ FoundGame: doc.data() })
+                        myFirestore
+                        .collection("Games")
+                        .doc(doc.data().email)
+                        .update({ content: "Closed Game" })
+                        .then(() => {
+                            console.log("changed game status")
+                        })
+                        .catch(err => {
+                            console.log("something went wrong", err)
+                        })
                     }
                     else {
                         console.log("No recent game found")
