@@ -5,7 +5,7 @@ import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
 import { storage } from '../pages/HomePage'
 // import { Path } from './Path'
-
+import LetItRain from './confetti'
 
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
@@ -31,6 +31,7 @@ class Board extends React.Component {
         this.setColor = this.setColor.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.fillSurprise = this.fillSurprise.bind(this);
+        this.findClosestSquare = this.findClosestSquare.bind(this);
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
@@ -40,10 +41,12 @@ class Board extends React.Component {
             therapistSquare: "button1",
             currentCard: -1,
             currentSuprise: -1,
-            surprises: null
+            surprises: null,
+            desiredId: null,
+            showConf: false,
+            childTurn: true
         };
         this.getSurpriseImages()
-        // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
         let observer = query
@@ -60,7 +63,8 @@ class Board extends React.Component {
                             // console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
                                 let desiredId = this.findClosestSquare();
-                                this.disableNotRelevantSquares(desiredId);
+                                
+                                // this.disableNotRelevantSquares(desiredId);
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                         }
@@ -93,7 +97,7 @@ class Board extends React.Component {
         
         for (let i = 1; i < 31; i++) {
             let square = document.getElementById(`button${i}`);
-            console.log('this is square/////////////////////////////', square);
+            // console.log('this is square/////////////////////////////', square);
             if (square.getAttribute('id') === desiredId) {
                 square.disabled = false;
                 continue;
@@ -104,23 +108,14 @@ class Board extends React.Component {
     }
 
     findClosestSquare = () => {
-         //1. when cube color change => to translate the number to that in this.state.color from the numbersToColors array
-         //2. to fill up array with all button's ids beside the current square
-         //the current square is in this.state.currentSquare
-         //3. after array is full with the ids => loop through the array and disable all buttons in it
-        // let buttonArray =[];
         let cubeColor = NumbersToColors[this.state.color];
         console.log(`this is cubecolor ${cubeColor}`);
 
         let colorClass = document.getElementsByClassName(cubeColor);
         let sameColorButtons = Array.from(colorClass);
-        console.log('this is colorbuttons', sameColorButtons);
+        // console.log('this is colorbuttons', sameColorButtons);
 
-        // for (let i = 0; i < sameColorButtons.length; i++) {
-        //     console.log(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
-        //     console.log(typeof(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]))
-        // }
-
+    
         let swapped;
         let temp;
         do {
@@ -147,6 +142,7 @@ class Board extends React.Component {
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
             if (sameColorButtonsIdNumber > currentSquareIdNumber) {
                 desiredSquareId = sameColorButtons[i].getAttribute('id');
+                this.setState({desiredId: desiredSquareId});
                 console.log('this is desired square', desiredSquareId);
                 return desiredSquareId;
             }
@@ -188,6 +184,11 @@ class Board extends React.Component {
     };
 
     handleClick = (id, color) => {
+        if (id !== this.state.desiredId) {
+            console.log('wrong id');
+            return;
+        }
+        
         this.setPawn(id)
         let prevSquare = () => {
             console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
@@ -199,10 +200,10 @@ class Board extends React.Component {
                     return ``
                 }
         }
-        console.log(`this is id ${id}`);
-        console.log(`this is color ${color}`);
+        // console.log(`this is id ${id}`);
+        // console.log(`this is color ${color}`);
 
-        console.log(`this is current ${this.state.currentSquare}`)
+        // console.log(`this is current ${this.state.currentSquare}`)
 
         if (this.state.currentSquare === id) {
             console.log('have the same id');
@@ -223,13 +224,18 @@ class Board extends React.Component {
             }
 
         }
-        console.log(`currentSquare ${this.state.currentSquare}`);
+        // console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
-            console.log(`second currentSquare ${this.state.currentSquare}`);
+            // console.log(`second currentSquare ${this.state.currentSquare}`);
             let curr = nextSquare.innerHTML;
             nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% color=${color} id=${id}></img>`;
         });
+
+        if (id === "button30") {
+            this.setState({showConf : true});
+        }
     }
+
 
     moveOtherPawn = (id, toChange) => {
         let nextSquare = document.getElementById(`${id}`);
@@ -267,6 +273,7 @@ class Board extends React.Component {
                 nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% id=${id}></img>`;
             });
         }
+
     }
 
     fillArray = () => {
@@ -280,7 +287,7 @@ class Board extends React.Component {
 
     enableDisable = (id) => {
         let buttonArray = this.fillArray();
-        console.log(buttonArray);
+        // console.log(buttonArray);
         if (id === `enable`) {
             console.log(`enable was pressed`);
             buttonArray.map((button) => {
@@ -347,6 +354,7 @@ class Board extends React.Component {
         this.fillSurprise()
         console.log(this.state.color);
         console.log(this.props.location.gamedata);
+        const letItRain = this.state.showConf;
         let yellow_style = {background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)"};
         let blue_style = { background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)" };
         let pink_style = {background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)"}
@@ -384,7 +392,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container">
-                    <Cube setColor={this.setColor} color={this.state.color} />
+                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
@@ -464,6 +472,7 @@ class Board extends React.Component {
                     </div>
                     
                 </div>
+                <div id="confettis">{letItRain && <LetItRain />}</div>
             </div>
         )
     }

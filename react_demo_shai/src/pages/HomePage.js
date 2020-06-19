@@ -71,7 +71,7 @@ class HomePage extends Component {
                     let now = new Date()
                     let timedelta = (now - queryTime) / 1000
                     console.log(timedelta)
-                    if (timedelta < 60000 && doc.data().content == "Open Game" && !this.state.FoundGame) {
+                    if (timedelta < 300 && doc.data().content == "Open Game" && !this.state.FoundGame) {
                         console.log(`Joining ${doc.data().name}'s game`)
                         this.setState({ FoundGame: doc.data() })
                         myFirestore
@@ -87,6 +87,7 @@ class HomePage extends Component {
                     }
                     else {
                         console.log("No recent game found")
+                        alert("אין משחק פעיל ברגע זה. נא להמתין למטפל/ת")
                     }
                 });
             })
