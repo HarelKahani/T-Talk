@@ -43,10 +43,10 @@ class Board extends React.Component {
             currentSuprise: -1,
             surprises: null,
             desiredId: null,
-            showConf: false
+            showConf: false,
+            childTurn: true
         };
         this.getSurpriseImages()
-        // this.state = { currentSquare: 'button1', squareToTurnOff: 'none' };
 
         let query = myFirestore.collection('Games')
         let observer = query
@@ -60,9 +60,10 @@ class Board extends React.Component {
                         if (change.doc.data().cube != this.state.color) {
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                             this.setState({ color: change.doc.data().cube })
-                            console.log(`this is state color ${this.state.color}`);
+                            // console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
                                 let desiredId = this.findClosestSquare();
+                                
                                 // this.disableNotRelevantSquares(desiredId);
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
@@ -107,20 +108,12 @@ class Board extends React.Component {
     }
 
     findClosestSquare = () => {
-        //1. when cube color change => to translate the number to that in this.state.color from the numbersToColors array
-        //2. to fill up array with all button's ids beside the current square
-        //the current square is in this.state.currentSquare
-        //3. after array is full with the ids => loop through the array and disable all buttons in it
-        // let buttonArray =[];
-
-        console.log('this is state.color %%%%%%%%%%%%%%%%%', this.state.color);
-
         let cubeColor = NumbersToColors[this.state.color];
         console.log(`this is cubecolor ${cubeColor}`);
 
         let colorClass = document.getElementsByClassName(cubeColor);
         let sameColorButtons = Array.from(colorClass);
-        console.log('this is colorbuttons', sameColorButtons);
+        // console.log('this is colorbuttons', sameColorButtons);
 
     
         let swapped;
@@ -195,6 +188,7 @@ class Board extends React.Component {
             console.log('wrong id');
             return;
         }
+        
         this.setPawn(id)
         let prevSquare = () => {
             console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
@@ -206,10 +200,10 @@ class Board extends React.Component {
                     return ``
                 }
         }
-        console.log(`this is id ${id}`);
-        console.log(`this is color ${color}`);
+        // console.log(`this is id ${id}`);
+        // console.log(`this is color ${color}`);
 
-        console.log(`this is current ${this.state.currentSquare}`)
+        // console.log(`this is current ${this.state.currentSquare}`)
 
         if (this.state.currentSquare === id) {
             console.log('have the same id');
@@ -230,9 +224,9 @@ class Board extends React.Component {
             }
 
         }
-        console.log(`currentSquare ${this.state.currentSquare}`);
+        // console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
-            console.log(`second currentSquare ${this.state.currentSquare}`);
+            // console.log(`second currentSquare ${this.state.currentSquare}`);
             let curr = nextSquare.innerHTML;
             nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% color=${color} id=${id}></img>`;
         });
@@ -293,7 +287,7 @@ class Board extends React.Component {
 
     enableDisable = (id) => {
         let buttonArray = this.fillArray();
-        console.log(buttonArray);
+        // console.log(buttonArray);
         if (id === `enable`) {
             console.log(`enable was pressed`);
             buttonArray.map((button) => {
@@ -398,7 +392,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container">
-                    <Cube setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
+                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
