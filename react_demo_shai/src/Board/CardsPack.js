@@ -14,10 +14,13 @@ export class CardsPack extends Component {
             topicName: "Shai's_topic",
             refs: [],
             sup_refs: [],
+            allowcont: this.props.allowcont,
+            setcont: this.props.setcont
          }
          this.getCardsList = this.getCardsList.bind(this);
          this.onClick = this.onClick.bind(this);
          this.getSurpriseList = this.getSurpriseList.bind(this);
+         this.state.setcont = this.state.setcont.bind(this)
     }
 
     getCardsList = () => {
@@ -106,13 +109,14 @@ export class CardsPack extends Component {
         this.getCardsList();
         this.getSurpriseList();
         this.setState({ addModalShowForTask: true })
+        //this.props.setcont(false)
     }
 
     render() {
         let addModalCloseTask = () => this.setState({ addModalShowForTask: false });
         return (
             <div>
-                <img id="card_top" alt="" src={this.props.img} onClick={this.onClick}   />
+                <img id="card_top" alt="" src={this.props.img} onClick={e => (this.props.setcont(false), this.onClick()) }   />
                 <CardsModal
                     show={this.state.addModalShowForTask}
                     onHide={addModalCloseTask}
@@ -123,6 +127,8 @@ export class CardsPack extends Component {
                     user={this.props.user}
                     cards={this.state.list}
                     surprises={this.state.surprises}
+                    allowcont={this.state.allowcont}
+                    setcont={this.state.setcont}
                 />
             </div>
         )

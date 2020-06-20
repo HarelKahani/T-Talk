@@ -32,6 +32,7 @@ class Board extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.fillSurprise = this.fillSurprise.bind(this);
         this.findClosestSquare = this.findClosestSquare.bind(this);
+        this.setCont = this.setCont.bind(this);
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
@@ -45,7 +46,8 @@ class Board extends React.Component {
             desiredId: null,
             showConf: false,
             childTurn: true,
-            cubeable: false
+            cubeable: false,
+            allowcont: false
         };
         this.getSurpriseImages()
 
@@ -80,11 +82,8 @@ class Board extends React.Component {
                             this.state.therapistSquare = change.doc.data().therapistSquare
                             
                         }
-                        if (change.doc.data().currentCard != this.state.currentCard) {
-                            
-                        }
-                        if (change.doc.data().currentSuprise != this.state.currentSuprise) {
-                            
+                        if (change.doc.data().allowcont != this.state.allowcont && !this.state.user) {
+                            this.setState({allowcont: true})
                         }
                     }
                     if (change.type === 'removed') {
@@ -155,6 +154,19 @@ class Board extends React.Component {
         }
         
     }
+    setCont = (event) => {
+        this.setState({allowcont: event})
+        myFirestore
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ allowcont: event })
+            .then(() => {
+                console.log("written cards color")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
+    };
 
     setColor = (event) => {
         this.setState({cubeable: true})
@@ -383,7 +395,11 @@ class Board extends React.Component {
                         title={"משימה"}
                         describe={"האם תצליחו להשלים את המשימה?"}
                         gamedata={this.props.location.gamedata}
-                        user={this.props.location.user} />
+                        user={this.props.location.user} 
+                        setcont={this.setCont}
+                        allowcont={this.state.allowcont}
+                        key={this.state.allowcont}
+                       />
                 </div>
                 <div className="sup_cards_container">
                     <CardsPack kind={"surprise"}
@@ -392,6 +408,9 @@ class Board extends React.Component {
                         describe={"הפתעה! בואו נגלה ביחד אם נאהב את ההפתעה או שלא..."}
                         gamedata={this.props.location.gamedata}
                         user={this.props.location.user}
+                        setcont={this.setCont}
+                        allowcont={this.state.allowcont}
+                        key={this.state.allowcont}
                     />
 
                 </div>

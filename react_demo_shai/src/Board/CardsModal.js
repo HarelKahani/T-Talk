@@ -18,15 +18,22 @@ export class CardsModal extends Component {
             gameData: this.props.gamedata,
             cards : this.props.cards,
             surprises: this.props.surprises,
+            setcont: this.props.setcont,
+            allowcont: this.props.allowcont
             // topicName: this.props.topicname
         }
+        this.state.setcont = this.state.setcont.bind(this)
     }
 
     onClick = () => {
         //console.log("!!!!!!!!!", this.props.user)
-        if(!this.props.user){
+        if(!this.props.user && !this.state.allowcont){
             //("You are a patiant!!")
             return;
+        } else if (!this.props.user) {
+            this.state.setcont(false)
+        } else {
+            this.state.setcont(true)
         }
         this.props.onHide();
         if(this.state.kind == "task"){
