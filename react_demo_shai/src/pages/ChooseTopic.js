@@ -63,7 +63,11 @@ class ChooseTopic extends Component {
             cube: -1,
             childSquare: "button1",
             therapistSquare: "button1",
-            currentCard: -1
+            currentCard: -1,
+            cubeable: false,
+            surpriseable: true,
+            taskable: true,
+            allowcont: false
         }
 
         this.setState({ gameData: itemMessage })

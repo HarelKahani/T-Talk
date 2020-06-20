@@ -30,7 +30,12 @@ export class Cube extends Component {
       dice.forEach(die => {
         toggleClasses(die);
         if (this.state.clicked && bandage > 0) {
-          die.dataset.roll = getRandomNumber(1, 6);
+          //die.dataset.roll = getRandomNumber(1, 6);
+          let rnum = getRandomNumber(1, 6);
+          do {
+             rnum = getRandomNumber(1, 6);
+          } while (rnum == die.dataset.roll)
+          die.dataset.roll = rnum
           this.props.setColor(die.dataset.roll);
           this.props.findClosestSquare(die.dataset.roll);
           this.state.clicked = false

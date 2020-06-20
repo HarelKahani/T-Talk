@@ -47,6 +47,8 @@ class Board extends React.Component {
             showConf: false,
             childTurn: true,
             cubeable: false,
+            surpriseable: true,
+            taskable: true,
             allowcont: false
         };
         this.getSurpriseImages()
@@ -83,7 +85,13 @@ class Board extends React.Component {
                             
                         }
                         if (change.doc.data().allowcont != this.state.allowcont && !this.state.user) {
-                            this.setState({allowcont: true})
+                            this.setState({allowcont: change.doc.data().allowcont})
+                        }
+                        if (change.doc.data().surpriseable != this.state.surpriseable) {
+                            this.setState({surpriseable: change.doc.data().surpriseable})
+                        }
+                        if (change.doc.data().taskable != this.state.taskable) {
+                            this.setState({taskable: change.doc.data().taskable})
                         }
                     }
                     if (change.type === 'removed') {
@@ -111,8 +119,14 @@ class Board extends React.Component {
     findClosestSquare = (cubec) => {
         if (cubec == -1 || cubec == 2) {
             //console.log("cubec -1 or red", cubec)
+            if (cubec == 2) {
+                this.setTaskable(true)
+                this.setSurpriseable(false)
+            }
             return;
         }
+        this.setTaskable(false)
+        this.setSurpriseable(true)
         let cubeColor = NumbersToColors[Number(cubec)];
         //console.log(`this is cubecolor ${cubeColor}`, cubec);
 
@@ -154,6 +168,33 @@ class Board extends React.Component {
         }
         
     }
+    setTaskable = (event) => {
+        this.setState({taskable: event})
+        myFirestore
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ taskable: event })
+            .then(() => {
+                console.log("written cards color")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
+    };
+    setSurpriseable = (event) => {
+        this.setState({surpriseable: event})
+        myFirestore
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ surpriseable: event })
+            .then(() => {
+                console.log("written cards color")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
+    };
+
     setCont = (event) => {
         this.setState({allowcont: event})
         myFirestore
@@ -161,7 +202,7 @@ class Board extends React.Component {
             .doc(this.state.gameData.email)
             .update({ allowcont: event })
             .then(() => {
-                console.log("written cards color")
+               // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
@@ -389,7 +430,7 @@ class Board extends React.Component {
             }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
-                <div className="cards_container">
+                <div className="cards_container" style={this.state.taskable ? {pointerEvents: "none", opacity: "0.8"} : {}}>
                     <CardsPack kind={"task"}
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
@@ -398,10 +439,10 @@ class Board extends React.Component {
                         user={this.props.location.user} 
                         setcont={this.setCont}
                         allowcont={this.state.allowcont}
-                        key={this.state.allowcont}
+                        //key={this.state.allowcont}
                        />
                 </div>
-                <div className="sup_cards_container">
+                <div className="sup_cards_container" style={this.state.surpriseable ? {pointerEvents: "none", opacity: "0.8" } : {}}>
                     <CardsPack kind={"surprise"}
                         img={"/cards_imgs/main.png"}
                         title={"קלף הפתעה"}
@@ -410,11 +451,11 @@ class Board extends React.Component {
                         user={this.props.location.user}
                         setcont={this.setCont}
                         allowcont={this.state.allowcont}
-                        key={this.state.allowcont}
+                        //key={this.state.allowcont}
                     />
 
                 </div>
-                <div className="cube_container" style={this.state.cubeable ? {pointerEvents: "none"} : {}}>
+                <div className="cube_container" style={this.state.cubeable ? {pointerEvents: "none", opacity: "0.8"} : {}}>
                     <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}

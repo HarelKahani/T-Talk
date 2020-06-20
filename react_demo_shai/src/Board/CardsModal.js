@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { storage } from '../pages/HomePage'
+import { myFirestore } from '../pages/HomePage'
 
 //define the amount of cards in one pack rotine
 const CARDS_LIMIT = 16;
@@ -23,8 +24,18 @@ export class CardsModal extends Component {
             // topicName: this.props.topicname
         }
         this.state.setcont = this.state.setcont.bind(this)
+        let query = myFirestore.collection('Games')
+        let observer = query
+        .onSnapshot(querySnapshot => {
+            querySnapshot.docChanges().forEach(change => {
+                if (change.type === 'modified') {
+                    if (change.doc.data().allowcont != this.state.allowcont) {
+                        this.setState({ allowcont: change.doc.data().allowcont })
+                    }
+                }
+            });
+        });
     }
-
     onClick = () => {
         //console.log("!!!!!!!!!", this.props.user)
         if(!this.props.user && !this.state.allowcont){
