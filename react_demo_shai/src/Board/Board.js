@@ -44,7 +44,8 @@ class Board extends React.Component {
             surprises: null,
             desiredId: null,
             showConf: false,
-            childTurn: true
+            childTurn: true,
+            cubeable: false
         };
         this.getSurpriseImages()
 
@@ -62,11 +63,12 @@ class Board extends React.Component {
                             this.setState({ color: change.doc.data().cube })
                             // console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
-                                let desiredId = this.findClosestSquare();
+                                // let desiredId = this.findClosestSquare();
                                 
                                 // this.disableNotRelevantSquares(desiredId);
                             }
                             console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                            this.setState({cubeable: false})
                         }
                         if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
                             this.moveOtherPawn(change.doc.data().childSquare, "Child")
@@ -107,9 +109,13 @@ class Board extends React.Component {
         }
     }
 
-    findClosestSquare = () => {
-        let cubeColor = NumbersToColors[this.state.color];
-        console.log(`this is cubecolor ${cubeColor}`);
+    findClosestSquare = (cubec) => {
+        if (cubec == -1 || cubec == 2) {
+            console.log("cubec -1 or red", cubec)
+            return;
+        }
+        let cubeColor = NumbersToColors[Number(cubec)];
+        console.log(`this is cubecolor ${cubeColor}`, cubec);
 
         let colorClass = document.getElementsByClassName(cubeColor);
         let sameColorButtons = Array.from(colorClass);
@@ -136,7 +142,7 @@ class Board extends React.Component {
 
         
         let desiredSquareId;
-        
+        console.log(sameColorButtons)
         for (let i = 0; i < sameColorButtons.length; i++) {
             let currentSquareIdNumber = Number(this.state.currentSquare.match(/(\d+)/)[0]);
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
@@ -151,12 +157,13 @@ class Board extends React.Component {
     }
 
     setColor = (event) => {
+        this.setState({cubeable: true})
+        this.setState({ color: event });
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
             .update({ cube: event })
             .then(() => {
-                this.setState({ color: event });
                 console.log("written cube color")
             })
             .catch(err => {
@@ -351,6 +358,7 @@ class Board extends React.Component {
     }
 
     render() {
+        console.log("DIS CUBE", this.state.cubeable)
         this.fillSurprise()
         console.log(this.state.color);
         console.log(this.props.location.gamedata);
@@ -391,7 +399,7 @@ class Board extends React.Component {
                     />
 
                 </div>
-                <div className="cube_container">
+                <div className="cube_container" style={this.state.cubeable ? {pointerEvents: "none"} : {}}>
                     <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}

@@ -32,6 +32,7 @@ export class Cube extends Component {
         if (this.state.clicked && bandage > 0) {
           die.dataset.roll = getRandomNumber(1, 6);
           this.props.setColor(die.dataset.roll);
+          this.props.findClosestSquare(die.dataset.roll);
           this.state.clicked = false
           bandage--;
         } else if (bandage > 0)  {

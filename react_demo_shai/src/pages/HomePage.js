@@ -87,9 +87,11 @@ class HomePage extends Component {
                     }
                     else {
                         console.log("No recent game found")
-                        alert("אין משחק פעיל ברגע זה. נא להמתין למטפל/ת")
                     }
                 });
+                if (!this.state.FoundGame) {
+                    alert("אין משחק פעיל ברגע זה. נא להמתין למטפל/ת")
+                }
             })
             .catch(err => {
                 console.log('Error getting documents', err);
