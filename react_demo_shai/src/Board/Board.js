@@ -21,6 +21,15 @@ let NumbersToColors = {
     6: 'orange'
 }
 
+let SurpriseOrder = {
+    1: "button29",
+    2: "button24",
+    3: "button17",
+    4: "button12",
+    5: "button7",
+    6: "button3"
+}
+
 class Board extends React.Component {
 
     constructor(props) {
@@ -49,7 +58,8 @@ class Board extends React.Component {
             cubeable: false,
             surpriseable: true,
             taskable: true,
-            allowcont: false
+            allowcont: false,
+            surpriseorder: 1
         };
         this.getSurpriseImages()
 
@@ -122,6 +132,13 @@ class Board extends React.Component {
             if (cubec == 2) {
                 this.setTaskable(true)
                 this.setSurpriseable(false)
+                this.setState({desiredId: SurpriseOrder[this.state.surpriseorder]});
+                if (this.state.surpriseorder > 6) {
+                    this.state.surpriseorder = 1
+                } else {
+                    this.state.surpriseorder += 1;
+                }
+                return SurpriseOrder[this.state.surpriseorder]
             }
             return;
         }
