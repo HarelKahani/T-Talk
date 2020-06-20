@@ -22,12 +22,12 @@ let NumbersToColors = {
 }
 
 let SurpriseOrder = {
-    1: "button29",
-    2: "button24",
-    3: "button17",
-    4: "button12",
-    5: "button7",
-    6: "button3"
+    6: "button29",
+    5: "button24",
+    4: "button17",
+    3: "button12",
+    2: "button7",
+    1: "button3"
 }
 
 class Board extends React.Component {

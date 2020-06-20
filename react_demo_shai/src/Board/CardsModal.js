@@ -72,7 +72,7 @@ export class CardsModal extends Component {
             }
         }
         else if(this.state.kind == "surprise"){
-            let items = this.props.surprises.slice().sort((a,b)=>a.index-b.index);
+            let items = this.props.surprises.slice().sort((a,b)=>b.index-a.index);
             // console.log("props surprise",this.props.surprises)
             // console.log("state surprise", this.state.list)
             if (items.length > 0){
