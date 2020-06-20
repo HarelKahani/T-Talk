@@ -39,11 +39,11 @@ export class Cube extends Component {
           die.dataset.roll = this.props.color;
           bandage--;
         }
-        console.log(die.dataset.roll)
+        //console.log(die.dataset.roll)
       });
     }
   render() {
-    console.log("redid cube", this.props.color)
+    //console.log("redid cube", this.props.color)
     if (this.props.color != -1 && !this.state.clicked) {
       this.rollDice()
     }

@@ -6,12 +6,12 @@ class FavoriteColorForm extends React.Component {
 	state = { value: ''}
 
     newColor = e =>
-        console.log("hi")
+     //   console.log("hi")
         // open.window(<App/>) 
 		// document.getElementsByID("test").insert("{<App/>}")
 
 	submit = e => {
-		console.log(`New Color: ${this.state.value}`)
+	//	console.log(`New Color: ${this.state.value}`)
 		e.preventDefault()
 	}
 

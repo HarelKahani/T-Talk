@@ -25,7 +25,7 @@ class Board extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("props:", props)
+        //console.log("props:", props)
         //this.getSubjectName = this.getSubjectName.bind(this);
         //this.addSubject = this.addSubject.bind(this);
         this.setColor = this.setColor.bind(this);
@@ -54,12 +54,12 @@ class Board extends React.Component {
             .onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(change => {
                     if (change.type === 'added') {
-                        console.log('New: ', change.doc.data());
+                      //  console.log('New: ', change.doc.data());
                     }
                     if (change.type === 'modified') {
-                        console.log('Modified: ', change.doc.data());
+                        //console.log('Modified: ', change.doc.data());
                         if (change.doc.data().cube != this.state.color) {
-                            console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                            //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                             this.setState({ color: change.doc.data().cube })
                             // console.log(`this is state color ${this.state.color}`);
                             if (this.state.color !== -1) {
@@ -67,7 +67,7 @@ class Board extends React.Component {
                                 
                                 // this.disableNotRelevantSquares(desiredId);
                             }
-                            console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                            //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
                             this.setState({cubeable: false})
                         }
                         if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
@@ -88,14 +88,14 @@ class Board extends React.Component {
                         }
                     }
                     if (change.type === 'removed') {
-                        console.log('Removed: ', change.doc.data());
+                      //  console.log('Removed: ', change.doc.data());
                     }
                 });
             });
     }
 
     disableNotRelevantSquares = (desiredId) => {
-        console.log('this is desiredId', desiredId);
+        //console.log('this is desiredId', desiredId);
         
         for (let i = 1; i < 31; i++) {
             let square = document.getElementById(`button${i}`);
@@ -111,11 +111,11 @@ class Board extends React.Component {
 
     findClosestSquare = (cubec) => {
         if (cubec == -1 || cubec == 2) {
-            console.log("cubec -1 or red", cubec)
+            //console.log("cubec -1 or red", cubec)
             return;
         }
         let cubeColor = NumbersToColors[Number(cubec)];
-        console.log(`this is cubecolor ${cubeColor}`, cubec);
+        //console.log(`this is cubecolor ${cubeColor}`, cubec);
 
         let colorClass = document.getElementsByClassName(cubeColor);
         let sameColorButtons = Array.from(colorClass);
@@ -142,14 +142,14 @@ class Board extends React.Component {
 
         
         let desiredSquareId;
-        console.log(sameColorButtons)
+        //console.log(sameColorButtons)
         for (let i = 0; i < sameColorButtons.length; i++) {
             let currentSquareIdNumber = Number(this.state.currentSquare.match(/(\d+)/)[0]);
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
             if (sameColorButtonsIdNumber > currentSquareIdNumber) {
                 desiredSquareId = sameColorButtons[i].getAttribute('id');
                 this.setState({desiredId: desiredSquareId});
-                console.log('this is desired square', desiredSquareId);
+                //console.log('this is desired square', desiredSquareId);
                 return desiredSquareId;
             }
         }
@@ -164,7 +164,7 @@ class Board extends React.Component {
             .doc(this.state.gameData.email)
             .update({ cube: event })
             .then(() => {
-                console.log("written cube color")
+                //console.log("written cube color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
@@ -183,7 +183,7 @@ class Board extends React.Component {
         .doc(this.state.gameData.email)
         .update(to_update)
         .then(() => {
-            console.log("written pawn")
+            //console.log("written pawn")
         })
         .catch(err => {
             console.log("something went wrong", err)
@@ -192,13 +192,13 @@ class Board extends React.Component {
 
     handleClick = (id, color) => {
         if (id !== this.state.desiredId) {
-            console.log('wrong id');
+            //console.log('wrong id');
             return;
         }
         
         this.setPawn(id)
         let prevSquare = () => {
-            console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
+            //console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
                 if (this.state.user && this.state.currentSquare === this.state.childSquare) {
                     return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.currentSquare}></img>`
                 } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
@@ -213,7 +213,7 @@ class Board extends React.Component {
         // console.log(`this is current ${this.state.currentSquare}`)
 
         if (this.state.currentSquare === id) {
-            console.log('have the same id');
+            //console.log('have the same id');
             return;
         }
         document.getElementById(`${this.state.currentSquare}`).innerHTML = prevSquare();
@@ -258,7 +258,7 @@ class Board extends React.Component {
             }
         }
         let prevSquare = () => {
-            console.log("moveother", this.state.therapistSquare, this.state.childSquare)
+            //console.log("moveother", this.state.therapistSquare, this.state.childSquare)
                 if (this.state.user && this.state.currentSquare === this.state.childSquare) {
                     return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.childSquare}></img>`
                 } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
@@ -296,13 +296,13 @@ class Board extends React.Component {
         let buttonArray = this.fillArray();
         // console.log(buttonArray);
         if (id === `enable`) {
-            console.log(`enable was pressed`);
+            //console.log(`enable was pressed`);
             buttonArray.map((button) => {
                 button.disabled = false;
             });
         }
         if (id === `disable`) {
-            console.log(`disable was pressed`);
+            //console.log(`disable was pressed`);
             buttonArray.map((button) => {
                 button.disabled = true;
             });
@@ -345,7 +345,7 @@ class Board extends React.Component {
                         }
                         arr.push(obj);
                         this.setState({ surprises: arr });
-                        console.log(arr)
+                       // console.log(arr)
                     }).catch(err => {
                         console.log(err)
                     })
@@ -353,15 +353,11 @@ class Board extends React.Component {
         })
     }
 
-    enable = () => {
-        console.log("somthing somthing")
-    }
-
     render() {
-        console.log("DIS CUBE", this.state.cubeable)
+        //console.log("DIS CUBE", this.state.cubeable)
         this.fillSurprise()
-        console.log(this.state.color);
-        console.log(this.props.location.gamedata);
+        //console.log(this.state.color);
+        //console.log(this.props.location.gamedata);
         const letItRain = this.state.showConf;
         let yellow_style = {background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)"};
         let blue_style = { background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)" };

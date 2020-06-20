@@ -29,7 +29,7 @@ class ChooseTopic extends Component {
     }
     googleLogin(topic) {
         if (this.state.user !== undefined) {
-            console.log(`in return ----> ${this.state.user}`);
+         //   console.log(`in return ----> ${this.state.user}`);
             this.startGame(topic);
             return;
         }
@@ -38,15 +38,15 @@ class ChooseTopic extends Component {
             .then(result => {
                 const user = result.user
                 if (accepted_emails.includes(user.email)) {
-                    console.log(user)
-                    console.log("ACCEPTED")
+                //    console.log(user)
+                //    console.log("ACCEPTED")
                     this.setState({ user: user })
                     this.startGame(topic);
                 }
                 else {
-                    console.log("DENIED");
-                    console.log("TRY AGAIN");
-                    // alert unrecognized user
+                //    console.log("DENIED");
+                //    console.log("TRY AGAIN");
+                    alert("משתמש אינו מוכר, יש לפנות למנהל המערכת")
                 }
             })
             .catch(console.log) //recieve error and alert it
@@ -72,7 +72,7 @@ class ChooseTopic extends Component {
             .doc(this.state.user.email)
             .set(itemMessage)
             .then(() => {
-                console.log("written new game")
+               // console.log("written new game")
                 this.setState({ gameStart: true })
             })
             .catch(err => {
@@ -82,10 +82,10 @@ class ChooseTopic extends Component {
 
     getAllSubjectNames = () => {
         let topics = storage.ref('topics/')
-        console.log(topics)
+       // console.log(topics)
         return topics.listAll().then(event => {
             let list = event.prefixes
-            console.log(list);
+       //    console.log(list);
             list.map((item, index) => {
                 this.setState({
                     SubjectName: this.state.SubjectName.concat(item.name)
@@ -138,7 +138,7 @@ class ChooseTopic extends Component {
 
     showAllRows = () => {
         let all = new Object;
-        console.log("here")
+      //  console.log("here")
         for (let i = 0; i < this.state.SubjectName.length; i++) {
             all.insert(this.showRow(i))
         }
@@ -149,7 +149,7 @@ class ChooseTopic extends Component {
     render() {
 
         if (!this.state.gameStart) {
-            console.log(this.state.user)
+         //   console.log(this.state.user)
             return (
                 <div className="topic-table">
                     <Table striped bordered hover>

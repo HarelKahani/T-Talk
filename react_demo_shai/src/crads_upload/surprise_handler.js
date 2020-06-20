@@ -13,11 +13,11 @@ export class SurpriseHandler extends Component {
             imgName: '',
             cardName: this.props.cardName
         };
-        console.log(this.state.cardName)
+        //console.log(this.state.cardName)
     }
     getName = event =>{
         let name = event.target.value
-        console.log(name)
+        //console.log(name)
         // console.log(item)
         let fileName = `${name}.JPG`
         this.setState({
@@ -26,47 +26,47 @@ export class SurpriseHandler extends Component {
     }
 
     imgSelectHandler = evt => {
-        console.log(evt)
+      //  console.log(evt)
         let file = evt.target.files[0]
-        console.log(file)
+      //  console.log(file)
         this.setState(prevState => ({
                 image: file
             })
         );  
-        console.log(this.state)
+      //  console.log(this.state)
     }
 
     imgUploadHAndler = () => {
         const {image} = this.state;
         if(image == null){
-            console.log("No image was uploaded");
+         //   console.log("No image was uploaded");
             alert("לא נבחרה תמונה");
             return;
         }
         storage.ref(`surprise/${this.state.cardName}.jpg`).delete()
         .then(() =>{
-            console.log("delete was a success")
+        //    console.log("delete was a success")
         }).catch((err) => {
-            console.log("error")
+        //    console.log("error")
             console.log(err)
         })
 
         const uploadTask = storage.ref(`surprise/${this.state.cardName}.jpg`).put(image);
         uploadTask.on('state_changed',
         (snapshot) => {
-            console.log("in progress")
+         //   console.log("in progress")
             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             this.setState({progress});
-            console.log(progress)
+        //    console.log(progress)
         },
         (error) =>{
-            console.log("error")
+         //   console.log("error")
             console.log(error);
         },
         () => {
             storage.ref(`surprise/`).child(`${this.state.cardName}.jpg`).getDownloadURL()
             .then(url => {
-                console.log("ok")
+            //    console.log("ok")
                 console.log(url);
                 this.setState({url});
             })

@@ -14,36 +14,36 @@ export default class TableHandler extends Component{
     }
     
     delete_photo = (name) => {
-        console.log("name is", name);
+        //console.log("name is", name);
         if(name === undefined){
             alert("בעיית תקשורת. נא לנסות שוב")
         }
         if(window.confirm(`האם למחוק את ${name} לצמיתות מהמאגר?`)) {
-            console.log("approve")
+         //   console.log("approve")
             this.deleteForGood(name);
             this.props.list();
         }
         else{
             alert("התמונה לא נמחקה");
-            console.log("deny");
+         //   console.log("deny");
         }
     }
 
     deleteForGood = (name) => {
         storage.ref(`topics/${this.state.topicName}/${name}.JPG`).delete()
         .then(() =>{
-            console.log("delete JPG was a success")
+        //    console.log("delete JPG was a success")
         }).catch((err) => {
-            console.log("error")
+         //   console.log("error")
             console.log(err)
             storage.ref(`topics/${this.state.topicName}/${name}.jpg`).delete()
             .then(()=>{
-                console.log("deleted jpg was a success");
+            //    console.log("deleted jpg was a success");
             }).catch((err) =>{
                 console.log(err)
                 storage.ref(`topics/${this.state.topicName}/${name}.png`).delete()
                 .then(()=>{
-                    console.log("deleted png  was a success");
+               //     console.log("deleted png  was a success");
                 }).catch((err) =>{
                     console.log(err)
                 });

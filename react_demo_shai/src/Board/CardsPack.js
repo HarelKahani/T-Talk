@@ -21,16 +21,16 @@ export class CardsPack extends Component {
     }
 
     getCardsList = () => {
-        console.log("??????????", this.props.user)
+        //console.log("??????????", this.props.user)
         if(this.state.gotlist){
             // console.log(this.state.list)
-            console.log("got list already")
+           // console.log("got list already")
             return;
         }
         let topic = this.state.topicName
-        console.log("in here", this.props.gamedata)
+        //console.log("in here", this.props.gamedata)
         if(this.props.gamedata){
-            console.log("got topic name from game data", this.props.gamedata.topic)
+            //console.log("got topic name from game data", this.props.gamedata.topic)
             topic = this.props.gamedata.topic
         }
         return storage.ref(`topics/${topic}`).listAll()
@@ -65,7 +65,7 @@ export class CardsPack extends Component {
     getSurpriseList = () => {
         if(this.state.gotsurprise){
             // console.log(this.state.surprises)
-            console.log("got surprises already")
+            //console.log("got surprises already")
             return;
         }
         return storage.ref(`surprise/`).listAll()

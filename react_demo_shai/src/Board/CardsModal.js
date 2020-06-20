@@ -23,9 +23,9 @@ export class CardsModal extends Component {
     }
 
     onClick = () => {
-        console.log("!!!!!!!!!", this.props.user)
+        //console.log("!!!!!!!!!", this.props.user)
         if(!this.props.user){
-            console.log("You are a patiant!!")
+            //("You are a patiant!!")
             return;
         }
         this.props.onHide();
