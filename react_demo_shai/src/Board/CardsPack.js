@@ -129,6 +129,8 @@ export class CardsPack extends Component {
                     surprises={this.state.surprises}
                     allowcont={this.state.allowcont}
                     setcont={this.state.setcont}
+                    settaskable={this.props.settaskable}
+                    setsurpriseable={this.props.setsurpriseable}
                 />
             </div>
         )

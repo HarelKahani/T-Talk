@@ -46,6 +46,8 @@ export class CardsModal extends Component {
         } else {
             this.state.setcont(true)
         }
+        this.props.settaskable(true)
+        this.props.setsurpriseable(true)
         this.props.onHide();
         if(this.state.kind == "task"){
             this.setState({ counter: this.state.counter += 1 });

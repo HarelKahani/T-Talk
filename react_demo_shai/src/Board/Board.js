@@ -456,6 +456,8 @@ class Board extends React.Component {
                         user={this.props.location.user} 
                         setcont={this.setCont}
                         allowcont={this.state.allowcont}
+                        settaskable={this.setTaskable}
+                        setsurpriseable={this.setSurpriseable}
                         //key={this.state.allowcont}
                        />
                 </div>
@@ -468,6 +470,8 @@ class Board extends React.Component {
                         user={this.props.location.user}
                         setcont={this.setCont}
                         allowcont={this.state.allowcont}
+                        settaskable={this.setTaskable}
+                        setsurpriseable={this.setSurpriseable}
                         //key={this.state.allowcont}
                     />
 
