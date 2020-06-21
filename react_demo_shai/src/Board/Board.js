@@ -70,6 +70,7 @@ class Board extends React.Component {
         let observer = query
             .onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(change => {
+                    if (change.doc.data().email === this.state.gameData.email) {
                     if (change.type === 'added') {
                       //  console.log('New: ', change.doc.data());
                     }
@@ -119,6 +120,7 @@ class Board extends React.Component {
                     if (change.type === 'removed') {
                       //  console.log('Removed: ', change.doc.data());
                     }
+                }
                 });
             });
     }
