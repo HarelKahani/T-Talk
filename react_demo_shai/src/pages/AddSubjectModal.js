@@ -20,27 +20,27 @@ export class AddSubjectModal extends Component {
     this.setState({
         topicName: name 
     });
-    console.log(this.state)
+  //  console.log(this.state)
   }
 
   addtopic = () => {
     const uploadTask = storage.ref(`topics/${this.state.topicName}/init.txt`).putString("temp_init");
     uploadTask.on('state_changed',
     (snapshot) => {
-        console.log("in progress")
+     //   console.log("in progress")
         const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         this.setState({progress});
-        console.log(progress)
+     //   console.log(progress)
     },
     (error) =>{
-        console.log("error")
+    //    console.log("error")
         console.log(error);
     },
     () => {
         storage.ref(`topics/${this.state.topicName}/init.txt`).getDownloadURL()
         .then(url => {
-            console.log("ok")
-            console.log(url);
+       //     console.log("ok")
+       //     console.log(url);
             this.setState({url});
         })
     });

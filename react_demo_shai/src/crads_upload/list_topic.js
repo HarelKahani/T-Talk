@@ -16,21 +16,21 @@ export class ListOfTopicImg extends Component{
     
     getList = () => {
         var to_del = storage.ref(`topics/${this.state.topicName}/init.txt`);
-        console.log(to_del);
+        //console.log(to_del);
         if(to_del !== undefined){
             to_del.delete().then(() =>{
-                console.log("deleted init.txt");
+               // console.log("deleted init.txt");
             }).catch((err) => {
-                console.log("Error!")
+                //console.log("Error!")
                 console.log(err)
             })
         }
 
         return storage.ref(`topics/${this.state.topicName}`).listAll()
         .then((event)=> {
-            console.log(event.items)
+           // console.log(event.items)
             if(event.items.length<1){
-                console.log("no items in this topic - deleting")
+               // console.log("no items in this topic - deleting")
                 this.setState({
                     arr:[{
                         url:'',
@@ -41,9 +41,9 @@ export class ListOfTopicImg extends Component{
                 return;
             }
             this.setState({list: event.items})
-            console.log("here")
+           // console.log("here")
             let arr = []
-            console.log(this.state.list[0].name)
+           // console.log(this.state.list[0].name)
             for(let j=0; j< this.state.list.length; j++){
                 let obj = {}
                 this.state.list[j].getDownloadURL()
@@ -54,10 +54,10 @@ export class ListOfTopicImg extends Component{
                     obj.index = `${j+1}`
                     arr.push(obj)
                     this.setState({arr: arr})
-                    console.log(arr)
+                   // console.log(arr)
                 });  
             }
-            console.log(arr)
+           // console.log(arr)
         });
     }
     render(){

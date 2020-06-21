@@ -22,11 +22,11 @@ class ManageTopic extends Component {
 
     getAllSubjectNames = async () => {
         let topics = storage.ref('topics/')
-        console.log(topics)
+       // console.log(topics)
         try {
             const event = await topics.listAll();
             let list = event.prefixes;
-            console.log(list);
+         //   console.log(list);
             list.map((item, index) => {
                 this.setState({
                     SubjectName: this.state.SubjectName.concat(item.name)
@@ -48,7 +48,7 @@ class ManageTopic extends Component {
             return;
         }
         this.setState({SubjectName: this.state.SubjectName.concat(this.state.SubjectNameval)})
-        console.log(this.state)
+       // console.log(this.state)
     }
 
     showRow = (i) => {                       
@@ -66,7 +66,7 @@ class ManageTopic extends Component {
 
     showAllRows = () => {
         let all = new Object;
-        console.log("here")
+       // console.log("here")
         for (let i=0; i<this.state.SubjectName.length; i++){
             all.insert(this.showRow(i))
         }

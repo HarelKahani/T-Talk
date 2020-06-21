@@ -25,7 +25,7 @@ export class SurpriseButton extends Component {
             return;
         }
         this.setState({ SubjectName: this.state.SubjectName.concat(this.state.SubjectNameval) })
-        console.log(this.state)
+       // console.log(this.state)
     }
 
     render() {

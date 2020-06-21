@@ -29,7 +29,7 @@ const myFirestore = firebase.firestore()
 const storage = firebase.storage();
 document.addEventListener("DOMContentLoaded", event => {
     const app = firebase.app()
-    console.log(app)
+   // console.log(app)
 });
 
 class HomePage extends Component {
@@ -45,13 +45,14 @@ class HomePage extends Component {
             .then(result => {
                 const user = result.user
                 if (accepted_emails.includes(user.email)) {
-                    console.log(user)
-                    console.log("ACCEPTED")
+                  //  console.log(user)
+                  //  console.log("ACCEPTED")
                     this.setState({ LoggedIn: user })
                 }
                 else {
-                    console.log("DENIED");
-                    console.log("TRY AGAIN");
+                 //   console.log("DENIED");
+                 //   console.log("TRY AGAIN");
+                 alert("משתמש אינו מוכר, יש לפנות למנהל המערכת")
                     // alert unrecognized user
                 }
             })
@@ -62,24 +63,42 @@ class HomePage extends Component {
         let query = GamesRef.get()
             .then(snapshot => {
                 if (snapshot.empty) {
-                    console.log('No matching documents.');
+                  //  console.log('No matching documents.');
                     return;
                 }
                 snapshot.forEach(doc => {
                     let queryTime = new Date(doc.data().timeXstamp)
-                    console.log(queryTime)
+                 //   console.log(queryTime)
                     let now = new Date()
                     let timedelta = (now - queryTime) / 1000
+<<<<<<< HEAD
                     console.log(timedelta)
                     if (timedelta < 60 && doc.data().content == "Open Game") {
                         console.log(`Joining ${doc.data().name}'s game`)
+=======
+                 //   console.log(timedelta)
+                    if (timedelta < 300 && doc.data().content == "Open Game" && !this.state.FoundGame) {
+                     //   console.log(`Joining ${doc.data().name}'s game`)
+>>>>>>> 1ce1225efa1c68a13b6091f4e9e3591609767cb0
                         this.setState({ FoundGame: doc.data() })
+                        myFirestore
+                        .collection("Games")
+                        .doc(doc.data().email)
+                        .update({ content: "Closed Game" })
+                        .then(() => {
+                      //      console.log("changed game status")
+                        })
+                        .catch(err => {
+                            console.log("something went wrong", err)
+                        })
                     }
                     else {
-                        console.log("No recent game found")
-                        alert("אין משחק פעיל ברגע זה. נא להמתין למטפל/ת")
+                     //   console.log("No recent game found")
                     }
                 });
+                if (!this.state.FoundGame) {
+                    alert("אין משחק פעיל ברגע זה. נא להמתין למטפל/ת")
+                }
             })
             .catch(err => {
                 console.log('Error getting documents', err);
@@ -90,8 +109,8 @@ class HomePage extends Component {
             return (<Redirect to={{ pathname: "/User_Board", gamedata: this.state.FoundGame, user: this.state.LoggedIn }} />);
         }
         if (this.state.LoggedIn) {
-            console.log("HERE")
-            console.log(this.state.LoggedIn);
+         //   console.log("HERE")
+         //   console.log(this.state.LoggedIn);
             return (<Redirect to={{ pathname: "/ChooseTopic", LoggedIn: this.state.LoggedIn }} />); // give LoggedIn as argument
         }
         else {

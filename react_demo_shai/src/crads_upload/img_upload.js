@@ -17,7 +17,7 @@ export class Upload extends Component {
 
     getName = event =>{
         let name = event.target.value
-        console.log(name)
+        //console.log(name)
         let fileName = `${name}.JPG`
         this.setState({
             imgName: fileName 
@@ -32,27 +32,27 @@ export class Upload extends Component {
         // });
 
         // event.persist()
-        console.log(evt)
+        //console.log(evt)
         let file = evt.target.files[0]
         this.setState(prevState => ({
             selectedFile: file
         }));
-        console.log(file)
+        //console.log(file)
         console.log(this.state)
     }
 
     imgUploadHAndler = () => {
         if(this.state.selectedFile == null){
-            console.log("No image was uploaded");
+           //console.log("No image was uploaded");
             alert("לא נבחרה תמונה");
             return;
         }
         const fd = new FormData();
         fd.append('image', this.state.selectedFile, this.state.imgName);
-        console.log(fd);
+        //console.log(fd);
         axios.post('https://us-central1-t-talk-game.cloudfunctions.net/uploadFile', fd)
         .then(res =>{
-                console.log(res);
+                //console.log(res);
                 this.setState({
                 uploadState: res.status
                 });

@@ -12,13 +12,13 @@ export class DeleteDialog extends Component {
   }
 
   deleteTopic = () => {
-    console.log(`topic ${this.state.topicName} was not deleted yet`);
+   // console.log(`topic ${this.state.topicName} was not deleted yet`);
     storage.ref(`topics/${this.state.topicName}`).listAll()
     .then((event) =>{
       var list = event.items;
       list.map((item, index) =>{
           item.delete().then(()=>{
-          console.log(`${item.name} was deleted`)
+        //  console.log(`${item.name} was deleted`)
           if(index === list.length-1){
             this.props.onHide()
           }

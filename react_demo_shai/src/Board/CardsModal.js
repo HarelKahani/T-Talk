@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { storage } from '../pages/HomePage'
+import { myFirestore } from '../pages/HomePage'
 
 //define the amount of cards in one pack rotine
 const CARDS_LIMIT = 16;
@@ -18,16 +19,36 @@ export class CardsModal extends Component {
             gameData: this.props.gamedata,
             cards : this.props.cards,
             surprises: this.props.surprises,
+            setcont: this.props.setcont,
+            allowcont: this.props.allowcont
             // topicName: this.props.topicname
         }
+        this.state.setcont = this.state.setcont.bind(this)
+        let query = myFirestore.collection('Games')
+        let observer = query
+        .onSnapshot(querySnapshot => {
+            querySnapshot.docChanges().forEach(change => {
+                if (change.type === 'modified') {
+                    if (change.doc.data().allowcont != this.state.allowcont) {
+                        this.setState({ allowcont: change.doc.data().allowcont })
+                    }
+                }
+            });
+        });
     }
-
     onClick = () => {
-        console.log("!!!!!!!!!", this.props.user)
-        if(!this.props.user){
-            console.log("You are a patiant!!")
+        //console.log("!!!!!!!!!", this.props.user)
+        if(!this.props.user && !this.state.allowcont){
+            //("You are a patiant!!")
             return;
+        } else if (!this.props.user) {
+            this.state.setcont(false)
+        } else {
+            this.state.setcont(true)
         }
+        this.props.settaskable(true)
+        this.props.setsurpriseable(true)
+        this.props.releasecube(true)
         this.props.onHide();
         if(this.state.kind == "task"){
             this.setState({ counter: this.state.counter += 1 });
@@ -54,7 +75,7 @@ export class CardsModal extends Component {
             }
         }
         else if(this.state.kind == "surprise"){
-            let items = this.props.surprises.slice().sort((a,b)=>a.index-b.index);
+            let items = this.props.surprises.slice().sort((a,b)=>b.index-a.index);
             // console.log("props surprise",this.props.surprises)
             // console.log("state surprise", this.state.list)
             if (items.length > 0){

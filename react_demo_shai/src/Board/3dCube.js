@@ -30,19 +30,25 @@ export class Cube extends Component {
       dice.forEach(die => {
         toggleClasses(die);
         if (this.state.clicked && bandage > 0) {
-          die.dataset.roll = getRandomNumber(1, 6);
+          //die.dataset.roll = getRandomNumber(1, 6);
+          let rnum = getRandomNumber(1, 6);
+          do {
+             rnum = getRandomNumber(1, 6);
+          } while (rnum == die.dataset.roll)
+          die.dataset.roll = rnum
           this.props.setColor(die.dataset.roll);
+          this.props.findClosestSquare(die.dataset.roll);
           this.state.clicked = false
           bandage--;
         } else if (bandage > 0)  {
           die.dataset.roll = this.props.color;
           bandage--;
         }
-        console.log(die.dataset.roll)
+        //console.log(die.dataset.roll)
       });
     }
   render() {
-    console.log("redid cube", this.props.color)
+    //console.log("redid cube", this.props.color)
     if (this.props.color != -1 && !this.state.clicked) {
       this.rollDice()
     }
@@ -56,7 +62,7 @@ export class Cube extends Component {
             <li className="die-item" data-side="5"></li>
             <li className="die-item" data-side="6"></li>
           </ol>
-          <h6 style={{ textAlign: "center" , backgroundColor:"white"}}><b>לחץ על הקובייה</b></h6>
+          <h6 style={{ textAlign: "center" , backgroundColor:"transparent"}}><b>לחץ על הקובייה</b></h6>
         </div>
       
     );

@@ -18,7 +18,7 @@ export class ImgHandler extends Component {
     }
     getName = event =>{
         let name = event.target.value
-        console.log(name)
+        //console.log(name)
         let fileName = `${name}.JPG`
         this.setState({
             imgName: fileName,
@@ -27,20 +27,20 @@ export class ImgHandler extends Component {
     }
 
     imgSelectHandler = evt => {
-        console.log(evt)
+        //console.log(evt)
         let file = evt.target.files[0]
-        console.log(file)
+        //console.log(file)
         this.setState(prevState => ({
                 image: file
             })
         );  
-        console.log(this.state)
+        //console.log(this.state)
     }
 
     imgUploadHAndler = () => {
         const {image} = this.state;
         if(image == null){
-            console.log("No image was uploaded");
+            //console.log("No image was uploaded");
             alert("לא נבחרה תמונה");
             return;
         }
@@ -48,23 +48,23 @@ export class ImgHandler extends Component {
         const uploadTask = storage.ref(`topics/${this.state.topicName}/${this.state.imgName}`).put(image);
         uploadTask.on('state_changed',
         (snapshot) => {
-            console.log("in progress")
+            //console.log("in progress")
             const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             this.setState({progress});
-            console.log(progress)
+            //console.log(progress)
             if (progress === 100){
-                console.log("התמונה עלתה בהצלחה")
+                //console.log("התמונה עלתה בהצלחה")
             }
         },
         (error) =>{
-            console.log("error")
+            //console.log("error")
             console.log(error);
         },
         () => {
             storage.ref(`topics/${this.state.topicName}`).child(`${this.state.imgName}`).getDownloadURL()
             .then(url => {
-                console.log("ok")
-                console.log(url);
+                //console.log("ok")
+                //console.log(url);
                 this.setState({url, name: '', curr: this.state.imgName});                
             })
         });

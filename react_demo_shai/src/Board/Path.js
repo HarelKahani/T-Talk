@@ -6,7 +6,7 @@ export class Path extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log("props:", props)
+        //console.log("props:", props)
         this.setColor = this.setColor.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.fillSurprise = this.fillSurprise.bind(this);
@@ -27,7 +27,7 @@ export class Path extends React.Component {
             .doc(this.state.gameData)
             .update({ cube: event })
             .then(() => {
-                console.log("written cube color")
+                //console.log("written cube color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
@@ -36,21 +36,21 @@ export class Path extends React.Component {
     };
 
     handleClick = (id, color) => {
-        console.log(`this is id ${id}`);
-        console.log(`this is color ${color}`);
+        //console.log(`this is id ${id}`);
+        //console.log(`this is color ${color}`);
 
-        console.log(`this is current ${this.state.currentSquare}`)
+        //console.log(`this is current ${this.state.currentSquare}`)
 
         if (this.state.currentSquare === id) {
-            console.log('have the same id');
+            //console.log('have the same id');
             return;
         }
         document.getElementById(`${this.state.currentSquare}`).innerHTML = '';
 
         let nextSquare = document.getElementById(`${id}`);
-        console.log(`currentSquare ${this.state.currentSquare}`);
+        //console.log(`currentSquare ${this.state.currentSquare}`);
         this.setState({ currentSquare: id }, () => {
-            console.log(`second currentSquare ${this.state.currentSquare}`);
+            //console.log(`second currentSquare ${this.state.currentSquare}`);
             let curr = nextSquare.innerHTML;
             nextSquare.innerHTML = `${curr} <img class='pawn' src='Pawn.png' width=30% color=${color} id=${id}></img>`;
         });
@@ -70,13 +70,13 @@ export class Path extends React.Component {
         let buttonArray = this.fillArray();
         // console.log(buttonArray);
         if (id === `enable`) {
-            console.log(`enable was pressed`);
+            //console.log(`enable was pressed`);
             buttonArray.map((button) => {
                 button.disabled = false;
             });
         }
         if (id === `disable`) {
-            console.log(`disable was pressed`);
+            //console.log(`disable was pressed`);
             buttonArray.map((button) => {
                 button.disabled = true;
             });
@@ -87,11 +87,11 @@ export class Path extends React.Component {
         const classes = document.getElementsByClassName("suprise_pic")
         const ids = Array.from(classes)
         let surprises =[]
-        console.log(surprises)
+        //console.log(surprises)
         if(this.props.surprises !== null){
             surprises = this.props.surprises.slice().sort((a,b)=>a.index-b.index)
         }
-        console.log(surprises)
+        //console.log(surprises)
         ids.map((item, index)=>{
             //console.log(item.id, item.style.backgroundColor)
             if(this.props.surprises !== null && this.props.surprises[index] !== undefined){
