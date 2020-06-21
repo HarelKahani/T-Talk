@@ -71,9 +71,9 @@ class HomePage extends Component {
                  //   console.log(queryTime)
                     let now = new Date()
                     let timedelta = (now - queryTime) / 1000
-                 //   console.log(timedelta)
-                    if (timedelta < 300 && doc.data().content == "Open Game" && !this.state.FoundGame) {
-                     //   console.log(`Joining ${doc.data().name}'s game`)
+                    console.log(timedelta)
+                    if (timedelta < 60 && doc.data().content == "Open Game") {
+                        console.log(`Joining ${doc.data().name}'s game`)
                         this.setState({ FoundGame: doc.data() })
                         myFirestore
                         .collection("Games")
