@@ -70,57 +70,58 @@ class Board extends React.Component {
         let observer = query
             .onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(change => {
+                    console.log(change.doc.data().email, this.state.gameData.email)
                     if (change.doc.data().email === this.state.gameData.email) {
-                    if (change.type === 'added') {
-                      //  console.log('New: ', change.doc.data());
-                    }
-                    if (change.type === 'modified') {
-                        //console.log('Modified: ', change.doc.data());
-                        if (change.doc.data().cube != this.state.color) {
-                            //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
-                            this.setState({ color: change.doc.data().cube })
-                            // console.log(`this is state color ${this.state.color}`);
-                            if (this.state.color !== -1) {
-                                // let desiredId = this.findClosestSquare();
+                        if (change.type === 'added') {
+                        //  console.log('New: ', change.doc.data());
+                        }
+                        if (change.type === 'modified') {
+                            //console.log('Modified: ', change.doc.data());
+                            if (change.doc.data().cube != this.state.color) {
+                                //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                                this.setState({ color: change.doc.data().cube })
+                                // console.log(`this is state color ${this.state.color}`);
+                                if (this.state.color !== -1) {
+                                    // let desiredId = this.findClosestSquare();
+                                    
+                                    // this.disableNotRelevantSquares(desiredId);
+                                }
+                                //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                            }
+                            if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
+                                this.moveOtherPawn(change.doc.data().childSquare, "Child")
+                                this.state.childSquare = change.doc.data().childSquare
+                            }
+                            if (change.doc.data().therapistSquare != this.state.therapistSquare && !this.state.user) {
                                 
-                                // this.disableNotRelevantSquares(desiredId);
+                                this.moveOtherPawn(change.doc.data().therapistSquare, "Therapist")
+                                this.state.therapistSquare = change.doc.data().therapistSquare
+                                
                             }
-                            //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
-                        }
-                        if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
-                            this.moveOtherPawn(change.doc.data().childSquare, "Child")
-                            this.state.childSquare = change.doc.data().childSquare
-                        }
-                        if (change.doc.data().therapistSquare != this.state.therapistSquare && !this.state.user) {
-                            
-                            this.moveOtherPawn(change.doc.data().therapistSquare, "Therapist")
-                            this.state.therapistSquare = change.doc.data().therapistSquare
-                            
-                        }
-                        if (change.doc.data().allowcont != this.state.allowcont && !this.state.user) {
-                            this.setState({allowcont: change.doc.data().allowcont})
-                        }
-                        if (change.doc.data().surpriseable != this.state.surpriseable) {
-                            this.setState({surpriseable: change.doc.data().surpriseable})
-                        }
-                        if (change.doc.data().taskable != this.state.taskable) {
-                            this.setState({taskable: change.doc.data().taskable})
-                        }
-                        if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
-                            console.log(change.doc.data().enabled)
-                            if (change.doc.data().enabled === 'true') {
-                                this.enableDisable('enable')
-                                this.setState({'enabled': true})
-                            } else {
-                                this.enableDisable('disable')
-                                this.setState({'enabled': false})
+                            if (change.doc.data().allowcont != this.state.allowcont && !this.state.user) {
+                                this.setState({allowcont: change.doc.data().allowcont})
+                            }
+                            if (change.doc.data().surpriseable != this.state.surpriseable) {
+                                this.setState({surpriseable: change.doc.data().surpriseable})
+                            }
+                            if (change.doc.data().taskable != this.state.taskable) {
+                                this.setState({taskable: change.doc.data().taskable})
+                            }
+                            if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
+                                console.log(change.doc.data().enabled)
+                                if (change.doc.data().enabled === 'true') {
+                                    this.enableDisable('enable')
+                                    this.setState({'enabled': true})
+                                } else {
+                                    this.enableDisable('disable')
+                                    this.setState({'enabled': false})
+                                }
                             }
                         }
+                        if (change.type === 'removed') {
+                        //  console.log('Removed: ', change.doc.data());
+                        }
                     }
-                    if (change.type === 'removed') {
-                      //  console.log('Removed: ', change.doc.data());
-                    }
-                }
                 });
             });
     }
