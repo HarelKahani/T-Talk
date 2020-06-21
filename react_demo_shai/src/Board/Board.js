@@ -154,8 +154,6 @@ class Board extends React.Component {
             }
             return;
         }
-        this.setTaskable(false)
-        this.setSurpriseable(true)
         let cubeColor = NumbersToColors[Number(cubec)];
         //console.log(`this is cubecolor ${cubeColor}`, cubec);
 
@@ -301,7 +299,8 @@ class Board extends React.Component {
             //console.log('wrong id');
             return;
         }
-        
+        this.setTaskable(false)
+        this.setSurpriseable(true)
         this.setPawn(id)
         let prevSquare = () => {
             //console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
