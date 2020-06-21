@@ -42,6 +42,7 @@ class Board extends React.Component {
         this.fillSurprise = this.fillSurprise.bind(this);
         this.findClosestSquare = this.findClosestSquare.bind(this);
         this.setCont = this.setCont.bind(this);
+        this.releaseCube = this.releaseCube.bind(this)
         this.state = {
             gameData: this.props.location.gamedata,
             user: this.props.location.user,
@@ -55,11 +56,13 @@ class Board extends React.Component {
             desiredId: null,
             showConf: false,
             childTurn: true,
-            cubeable: false,
+            cubeable: this.props.location.user ? true:false,
             surpriseable: true,
             taskable: true,
             allowcont: false,
-            surpriseorder: 1
+            surpriseorder: 1,
+            enabled: true,
+            isturn: false
         };
         this.getSurpriseImages()
 
@@ -82,7 +85,6 @@ class Board extends React.Component {
                                 // this.disableNotRelevantSquares(desiredId);
                             }
                             //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
-                            this.setState({cubeable: false})
                         }
                         if (change.doc.data().childSquare != this.state.childSquare && this.state.user) {
                             this.moveOtherPawn(change.doc.data().childSquare, "Child")
@@ -102,6 +104,16 @@ class Board extends React.Component {
                         }
                         if (change.doc.data().taskable != this.state.taskable) {
                             this.setState({taskable: change.doc.data().taskable})
+                        }
+                        if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
+                            console.log(change.doc.data().enabled)
+                            if (change.doc.data().enabled === 'true') {
+                                this.enableDisable('enable')
+                                this.setState({'enabled': true})
+                            } else {
+                                this.enableDisable('disable')
+                                this.setState({'enabled': false})
+                            }
                         }
                     }
                     if (change.type === 'removed') {
@@ -192,7 +204,7 @@ class Board extends React.Component {
             .doc(this.state.gameData.email)
             .update({ taskable: event })
             .then(() => {
-                console.log("written cards color")
+               // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
@@ -205,13 +217,18 @@ class Board extends React.Component {
             .doc(this.state.gameData.email)
             .update({ surpriseable: event })
             .then(() => {
-                console.log("written cards color")
+               // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
             })
     };
-
+    releaseCube = (event) => { 
+        if (!this.state.isturn) {
+            this.setState({cubeable: !event})
+        } 
+        this.state.isturn = false
+    }
     setCont = (event) => {
         this.setState({allowcont: event})
         myFirestore
@@ -229,10 +246,29 @@ class Board extends React.Component {
     setColor = (event) => {
         this.setState({cubeable: true})
         this.setState({ color: event });
+        this.state.isturn = true
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
             .update({ cube: event })
+            .then(() => {
+                //console.log("written cube color")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
+    };
+
+    setEnbDisb = (event) => {
+        if (event == "true") {
+            this.setState({enabled: true})
+        } else {
+            this.setState({enabled: false})
+        }
+        myFirestore
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ enabled: event })
             .then(() => {
                 //console.log("written cube color")
             })
@@ -447,7 +483,7 @@ class Board extends React.Component {
             }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
-                <div className="cards_container" style={this.state.taskable ? {pointerEvents: "none", opacity: "0.8"} : {}}>
+                <div className="cards_container" style={this.state.taskable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
                     <CardsPack kind={"task"}
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
@@ -458,10 +494,11 @@ class Board extends React.Component {
                         allowcont={this.state.allowcont}
                         settaskable={this.setTaskable}
                         setsurpriseable={this.setSurpriseable}
+                        releasecube={this.releaseCube}
                         //key={this.state.allowcont}
                        />
                 </div>
-                <div className="sup_cards_container" style={this.state.surpriseable ? {pointerEvents: "none", opacity: "0.8" } : {}}>
+                <div className="sup_cards_container" style={this.state.surpriseable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8" } : {}}>
                     <CardsPack kind={"surprise"}
                         img={"/cards_imgs/main.png"}
                         title={"קלף הפתעה"}
@@ -472,11 +509,12 @@ class Board extends React.Component {
                         allowcont={this.state.allowcont}
                         settaskable={this.setTaskable}
                         setsurpriseable={this.setSurpriseable}
+                        releasecube={this.releaseCube}
                         //key={this.state.allowcont}
                     />
 
                 </div>
-                <div className="cube_container" style={this.state.cubeable ? {pointerEvents: "none", opacity: "0.8"} : {}}>
+                <div className="cube_container" style={this.state.isturn || this.state.cubeable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
                     <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
@@ -546,11 +584,11 @@ class Board extends React.Component {
                             {/* button1 */}
                             { <img src='Pawns.png' style={{width: '30%', visibility: 'visible'}} ></img> }
                         </Button>
-                        <div id="enbale-disable">
-                        <Button id="disable" onClick={e => this.enableDisable(e.target.id)} style={{margin:"2%"}}>
+                        <div id="enbale-disable" style={!this.state.user ? {pointerEvents: "none", opacity: "0" } : {}}>
+                        <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{margin:"2%"}}>
                             הפעל נעילת לוח
                     </Button>
-                        <Button id="enable" onClick={e => this.enableDisable(e.target.id)}>
+                        <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))}>
                             שחרר נעילת לוח
                     </Button>
                     </div>
