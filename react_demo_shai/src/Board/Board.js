@@ -491,7 +491,9 @@ class Board extends React.Component {
                         if (obj.name.startsWith("board")) {
                             obj.board = true;
                         }
-                        arr.push(obj);
+                        if(obj.board){
+                            arr.push(obj);
+                        }
                         this.setState({ surprises: arr });
                         // console.log(arr)
                     }).catch(err => {

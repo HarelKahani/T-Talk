@@ -90,7 +90,9 @@ export class CardsPack extends Component {
                             if (obj.name.startsWith("board")){
                                 obj.board = true;
                             }
-                            arr.push(obj)
+                            if(!obj.board){
+                                arr.push(obj)
+                            }
                             // this.setState({list: arr})
                             this.state.surprises = arr
                         }).then(()=>{
