@@ -336,7 +336,10 @@ class Board extends React.Component {
             //console.log('wrong id');
             return;
         }
-        this.setTaskable(false)
+        console.log(this.state.color)
+        if (this.state.color != 2) {
+            this.setTaskable(false)
+        }
         this.setSurpriseable(true)
         this.setPawn(id)
         let prevSquare = () => {
@@ -637,7 +640,7 @@ class Board extends React.Component {
                             <OverlayTrigger
                                 trigger="hover"
                                 key="top"
-                                placement="right"
+                                placement="top"
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
@@ -682,7 +685,7 @@ class Board extends React.Component {
                             <OverlayTrigger
                                 trigger="hover"
                                 key="top"
-                                placement="left"
+                                placement="top"
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
