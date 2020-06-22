@@ -6,7 +6,8 @@ import { myFirestore } from './../pages/HomePage'
 import { storage } from '../pages/HomePage'
 // import { Path } from './Path'
 import LetItRain from './confetti'
-
+import Lottie from 'react-lottie';
+import animationData from './arrow.json'
 // .onUpdate((snapshot, context) => {
 //     const val = snapshot.val();
 //     console.log(val)
@@ -56,7 +57,7 @@ class Board extends React.Component {
             desiredId: null,
             showConf: false,
             childTurn: true,
-            cubeable: this.props.location.user ? true:false,
+            cubeable: this.props.location.user ? true : false,
             surpriseable: true,
             taskable: true,
             allowcont: false,
@@ -75,18 +76,18 @@ class Board extends React.Component {
                     console.log(change.doc.data().email, this.state.gameData.email)
                     if (change.doc.data().email === this.state.gameData.email) {
                         if (change.type === 'added') {
-                        //  console.log('New: ', change.doc.data());
+                            //  console.log('New: ', change.doc.data());
                         }
                         if (change.type === 'modified') {
                             //console.log('Modified: ', change.doc.data());
                             if (change.doc.data().cube != this.state.color) {
                                 //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
-                                this.setState({redocube: true})
+                                this.setState({ redocube: true })
                                 this.setState({ color: change.doc.data().cube })
                                 // console.log(`this is state color ${this.state.color}`);
                                 if (this.state.color !== -1) {
                                     // let desiredId = this.findClosestSquare();
-                                    
+
                                     // this.disableNotRelevantSquares(desiredId);
                                 }
                                 //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
@@ -96,41 +97,41 @@ class Board extends React.Component {
                                 this.state.childSquare = change.doc.data().childSquare
                             }
                             if (change.doc.data().therapistSquare != this.state.therapistSquare && !this.state.user) {
-                                
+
                                 this.moveOtherPawn(change.doc.data().therapistSquare, "Therapist")
                                 this.state.therapistSquare = change.doc.data().therapistSquare
-                                
+
                             }
                             if (change.doc.data().allowcont != this.state.allowcont && !this.state.user) {
-                                this.setState({allowcont: change.doc.data().allowcont})
+                                this.setState({ allowcont: change.doc.data().allowcont })
                             }
                             if (change.doc.data().surpriseable != this.state.surpriseable) {
-                                this.setState({surpriseable: change.doc.data().surpriseable})
+                                this.setState({ surpriseable: change.doc.data().surpriseable })
                             }
                             if (change.doc.data().taskable != this.state.taskable) {
-                                this.setState({taskable: change.doc.data().taskable})
+                                this.setState({ taskable: change.doc.data().taskable })
                             }
                             if (change.doc.data().endforchild != this.state.endforchild && !this.state.user) {
-                                this.setState({endforchild: change.doc.data().endforchild})
+                                this.setState({ endforchild: change.doc.data().endforchild })
                                 this.state.desiredId = 'button30'
                                 this.handleClick("button30", "pink")
                             }
                             if (change.doc.data().surpriseorder != this.state.surpriseorder) {
-                                this.setState({surpriseorder: change.doc.data().surpriseorder})
+                                this.setState({ surpriseorder: change.doc.data().surpriseorder })
                             }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
                                 console.log(change.doc.data().enabled)
                                 if (change.doc.data().enabled === 'true') {
                                     this.enableDisable('enable')
-                                    this.setState({'enabled': true})
+                                    this.setState({ 'enabled': true })
                                 } else {
                                     this.enableDisable('disable')
-                                    this.setState({'enabled': false})
+                                    this.setState({ 'enabled': false })
                                 }
                             }
                         }
                         if (change.type === 'removed') {
-                        //  console.log('Removed: ', change.doc.data());
+                            //  console.log('Removed: ', change.doc.data());
                         }
                     }
                 });
@@ -139,7 +140,7 @@ class Board extends React.Component {
 
     disableNotRelevantSquares = (desiredId) => {
         //console.log('this is desiredId', desiredId);
-        
+
         for (let i = 1; i < 31; i++) {
             let square = document.getElementById(`button${i}`);
             // console.log('this is square/////////////////////////////', square);
@@ -158,10 +159,10 @@ class Board extends React.Component {
             if (cubec == 2) {
                 this.setTaskable(true)
                 this.setSurpriseable(false)
-                this.setState({desiredId: SurpriseOrder[this.state.surpriseorder]});
+                this.setState({ desiredId: SurpriseOrder[this.state.surpriseorder] });
                 this.setSurpriseOrder()
                 return SurpriseOrder[this.state.surpriseorder - 1]
-                
+
             }
             return;
         }
@@ -172,26 +173,26 @@ class Board extends React.Component {
         let sameColorButtons = Array.from(colorClass);
         // console.log('this is colorbuttons', sameColorButtons);
 
-    
+
         let swapped;
         let temp;
         do {
             swapped = false;
             for (let i = 0; i < sameColorButtons.length - 1; i++) {
-                if (Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]) > Number(sameColorButtons[i+1].getAttribute('id').match(/(\d+)/)[0])) {
+                if (Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]) > Number(sameColorButtons[i + 1].getAttribute('id').match(/(\d+)/)[0])) {
                     temp = sameColorButtons[i];
-                    sameColorButtons[i] = sameColorButtons[i+1];
-                    sameColorButtons[i+1] = temp;
+                    sameColorButtons[i] = sameColorButtons[i + 1];
+                    sameColorButtons[i + 1] = temp;
                     swapped = true;
-                    
+
                 }
-                
+
             }
         } while (swapped);
 
         // console.log('this is sorted ==============', sameColorButtons);
 
-        
+
         let desiredSquareId;
         //console.log(sameColorButtons)
         for (let i = 0; i < sameColorButtons.length; i++) {
@@ -199,53 +200,53 @@ class Board extends React.Component {
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
             if (sameColorButtonsIdNumber > currentSquareIdNumber) {
                 desiredSquareId = sameColorButtons[i].getAttribute('id');
-                this.setState({desiredId: desiredSquareId});
+                this.setState({ desiredId: desiredSquareId });
                 //console.log('this is desired square', desiredSquareId);
                 return desiredSquareId;
             }
         }
-        
+
     }
     setTaskable = (event) => {
-        this.setState({taskable: event})
+        this.setState({ taskable: event })
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
             .update({ taskable: event })
             .then(() => {
-               // console.log("written cards color")
+                // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
             })
     };
     setSurpriseable = (event) => {
-        this.setState({surpriseable: event})
+        this.setState({ surpriseable: event })
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
             .update({ surpriseable: event })
             .then(() => {
-               // console.log("written cards color")
+                // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
             })
     };
-    releaseCube = (event) => { 
+    releaseCube = (event) => {
         if (!this.state.isturn) {
-            this.setState({cubeable: !event})
-        } 
+            this.setState({ cubeable: !event })
+        }
         this.state.isturn = false
     }
     setCont = (event) => {
-        this.setState({allowcont: event})
+        this.setState({ allowcont: event })
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
             .update({ allowcont: event })
             .then(() => {
-               // console.log("written cards color")
+                // console.log("written cards color")
             })
             .catch(err => {
                 console.log("something went wrong", err)
@@ -253,8 +254,8 @@ class Board extends React.Component {
     };
 
     setColor = (event) => {
-        this.setState({redocube: false})
-        this.setState({cubeable: true})
+        this.setState({ redocube: false })
+        this.setState({ cubeable: true })
         this.setState({ color: event });
         this.state.isturn = true
         myFirestore
@@ -271,9 +272,9 @@ class Board extends React.Component {
 
     setEnbDisb = (event) => {
         if (event == "true") {
-            this.setState({enabled: true})
+            this.setState({ enabled: true })
         } else {
-            this.setState({enabled: false})
+            this.setState({ enabled: false })
         }
         myFirestore
             .collection("Games")
@@ -287,47 +288,47 @@ class Board extends React.Component {
             })
     };
 
-    setPawn = (event)=> {
+    setPawn = (event) => {
         let to_update = null;
         if (this.state.user) {
-            to_update = {therapistSquare: event}
+            to_update = { therapistSquare: event }
         } else {
-            to_update = {childSquare: event}
+            to_update = { childSquare: event }
         }
         myFirestore
-        .collection("Games")
-        .doc(this.state.gameData.email)
-        .update(to_update)
-        .then(() => {
-            //console.log("written pawn")
-        })
-        .catch(err => {
-            console.log("something went wrong", err)
-        })
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update(to_update)
+            .then(() => {
+                //console.log("written pawn")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
     };
 
-    setPawnEndGame = ()=> {
+    setPawnEndGame = () => {
         myFirestore
-        .collection("Games")
-        .doc(this.state.gameData.email)
-        .update({endforchild: true})
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ endforchild: true })
     }
-    setSurpriseOrder = ()=> {
+    setSurpriseOrder = () => {
         if (this.state.surpriseorder > 6) {
             this.state.surpriseorder = 1
         } else {
             this.state.surpriseorder += 1;
         }
         myFirestore
-        .collection("Games")
-        .doc(this.state.gameData.email)
-        .update({surpriseorder: this.state.surpriseorder})
-        .then(() => {
-            //console.log("written pawn")
-        })
-        .catch(err => {
-            console.log("something went wrong", err)
-        })
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ surpriseorder: this.state.surpriseorder })
+            .then(() => {
+                //console.log("written pawn")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
     };
 
     handleClick = (id, color) => {
@@ -340,13 +341,13 @@ class Board extends React.Component {
         this.setPawn(id)
         let prevSquare = () => {
             //console.log("moveinner", this.state.therapistSquare, this.state.childSquare)
-                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
-                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.currentSquare}></img>`
-                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
-                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.currentSquare}></img>`
-                } else {
-                    return ``
-                }
+            if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.currentSquare}></img>`
+            } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.currentSquare}></img>`
+            } else {
+                return ``
+            }
         }
         // console.log(`this is id ${id}`);
         // console.log(`this is color ${color}`);
@@ -380,7 +381,7 @@ class Board extends React.Component {
         });
 
         if (id === "button30") {
-            this.setState({showConf : true});
+            this.setState({ showConf: true });
         }
     }
 
@@ -400,24 +401,24 @@ class Board extends React.Component {
         }
         let prevSquare = () => {
             //console.log("moveother", this.state.therapistSquare, this.state.childSquare)
-                if (this.state.user && this.state.currentSquare === this.state.childSquare) {
-                    return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.childSquare}></img>`
-                } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
-                    return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.therapistSquare}></img>`
-                } else {
-                    return ``
-                }
+            if (this.state.user && this.state.currentSquare === this.state.childSquare) {
+                return `<img class='pawn' src='Pawn.png' width=30%  id=${this.state.childSquare}></img>`
+            } else if (!this.state.user && this.state.currentSquare === this.state.therapistSquare) {
+                return `<img class='pawn' src='Pawn2.png' width=30%  id=${this.state.therapistSquare}></img>`
+            } else {
+                return ``
+            }
         }
         if (toChange == "Therapist") {
             document.getElementById(`${this.state.therapistSquare}`).innerHTML = prevSquare();
             let curr = nextSquare.innerHTML;
-            this.setState({therapistSquare: id}, () => {
+            this.setState({ therapistSquare: id }, () => {
                 nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30%  id=${id}></img>`;
             });
         } else if (toChange == "Child") {
             document.getElementById(`${this.state.childSquare}`).innerHTML = prevSquare();
             let curr = nextSquare.innerHTML;
-            this.setState({childSquare: id}, () => {
+            this.setState({ childSquare: id }, () => {
                 nextSquare.innerHTML = `<img class='pawn' src=${next_pawn_img()} width=30% id=${id}></img>`;
             });
         }
@@ -453,16 +454,16 @@ class Board extends React.Component {
     fillSurprise = () => {
         const classes = document.getElementsByClassName("suprise_pic")
         const ids = Array.from(classes)
-        let surprises =[]
-        if(this.state.surprises !== null){
-            surprises = this.state.surprises.slice().sort((a,b)=>a.index-b.index)
+        let surprises = []
+        if (this.state.surprises !== null) {
+            surprises = this.state.surprises.slice().sort((a, b) => a.index - b.index)
         }
-        ids.map((item, index)=>{
-            if(this.state.surprises !== null && this.state.surprises[index] !== undefined){
+        ids.map((item, index) => {
+            if (this.state.surprises !== null && this.state.surprises[index] !== undefined) {
                 const pic = surprises[index].url
                 item.style = `background-image: url(${pic}); background-size: 85% 85%; background-repeat: no-repeat; background-position: 50% 50%; background-color: ${item.style.backgroundColor};`;
                 // item.innerHTML = `<img class="sup_img" src=${this.props.surprises[index].url} width=100% color=${item.style.backgroundColor} id=${item.id}></img>`;
-             
+
             }
         });
     }
@@ -486,7 +487,7 @@ class Board extends React.Component {
                         }
                         arr.push(obj);
                         this.setState({ surprises: arr });
-                       // console.log(arr)
+                        // console.log(arr)
                     }).catch(err => {
                         console.log(err)
                     })
@@ -500,11 +501,19 @@ class Board extends React.Component {
         //console.log(this.state.color);
         //console.log(this.props.location.gamedata);
         const letItRain = this.state.showConf;
-        let yellow_style = {background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)"};
+        let yellow_style = { background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" };
         let blue_style = { background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)" };
-        let pink_style = {background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)"}
-        let green_style= {  background: "#3AFF12", background: "-moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "-webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%)"}
-        let orange_style={background: "#FFD500", background: "-moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "-webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)"}
+        let pink_style = { background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)" }
+        let green_style = { background: "#3AFF12", background: "-moz-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "-webkit-radial-gradient(center, #3AFF12 0%, #00A513 100%, #45FF00 100%)", background: "radial-gradient(ellipse at center, #3AFF12 0%, #00A513 100%, #45FF00 100%)" }
+        let orange_style = { background: "#FFD500", background: "-moz-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "-webkit-radial-gradient(center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)", background: "radial-gradient(ellipse at center, #FFD500 0%, #CB7A08 100%, #FFB303 100%)" }
+        const defaultOptions = {
+            loop: true,
+            autoplay: true,
+            animationData: animationData,
+            rendererSettings: {
+                preserveAspectRatio: "xMidYMid slice"
+            }
+        };
         return (
             <div style={{
                 position: "fixed",
@@ -518,22 +527,22 @@ class Board extends React.Component {
             }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
                 <div className="vl"></div>
-                <div className="cards_container" style={this.state.taskable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
+                <div className="cards_container" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0.8" } : {}}>
                     <CardsPack kind={"task"}
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
                         describe={"האם תצליחו להשלים את המשימה?"}
                         gamedata={this.props.location.gamedata}
-                        user={this.props.location.user} 
+                        user={this.props.location.user}
                         setcont={this.setCont}
                         allowcont={this.state.allowcont}
                         settaskable={this.setTaskable}
                         setsurpriseable={this.setSurpriseable}
                         releasecube={this.releaseCube}
-                        //key={this.state.allowcont}
-                       />
+                    //key={this.state.allowcont}
+                    />
                 </div>
-                <div className="sup_cards_container" style={this.state.surpriseable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8" } : {}}>
+                <div className="sup_cards_container" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0.8" } : {}}>
                     <CardsPack kind={"surprise"}
                         img={"/cards_imgs/main.png"}
                         title={"קלף הפתעה"}
@@ -545,12 +554,12 @@ class Board extends React.Component {
                         settaskable={this.setTaskable}
                         setsurpriseable={this.setSurpriseable}
                         releasecube={this.releaseCube}
-                        //key={this.state.allowcont}
+                    //key={this.state.allowcont}
                     />
 
                 </div>
-                <div className="cube_container" style={this.state.isturn || this.state.cubeable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
-                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} redocube={this.state.redocube} cubeable={this.state.cubeable}/>
+                <div className="cube_container" style={this.state.isturn || this.state.cubeable || !this.state.enabled ? { pointerEvents: "none", opacity: "0.8" } : {}}>
+                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} redocube={this.state.redocube} cubeable={this.state.cubeable} />
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
@@ -560,12 +569,12 @@ class Board extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button value={'pink'} className="pink" id="button30" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button value={'orange'} className="suprise_pic orange" id="button29" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button30" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "0px 20px 20px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="suprise_pic orange" id="button29" style={{ background: "#CB7A08" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'blue'} className="blue" id="button28" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'green'} className="green" id="button27" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'yellow'} className="yellow" id="button26" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button value={'pink'} className="pink" id="button25" style={{background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)",background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'pink'} className="pink" id="button25" style={{ background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", borderRadius: "20px 0px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -576,13 +585,13 @@ class Board extends React.Component {
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
-                        <Button value={'orange'} className="suprise_pic orange" id="button24" style={{background:"#CB7A08"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'orange'} className="suprise_pic orange" id="button24" style={{ background: "#CB7A08" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
                         <Button value={'blue'} className="blue" id="button13" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 20px 0px 0px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'orange'} className="orange" id="button14" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'pink'} className="pink" id="button15" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'yellow'} className="yellow" id="button16" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button value={'green'} className="suprise_pic green" id="button17" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button17" style={{ background: "#00A513" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'blue'} className="blue" id="button18" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'orange'} className="orange" id="button19" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'pink'} className="pink" id="button20" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
@@ -590,7 +599,7 @@ class Board extends React.Component {
                         <Button value={'green'} className="green" id="button22" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'blue'} className="blue" id="button23" style={{ background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", borderRadius: "0px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <br />
-                        <Button value={'green'} className="suprise_pic green" id="button12" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button12" style={{ background: "#00A513" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
                         <Button disabled style={{ visibility: "hidden" }}></Button>
@@ -606,20 +615,20 @@ class Board extends React.Component {
                         <Button value={'pink'} className="pink" id="button10" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'orange'} className="orange" id="button9" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'blue'} className="blue" id="button8" style={blue_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button value={'green'} className="suprise_pic green" id="button7" style={{background:"#00A513"}} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'green'} className="suprise_pic green" id="button7" style={{ background: "#00A513" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'yellow'} className="yellow" id="button6" style={yellow_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'pink'} className="pink" id="button5" style={pink_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'orange'} className="orange" id="button4" style={orange_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
-                        <Button value={'blue'} className="suprise_pic blue" id="button3" style={{background:"#00008B" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
+                        <Button value={'blue'} className="suprise_pic blue" id="button3" style={{ background: "#00008B" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}></Button>
                         <Button value={'green'} className="green" id="button2" style={green_style} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)}>
                             {/* <Image src='Pawn.png' style={{width: '30%', visibility: 'visible'}} ></Image> */}
                         </Button>
-                        <Button className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" , borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} >
-                            
+                        <Button className="yellow" id="button1" style={{ background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", borderRadius: "20px 0px 0px 20px" }} onClick={e => this.handleClick(e.target.id, e.target.style.backgroundColor)} >
+
                             {/* button1 */}
-                            { <img src='Pawns.png' style={{width: '30%', visibility: 'visible'}} ></img> }
+                            {<img src='Pawns.png' style={{ width: '30%', visibility: 'visible' }} ></img>}
                         </Button>
-                        <div id="enbale-disable" style={!this.state.user ? {pointerEvents: "none", opacity: "0" } : {}}>
+                        <div id="enbale-disable" style={!this.state.user ? { pointerEvents: "none", opacity: "0" } : {}}>
                             <OverlayTrigger
                                 trigger="hover"
                                 key="top"
@@ -627,12 +636,12 @@ class Board extends React.Component {
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
-                                            לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים) 
+                                            לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים)
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{margin:"2%", backgroundColor: "#595959", border: 'none'}}>
-                                 נעילת לוח 🔒 
+                                <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    נעילת לוח 🔒
                                 </Button>
                             </OverlayTrigger>
                             <OverlayTrigger
@@ -642,13 +651,13 @@ class Board extends React.Component {
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
-                                            לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים) 
+                                            לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים)
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
-                                שחרור לוח 🔓 
-                                </Button>  
+                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    שחרור לוח 🔓
+                                </Button>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 trigger="hover"
@@ -657,13 +666,13 @@ class Board extends React.Component {
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
-                                            לחיצה על כפתור זה תעביר את החייל של המטפל לריבוע האחרון 
+                                            לחיצה על כפתור זה תעביר את החייל של המטפל לריבוע האחרון
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button onClick={e => {this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor))}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
-                                דלג לסוף (מטפל)
-                                </Button>  
+                                <Button onClick={e => { this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor)) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    דלג לסוף (מטפל)
+                                </Button>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 trigger="hover"
@@ -672,23 +681,26 @@ class Board extends React.Component {
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
-                                            לחיצה על כפתור זה תעביר את החייל של המטופל לריבוע האחרון 
+                                            לחיצה על כפתור זה תעביר את החייל של המטופל לריבוע האחרון
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button onClick={e => {(this.setPawnEndGame())}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
-                                דלג לסוף (מטופל)
-                                </Button>  
+                                <Button onClick={e => { (this.setPawnEndGame()) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    דלג לסוף (מטופל)
+                                </Button>
                             </OverlayTrigger>
 
+                        </div>
+
                     </div>
-                    </div>
-                    
+                    <div className="task_arrow" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
+                    <div className="surprise_arrow" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
+                    <div id="confettis">{letItRain && <LetItRain />}</div>
                 </div>
-                <div id="confettis">{letItRain && <LetItRain />}</div>
             </div>
         )
     }
+
 }
 
 
