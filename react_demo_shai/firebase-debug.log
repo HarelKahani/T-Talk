@@ -1,0 +1,44 @@
+[debug] [2020-06-22T12:58:34.928Z] ----------------------------------------------------------------------
+[debug] [2020-06-22T12:58:34.930Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ghakim\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-06-22T12:58:34.930Z] CLI Version:   8.4.2
+[debug] [2020-06-22T12:58:34.930Z] Platform:      win32
+[debug] [2020-06-22T12:58:34.930Z] Node Version:  v12.16.3
+[debug] [2020-06-22T12:58:34.936Z] Time:          Mon Jun 22 2020 15:58:34 GMT+0300 (Israel Daylight Time)
+[debug] [2020-06-22T12:58:34.937Z] ----------------------------------------------------------------------
+[debug] [2020-06-22T12:58:34.937Z] 
+[debug] [2020-06-22T12:58:34.952Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-06-22T12:58:34.953Z] > authorizing via signed-in user
+[debug] [2020-06-22T12:58:34.954Z] [iam] checking project t-talk-game for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-06-22T12:58:34.957Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-06-22T12:58:34.957Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-06-22T12:58:47.008Z] [iam] error while checking permissions, command may fail: FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2020-06-22T12:58:47.011Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-06-22T12:58:47.011Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-06-22T12:58:47.016Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2020-06-22T12:58:47.023Z] FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+    at Object.<anonymous> (C:\Users\ghakim\AppData\Roaming\npm\node_modules\firebase-tools\lib\auth.js:23:32)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\ghakim\AppData\Roaming\npm\node_modules\firebase-tools\lib\commands\login.js:20:14)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at loadCommand (C:\Users\ghakim\AppData\Roaming\npm\node_modules\firebase-tools\lib\commands\index.js:5:19)
+    at module.exports (C:\Users\ghakim\AppData\Roaming\npm\node_modules\firebase-tools\lib\commands\index.js:89:20)
+[error] 
+[error] Error: Failed to get Firebase project t-talk-game. Please make sure the project exists and your account has permission to access it.

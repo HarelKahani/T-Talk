@@ -55,7 +55,6 @@ class Board extends React.Component {
             currentSuprise: -1,
             surprises: null,
             desiredId: null,
-            showConf: false,
             childTurn: true,
             cubeable: this.props.location.user ? true : false,
             surpriseable: true,
@@ -65,7 +64,8 @@ class Board extends React.Component {
             enabled: true,
             isturn: false,
             redocube: true,
-            endforchild: false
+            endforchild: false,
+            letitrain: false
         };
         this.getSurpriseImages()
 
@@ -73,7 +73,6 @@ class Board extends React.Component {
         let observer = query
             .onSnapshot(querySnapshot => {
                 querySnapshot.docChanges().forEach(change => {
-                    console.log(change.doc.data().email, this.state.gameData.email)
                     if (change.doc.data().email === this.state.gameData.email) {
                         if (change.type === 'added') {
                             //  console.log('New: ', change.doc.data());
@@ -119,8 +118,12 @@ class Board extends React.Component {
                             if (change.doc.data().surpriseorder != this.state.surpriseorder) {
                                 this.setState({ surpriseorder: change.doc.data().surpriseorder })
                             }
+                            if (change.doc.data().letitrain != this.state.letitrain) {
+                                this.setState({ letitrain: change.doc.data().letitrain })
+                                this.enableDisable('disable')
+                            }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
-                                console.log(change.doc.data().enabled)
+                              //  console.log(change.doc.data().enabled)
                                 if (change.doc.data().enabled === 'true') {
                                     this.enableDisable('enable')
                                     this.setState({ 'enabled': true })
@@ -308,10 +311,11 @@ class Board extends React.Component {
     };
 
     setPawnEndGame = () => {
+        this.setState({letitrain: this.state.letitrain? false : true})
         myFirestore
             .collection("Games")
             .doc(this.state.gameData.email)
-            .update({ endforchild: true })
+            .update({ endforchild: true, letitrain: this.state.letitrain? false : true })
     }
     setSurpriseOrder = () => {
         if (this.state.surpriseorder > 6) {
@@ -336,7 +340,6 @@ class Board extends React.Component {
             //console.log('wrong id');
             return;
         }
-        console.log(this.state.color)
         if (this.state.color != 2) {
             this.setTaskable(false)
         }
@@ -385,8 +388,7 @@ class Board extends React.Component {
 
         if (id === "button30") {
             this.setState({ 
-                showConf: true,
-                enabled: false
+                letitrain: true
             });
         }
     }
@@ -508,7 +510,6 @@ class Board extends React.Component {
         this.fillSurprise()
         //console.log(this.state.color);
         //console.log(this.props.location.gamedata);
-        const letItRain = this.state.showConf;
         let yellow_style = { background: "#EEFF08", background: "-moz-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "-webkit-radial-gradient(center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)", background: "radial-gradient(ellipse at center, #EEFF08 0%, #E0C60A 99%, #FFE60B 100%)" };
         let blue_style = { background: "#2222FF", background: "-moz-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "-webkit-radial-gradient(center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)", background: "radial-gradient(ellipse at center, #2222FF 0%, #2F4054 100%, #2CABFF 100%)" };
         let pink_style = { background: "#FF31EA", background: "-moz-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "-webkit-radial-gradient(center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)", background: "radial-gradient(ellipse at center, #FF31EA 0%, #E0ADD8 99%, #FF06AD 100%)" }
@@ -680,7 +681,7 @@ class Board extends React.Component {
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button onClick={e => { this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor)) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                <Button onClick={e => { this.setPawnEndGame(); this.enableDisable('disable'); this.setEnbDisb("false"); this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor)) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
                                     דלג לסוף (מטפל)
                                 </Button>
                             </OverlayTrigger>
@@ -695,7 +696,7 @@ class Board extends React.Component {
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button onClick={e => { (this.setPawnEndGame()) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                <Button onClick={e => { this.setPawnEndGame(); this.enableDisable('disable'); this.setEnbDisb("false") }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
                                     דלג לסוף (מטופל)
                                 </Button>
                             </OverlayTrigger>
@@ -703,7 +704,7 @@ class Board extends React.Component {
                         </div>
 
                     </div>
-                    <div id="confettis">{letItRain && <LetItRain />}</div>
+                    <div id="confettis">{this.state.letitrain && <LetItRain />}</div>
                 </div>
             </div>
         )
