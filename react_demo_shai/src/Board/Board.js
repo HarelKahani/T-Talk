@@ -110,6 +110,9 @@ class Board extends React.Component {
                             if (change.doc.data().taskable != this.state.taskable) {
                                 this.setState({ taskable: change.doc.data().taskable })
                             }
+                            if (change.doc.data().surpriseorder != this.state.surpriseorder) {
+                                this.setState({surpriseorder: change.doc.data().surpriseorder})
+                            }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
                                 console.log(change.doc.data().enabled)
                                 if (change.doc.data().enabled === 'true') {
@@ -150,13 +153,10 @@ class Board extends React.Component {
             if (cubec == 2) {
                 this.setTaskable(true)
                 this.setSurpriseable(false)
-                this.setState({ desiredId: SurpriseOrder[this.state.surpriseorder] });
-                if (this.state.surpriseorder > 6) {
-                    this.state.surpriseorder = 1
-                } else {
-                    this.state.surpriseorder += 1;
-                }
-                return SurpriseOrder[this.state.surpriseorder]
+                this.setState({desiredId: SurpriseOrder[this.state.surpriseorder]});
+                this.setSurpriseOrder()
+                return SurpriseOrder[this.state.surpriseorder - 1]
+                
             }
             return;
         }
@@ -299,6 +299,24 @@ class Board extends React.Component {
             .catch(err => {
                 console.log("something went wrong", err)
             })
+    };
+
+    setSurpriseOrder = ()=> {
+        if (this.state.surpriseorder > 6) {
+            this.state.surpriseorder = 1
+        } else {
+            this.state.surpriseorder += 1;
+        }
+        myFirestore
+        .collection("Games")
+        .doc(this.state.gameData.email)
+        .update({surpriseorder: this.state.surpriseorder})
+        .then(() => {
+            //console.log("written pawn")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
     };
 
     handleClick = (id, color) => {
