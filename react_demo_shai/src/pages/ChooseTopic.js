@@ -71,7 +71,8 @@ class ChooseTopic extends Component {
             enabled: true,
             endforchild: false,
             surpriseorder: 1,
-            enabled: true
+            enabled: true,
+            letitrain: false
         }
 
         this.setState({ gameData: itemMessage })
