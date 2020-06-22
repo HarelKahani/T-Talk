@@ -198,6 +198,17 @@ class Board extends React.Component {
 
         let desiredSquareId;
         //console.log(sameColorButtons)
+        console.log(Number(sameColorButtons[sameColorButtons.length - 1].getAttribute('id').match(/(\d+)/)[0]))
+        if (Number(this.state.currentSquare.match(/(\d+)/)[0]) > 25) {
+            // let lastSameColorButtonsIdNumber = Number(sameColorButtons[sameColorButtons.length - 1].getAttribute('id').match(/(\d+)/)[0]);
+            if (Number(this.state.currentSquare.match(/(\d+)/)[0]) == Number(sameColorButtons[sameColorButtons.length - 1].getAttribute('id').match(/(\d+)/)[0])) {
+                desiredSquareId = sameColorButtons[sameColorButtons.length - 2].getAttribute('id');
+            } else {
+                desiredSquareId = sameColorButtons[sameColorButtons.length - 1].getAttribute('id');
+            }
+            this.setState({ desiredId: desiredSquareId });
+            return desiredSquareId;
+        }
         for (let i = 0; i < sameColorButtons.length; i++) {
             let currentSquareIdNumber = Number(this.state.currentSquare.match(/(\d+)/)[0]);
             let sameColorButtonsIdNumber = Number(sameColorButtons[i].getAttribute('id').match(/(\d+)/)[0]);
