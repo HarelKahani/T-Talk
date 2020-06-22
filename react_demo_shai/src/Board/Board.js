@@ -62,7 +62,8 @@ class Board extends React.Component {
             allowcont: false,
             surpriseorder: 1,
             enabled: true,
-            isturn: false
+            isturn: false,
+            redocube: true
         };
         this.getSurpriseImages()
 
@@ -79,6 +80,7 @@ class Board extends React.Component {
                             //console.log('Modified: ', change.doc.data());
                             if (change.doc.data().cube != this.state.color) {
                                 //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                                this.setState({redocube: true})
                                 this.setState({ color: change.doc.data().cube })
                                 // console.log(`this is state color ${this.state.color}`);
                                 if (this.state.color !== -1) {
@@ -245,6 +247,7 @@ class Board extends React.Component {
     };
 
     setColor = (event) => {
+        this.setState({redocube: false})
         this.setState({cubeable: true})
         this.setState({ color: event });
         this.state.isturn = true
@@ -517,7 +520,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container" style={this.state.isturn || this.state.cubeable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
-                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
+                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} redocube={this.state.redocube} cubeable={this.state.cubeable}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
