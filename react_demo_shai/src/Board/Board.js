@@ -62,7 +62,8 @@ class Board extends React.Component {
             allowcont: false,
             surpriseorder: 1,
             enabled: true,
-            isturn: false
+            isturn: false,
+            redocube: true
         };
         this.getSurpriseImages()
 
@@ -79,6 +80,7 @@ class Board extends React.Component {
                             //console.log('Modified: ', change.doc.data());
                             if (change.doc.data().cube != this.state.color) {
                                 //console.log(`this is change.doc.cube ${change.doc.data().cube}`)
+                                this.setState({redocube: true})
                                 this.setState({ color: change.doc.data().cube })
                                 // console.log(`this is state color ${this.state.color}`);
                                 if (this.state.color !== -1) {
@@ -106,6 +108,9 @@ class Board extends React.Component {
                             }
                             if (change.doc.data().taskable != this.state.taskable) {
                                 this.setState({taskable: change.doc.data().taskable})
+                            }
+                            if (change.doc.data().surpriseorder != this.state.surpriseorder) {
+                                this.setState({surpriseorder: change.doc.data().surpriseorder})
                             }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
                                 console.log(change.doc.data().enabled)
@@ -148,12 +153,9 @@ class Board extends React.Component {
                 this.setTaskable(true)
                 this.setSurpriseable(false)
                 this.setState({desiredId: SurpriseOrder[this.state.surpriseorder]});
-                if (this.state.surpriseorder > 6) {
-                    this.state.surpriseorder = 1
-                } else {
-                    this.state.surpriseorder += 1;
-                }
-                return SurpriseOrder[this.state.surpriseorder]
+                this.setSurpriseOrder()
+                return SurpriseOrder[this.state.surpriseorder - 1]
+                
             }
             return;
         }
@@ -245,6 +247,7 @@ class Board extends React.Component {
     };
 
     setColor = (event) => {
+        this.setState({redocube: false})
         this.setState({cubeable: true})
         this.setState({ color: event });
         this.state.isturn = true
@@ -289,6 +292,24 @@ class Board extends React.Component {
         .collection("Games")
         .doc(this.state.gameData.email)
         .update(to_update)
+        .then(() => {
+            //console.log("written pawn")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
+    };
+
+    setSurpriseOrder = ()=> {
+        if (this.state.surpriseorder > 6) {
+            this.state.surpriseorder = 1
+        } else {
+            this.state.surpriseorder += 1;
+        }
+        myFirestore
+        .collection("Games")
+        .doc(this.state.gameData.email)
+        .update({surpriseorder: this.state.surpriseorder})
         .then(() => {
             //console.log("written pawn")
         })
@@ -517,7 +538,7 @@ class Board extends React.Component {
 
                 </div>
                 <div className="cube_container" style={this.state.isturn || this.state.cubeable || !this.state.enabled ? {pointerEvents: "none", opacity: "0.8"} : {}}>
-                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} desiredId={this.state.desiredId}/>
+                    <Cube id={"cube"} setColor={this.setColor} color={this.state.color} findClosestSquare={this.findClosestSquare} redocube={this.state.redocube} cubeable={this.state.cubeable}/>
                 </div>
                 {/* <Path gameData={this.state.gameData} user={this.state.user} surprises={this.state.surprises} /> */}
                 <div id="path_container">
