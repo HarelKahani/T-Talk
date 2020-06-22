@@ -48,8 +48,8 @@ export class Cube extends Component {
       });
     }
   render() {
-    //console.log("redid cube", this.props.color)
-    if (this.props.color != -1 && !this.state.clicked) {
+    //console.log("redid cube", this.props.color
+    if (this.props.color != -1 && !this.state.clicked && this.props.cubeable && this.props.redocube) {
       this.rollDice()
     }
     return (
