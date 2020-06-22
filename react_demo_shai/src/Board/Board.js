@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, ToggleButton, Image } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover, Image } from 'react-bootstrap';
 import { CardsPack } from './CardsPack'
 import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
@@ -590,12 +590,37 @@ class Board extends React.Component {
                             { <img src='Pawns.png' style={{width: '30%', visibility: 'visible'}} ></img> }
                         </Button>
                         <div id="enbale-disable" style={!this.state.user ? {pointerEvents: "none", opacity: "0" } : {}}>
-                        <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{margin:"2%"}}>
-                            הפעל נעילת לוח
-                    </Button>
-                        <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))}>
-                            שחרר נעילת לוח
-                    </Button>
+                            <OverlayTrigger
+                                    trigger="hover"
+                                    key="top"
+                                    placement="right"
+                                    overlay={
+                                        <Popover id={`popover-positioned-${this.placement}`}>
+                                            <Popover.Content>
+                                                לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים) 
+                                            </Popover.Content>
+                                        </Popover>
+                                    }>
+                                <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{margin:"2%", backgroundColor: "#595959", border: 'none'}}>
+                                 נעילת לוח 🔒 
+                                </Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                    trigger="hover"
+                                    key="top"
+                                    placement="left"
+                                    overlay={
+                                        <Popover id={`popover-positioned-${this.placement}`}>
+                                            <Popover.Content>
+                                                לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים) 
+                                            </Popover.Content>
+                                        </Popover>
+                                    }>
+                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{backgroundColor: "#595959", border: 'none'}}>
+                                שחרור לוח 🔓 
+                                </Button>  
+                            </OverlayTrigger>
+
                     </div>
                     </div>
                     
