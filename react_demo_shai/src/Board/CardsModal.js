@@ -28,7 +28,7 @@ export class CardsModal extends Component {
         let observer = query
         .onSnapshot(querySnapshot => {
             querySnapshot.docChanges().forEach(change => {
-                if (change.type === 'modified') {
+                if (change.type === 'modified' && change.doc.data().email === this.state.gameData.email) {
                     if (change.doc.data().allowcont != this.state.allowcont) {
                         this.setState({ allowcont: change.doc.data().allowcont })
                     }
