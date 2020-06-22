@@ -588,33 +588,63 @@ class Board extends React.Component {
                         </Button>
                         <div id="enbale-disable" style={!this.state.user ? {pointerEvents: "none", opacity: "0" } : {}}>
                             <OverlayTrigger
-                                    trigger="hover"
-                                    key="top"
-                                    placement="right"
-                                    overlay={
-                                        <Popover id={`popover-positioned-${this.placement}`}>
-                                            <Popover.Content>
-                                                לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים) 
-                                            </Popover.Content>
-                                        </Popover>
-                                    }>
+                                trigger="hover"
+                                key="top"
+                                placement="right"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים) 
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
                                 <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{margin:"2%", backgroundColor: "#595959", border: 'none'}}>
                                  נעילת לוח 🔒 
                                 </Button>
                             </OverlayTrigger>
                             <OverlayTrigger
-                                    trigger="hover"
-                                    key="top"
-                                    placement="left"
-                                    overlay={
-                                        <Popover id={`popover-positioned-${this.placement}`}>
-                                            <Popover.Content>
-                                                לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים) 
-                                            </Popover.Content>
-                                        </Popover>
-                                    }>
-                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{backgroundColor: "#595959", border: 'none'}}>
+                                trigger="hover"
+                                key="top"
+                                placement="top"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים) 
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
                                 שחרור לוח 🔓 
+                                </Button>  
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="top"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תעביר את החייל של המטפל לריבוע האחרון 
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button onClick={e => {this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor))}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
+                                דלג לסוף (מטפל)
+                                </Button>  
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="left"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תעביר את החייל של המטופל לריבוע האחרון 
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button onClick={e => {this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor))}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
+                                דלג לסוף (מטופל)
                                 </Button>  
                             </OverlayTrigger>
 
