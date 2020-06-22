@@ -323,7 +323,10 @@ class Board extends React.Component {
             //console.log('wrong id');
             return;
         }
-        this.setTaskable(false)
+        console.log(this.state.color)
+        if (this.state.color != 2) {
+            this.setTaskable(false)
+        }
         this.setSurpriseable(true)
         this.setPawn(id)
         let prevSquare = () => {
