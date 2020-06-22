@@ -381,7 +381,7 @@ class Board extends React.Component {
         });
 
         if (id === "button30") {
-            this.setState({ showConf: true });
+            this.setState({ showConf: true});
         }
     }
 
@@ -526,8 +526,8 @@ class Board extends React.Component {
                 display: "block"
             }}>
                 {/* <Button onClick={this.getSurpriseImages}>התחל משימה ראשונה</Button> */}
-                <div className="vl"></div>
                 <div className="cards_container" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0.8" } : {}}>
+                <div className="task_arrow" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
                     <CardsPack kind={"task"}
                         img={"/cards_imgs/suprise.jpeg"}
                         title={"משימה"}
@@ -541,8 +541,10 @@ class Board extends React.Component {
                         releasecube={this.releaseCube}
                     //key={this.state.allowcont}
                     />
+                         
                 </div>
                 <div className="sup_cards_container" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0.8" } : {}}>
+                <div className="surprise_arrow" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
                     <CardsPack kind={"surprise"}
                         img={"/cards_imgs/main.png"}
                         title={"קלף הפתעה"}
@@ -693,8 +695,6 @@ class Board extends React.Component {
                         </div>
 
                     </div>
-                    <div className="task_arrow" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
-                    <div className="surprise_arrow" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
                     <div id="confettis">{letItRain && <LetItRain />}</div>
                 </div>
             </div>

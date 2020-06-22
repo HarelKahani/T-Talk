@@ -64,15 +64,13 @@ tbody{
 
 .task_arrow{
   position: fixed;
-  display: block;
-  margin-right: 13%;
-  margin-top: 6.2%;
+  display: inline-block;
+  margin-top: 4%;
 }
 .surprise_arrow{
   position: fixed;
-  display: block;
-  margin-right: 13%;
-  margin-top: 21%;
+  display: inline-block;
+  margin-top: 4%;
 }
 
 /* therapist menu - start */
