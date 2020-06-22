@@ -62,6 +62,17 @@ tbody{
 }
 /* Home-page -end */
 
+.task_arrow{
+  position: fixed;
+  display: inline-block;
+  margin-top: 4%;
+}
+.surprise_arrow{
+  position: fixed;
+  display: inline-block;
+  margin-top: 4%;
+}
+
 /* therapist menu - start */
 .navbar-bg-flat{
   background-color: #4DA6FF;
@@ -439,8 +450,8 @@ button:hover {
 
 #enbale-disable {
   display: block;
-  margin-left: 40%;
+  margin-left: 22%;
   margin-top: 4%;
-
+  margin-right: 10%;
 }
 

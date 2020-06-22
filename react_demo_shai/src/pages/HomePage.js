@@ -3,7 +3,6 @@ import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import { BrowserRouter as Link, Redirect } from "react-router-dom";
 import * as firebase from 'firebase';
 
-let accepted_emails = ["guyhakim1@gmail.com", "shaike77@gmail.com", "arbel1992@gmail.com", "proj.t.talk@gmail.com"]
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
 //
@@ -40,23 +39,34 @@ class HomePage extends Component {
         this.joinGame = this.joinGame.bind(this)
     }
     googleLogin() {
+        const emails = []
         const provider = new firebase.auth.GoogleAuthProvider();
-        return firebase.auth().signInWithPopup(provider)
+
+        //only emails in DB (in games collection) will be allowed to connect
+        const gamesref = myFirestore.collection('Games');
+        gamesref.get().then(snapshot => {
+            snapshot.forEach(doc => {
+                emails.push(doc.id)
+            })
+            console.log(emails)
+        }).catch(e => console.log(e));
+
+        firebase.auth().signInWithPopup(provider)
             .then(result => {
+                console.log(result)
                 const user = result.user
-                if (accepted_emails.includes(user.email)) {
-                  //  console.log(user)
-                  //  console.log("ACCEPTED")
+                if (emails.includes(user.email)) {
                     this.setState({ LoggedIn: user })
                 }
                 else {
-                 //   console.log("DENIED");
-                 //   console.log("TRY AGAIN");
                  alert("משתמש אינו מוכר, יש לפנות למנהל המערכת")
-                    // alert unrecognized user
                 }
             })
-            .catch(console.log) //recieve error and alert it
+            .catch(e => {
+                console.log(e);
+                alert(e.massege)
+            }) //recieve error and alert it
+
     }
     joinGame() {
         let GamesRef = myFirestore.collection('Games');
