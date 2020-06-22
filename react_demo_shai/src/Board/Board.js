@@ -632,7 +632,7 @@ class Board extends React.Component {
                             <OverlayTrigger
                                 trigger="hover"
                                 key="top"
-                                placement="right"
+                                placement="top"
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
@@ -677,7 +677,7 @@ class Board extends React.Component {
                             <OverlayTrigger
                                 trigger="hover"
                                 key="top"
-                                placement="left"
+                                placement="top"
                                 overlay={
                                     <Popover id={`popover-positioned-${this.placement}`}>
                                         <Popover.Content>
