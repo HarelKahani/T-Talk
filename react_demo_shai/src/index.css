@@ -62,6 +62,19 @@ tbody{
 }
 /* Home-page -end */
 
+.task_arrow{
+  position: fixed;
+  display: block;
+  margin-right: 13%;
+  margin-top: 6.2%;
+}
+.surprise_arrow{
+  position: fixed;
+  display: block;
+  margin-right: 13%;
+  margin-top: 21%;
+}
+
 /* therapist menu - start */
 .navbar-bg-flat{
   background-color: #4DA6FF;
