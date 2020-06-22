@@ -68,7 +68,8 @@ class ChooseTopic extends Component {
             surpriseable: true,
             taskable: true,
             allowcont: false,
-            enabled: true
+            enabled: true,
+            endforchild: false
         }
 
         this.setState({ gameData: itemMessage })

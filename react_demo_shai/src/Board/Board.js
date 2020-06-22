@@ -63,7 +63,8 @@ class Board extends React.Component {
             surpriseorder: 1,
             enabled: true,
             isturn: false,
-            redocube: true
+            redocube: true,
+            endforchild: false
         };
         this.getSurpriseImages()
 
@@ -108,6 +109,11 @@ class Board extends React.Component {
                             }
                             if (change.doc.data().taskable != this.state.taskable) {
                                 this.setState({taskable: change.doc.data().taskable})
+                            }
+                            if (change.doc.data().endforchild != this.state.endforchild && !this.state.user) {
+                                this.setState({endforchild: change.doc.data().endforchild})
+                                this.state.desiredId = 'button30'
+                                this.handleClick("button30", "pink")
                             }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
                                 console.log(change.doc.data().enabled)
@@ -292,6 +298,19 @@ class Board extends React.Component {
         .collection("Games")
         .doc(this.state.gameData.email)
         .update(to_update)
+        .then(() => {
+            //console.log("written pawn")
+        })
+        .catch(err => {
+            console.log("something went wrong", err)
+        })
+    };
+
+    setPawnEndGame = ()=> {
+        myFirestore
+        .collection("Games")
+        .doc(this.state.gameData.email)
+        .update({endforchild: true})
         .then(() => {
             //console.log("written pawn")
         })
@@ -646,7 +665,7 @@ class Board extends React.Component {
                                         </Popover.Content>
                                     </Popover>
                                 }>
-                                <Button onClick={e => {this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor))}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
+                                <Button onClick={e => {(this.setPawnEndGame())}} style={{margin: "2%", backgroundColor: "#595959", border: 'none'}}>
                                 דלג לסוף (מטופל)
                                 </Button>  
                             </OverlayTrigger>
