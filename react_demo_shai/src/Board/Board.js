@@ -384,7 +384,10 @@ class Board extends React.Component {
         });
 
         if (id === "button30") {
-            this.setState({ showConf: true});
+            this.setState({ 
+                showConf: true,
+                enabled: false
+            });
         }
     }
 
