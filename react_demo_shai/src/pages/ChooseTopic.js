@@ -68,6 +68,8 @@ class ChooseTopic extends Component {
             surpriseable: true,
             taskable: true,
             allowcont: false,
+            enabled: true,
+            endforchild: false,
             surpriseorder: 1,
             enabled: true
         }

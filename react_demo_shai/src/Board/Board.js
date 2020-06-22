@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, ToggleButton, Image } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover, Image } from 'react-bootstrap';
 import { CardsPack } from './CardsPack'
 import { Cube } from './3dCube'
 import { myFirestore } from './../pages/HomePage'
@@ -64,7 +64,8 @@ class Board extends React.Component {
             surpriseorder: 1,
             enabled: true,
             isturn: false,
-            redocube: true
+            redocube: true,
+            endforchild: false
         };
         this.getSurpriseImages()
 
@@ -110,8 +111,13 @@ class Board extends React.Component {
                             if (change.doc.data().taskable != this.state.taskable) {
                                 this.setState({ taskable: change.doc.data().taskable })
                             }
+                            if (change.doc.data().endforchild != this.state.endforchild && !this.state.user) {
+                                this.setState({ endforchild: change.doc.data().endforchild })
+                                this.state.desiredId = 'button30'
+                                this.handleClick("button30", "pink")
+                            }
                             if (change.doc.data().surpriseorder != this.state.surpriseorder) {
-                                this.setState({surpriseorder: change.doc.data().surpriseorder})
+                                this.setState({ surpriseorder: change.doc.data().surpriseorder })
                             }
                             if (change.doc.data().enabled !== this.state.enabled && !this.state.user) {
                                 console.log(change.doc.data().enabled)
@@ -153,10 +159,10 @@ class Board extends React.Component {
             if (cubec == 2) {
                 this.setTaskable(true)
                 this.setSurpriseable(false)
-                this.setState({desiredId: SurpriseOrder[this.state.surpriseorder]});
+                this.setState({ desiredId: SurpriseOrder[this.state.surpriseorder] });
                 this.setSurpriseOrder()
                 return SurpriseOrder[this.state.surpriseorder - 1]
-                
+
             }
             return;
         }
@@ -301,22 +307,28 @@ class Board extends React.Component {
             })
     };
 
-    setSurpriseOrder = ()=> {
+    setPawnEndGame = () => {
+        myFirestore
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ endforchild: true })
+    }
+    setSurpriseOrder = () => {
         if (this.state.surpriseorder > 6) {
             this.state.surpriseorder = 1
         } else {
             this.state.surpriseorder += 1;
         }
         myFirestore
-        .collection("Games")
-        .doc(this.state.gameData.email)
-        .update({surpriseorder: this.state.surpriseorder})
-        .then(() => {
-            //console.log("written pawn")
-        })
-        .catch(err => {
-            console.log("something went wrong", err)
-        })
+            .collection("Games")
+            .doc(this.state.gameData.email)
+            .update({ surpriseorder: this.state.surpriseorder })
+            .then(() => {
+                //console.log("written pawn")
+            })
+            .catch(err => {
+                console.log("something went wrong", err)
+            })
     };
 
     handleClick = (id, color) => {
@@ -617,22 +629,78 @@ class Board extends React.Component {
                             {<img src='Pawns.png' style={{ width: '30%', visibility: 'visible' }} ></img>}
                         </Button>
                         <div id="enbale-disable" style={!this.state.user ? { pointerEvents: "none", opacity: "0" } : {}}>
-                            <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{ margin: "2%" }}>
-                                הפעל נעילת לוח
-                    </Button>
-                            <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))}>
-                                שחרר נעילת לוח
-                    </Button>
-                        </div>
-                    </div>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="right"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תנעל את כפתורי המשחק (לשני השחקנים)
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button id="disable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("false"))} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    נעילת לוח 🔒
+                                </Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="top"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תשחרר את כפתורי המשחק (לשני השחקנים)
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button id="enable" onClick={e => (this.enableDisable(e.target.id), this.setEnbDisb("true"))} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    שחרור לוח 🔓
+                                </Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="top"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תעביר את החייל של המטפל לריבוע האחרון
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button onClick={e => { this.state.desiredId = 'button30'; (this.handleClick("button30", e.target.backgroundColor)) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    דלג לסוף (מטפל)
+                                </Button>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                trigger="hover"
+                                key="top"
+                                placement="left"
+                                overlay={
+                                    <Popover id={`popover-positioned-${this.placement}`}>
+                                        <Popover.Content>
+                                            לחיצה על כפתור זה תעביר את החייל של המטופל לריבוע האחרון
+                                        </Popover.Content>
+                                    </Popover>
+                                }>
+                                <Button onClick={e => { (this.setPawnEndGame()) }} style={{ margin: "2%", backgroundColor: "#595959", border: 'none' }}>
+                                    דלג לסוף (מטופל)
+                                </Button>
+                            </OverlayTrigger>
 
+                        </div>
+
+                    </div>
+                    <div className="task_arrow" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
+                    <div className="surprise_arrow" style={this.state.surpriseable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
+                    <div id="confettis">{letItRain && <LetItRain />}</div>
                 </div>
-                <div className="task_arrow" style={this.state.taskable || !this.state.enabled ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
-                <div className="surprise_arrow" style={this.state.surpriseable || !this.state.enabled  ? { pointerEvents: "none", opacity: "0" } : {}}><Lottie options={defaultOptions} height={100} width={100} /></div>
-                <div id="confettis">{letItRain && <LetItRain />}</div>
             </div>
         )
     }
+
 }
 
 
